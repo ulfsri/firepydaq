@@ -24,13 +24,19 @@ def setup_logger(name, logfile, formatter, stream_handler=False, level=logging.D
 
     return logger
 
+def logger_thread(q):
+    while True:
+        record = q.get()
+        if record is None:
+            break
+        logger = logging.getLogger(record.name)
+        logger.handle(record)
+
 # formatter
 formatter = logging.Formatter('%(asctime)s - %(levelname)s -> %(message)s\n')
-
 # Generate the log object
 cwd = os.getcwd()
 fullLogPath = cwd+os.sep+'FirePyDAQLog.log'
-
 if os.path.exists(fullLogPath):
     os.remove(fullLogPath)
 firepydaq_logger = setup_logger('firepydaq_logger', fullLogPath , formatter)

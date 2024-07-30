@@ -17,7 +17,7 @@ from .display_data_tab import data_vis
 from ..dashboard.app import create_dash_app
 import time
 import concurrent.futures
-import multiprocessing
+import multiprocessing as mp
 from datetime import datetime,timedelta
 import polars as pl
 import pandas as pd
@@ -25,6 +25,8 @@ import numpy as np
 import traceback
 import pyarrow.parquet as pq
 import pyarrow as pa
+import glob
+import re
 import os
 from .exception_list import UnfilledFieldError
 from ..api.CreateNIDAQTask import CreateDAQTask
@@ -264,12 +266,10 @@ class application(QMainWindow):
             if os.path.isfile(self.test_input.text()):
                 counter = 1
                 extension = ".parquet"
-                file_name = f"{self.common_path}({counter}){extension}"
-                while os.path.isfile(file_name):
-                    counter = counter + 1
-                    file_name = f"{self.common_path}({counter}){extension}"
+                file_name = f"{self.common_path}_{counter}{extension}"
+                
                 self.settings["Test Name"] = file_name
-                self.common_path = f"{self.common_path}({counter})"
+                self.common_path = f"{self.common_path}_{counter}"
                 # print(self.common_path)
                 self.parquet_file = file_name
                 self.test_input.setText(self.parquet_file)
@@ -322,33 +322,33 @@ class application(QMainWindow):
         for dev in self.config_df["Label"]:
             self.labels_to_save.append(dev)
         firepydaq_logger.info(__name__ + ": Config texts updated.")
+    
+    @error_logger("Validating fields")
+    def ValidateFields(self):
+
+        self.set_up()
+        firepydaq_logger.info(__name__ +": Set_up succesfully validated")
+        
+        if self.display and self.tab and hasattr(self, "data_vis_tab"):
+            self.data_vis_tab.set_labels(self.config_file)
+
+        config_df = pl.read_csv(self.settings["Config File"])
+        random_input = np.array([np.random.randint(0,10)*i for i in np.ones(config_df.select("Label").shape)])
+        config_label_list = config_df.select("Label").to_series().to_list()
+        random_dict = {i : random_input[n] for n,i in enumerate(config_label_list)}
+        random_df = pl.DataFrame(data=random_dict)
+        CheckPP = PostProcessData(datapath = random_df, configpath = self.settings['Config File'], formulaepath = self.settings['Formulae File'])
+        CheckPP.ScaleData()
+        CheckPP.UpdateData(dump_output=False)
+        firepydaq_logger.info(__name__ +": Formulae parsed succesfully using randomized data")
 
     def acquisition_begins(self):
         if self.acquisition_button.isChecked():
-            try:
-                self.set_up()
-                self.save_button.setEnabled(True)
-                self.acquisition_button.setText("Stop Acquisition")
-                if self.display and self.tab and hasattr(self, "data_vis_tab"):
-                    self.data_vis_tab.set_labels(self.config_file) 
-            except Exception as e:
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText(str(e)) 
-                    dlg.exec()
-                    self.settings.clear()
-                    return
+            self.ValidateFields()
+            self.save_button.setEnabled(True)
+            self.acquisition_button.setText("Stop Acquisition")
         
             self.run_counter = 0
-            config_df = pl.read_csv(self.settings["Config File"])
-            random_input = np.array([np.random.randint(0,10)*i for i in np.ones(config_df.select("Label").shape)])
-            config_label_list = config_df.select("Label").to_series().to_list()
-            random_dict = {i : random_input[n] for n,i in enumerate(config_label_list)}
-            random_df = pl.DataFrame(data=random_dict)
-            CheckPP = PostProcessData(datapath = random_df, configpath = self.settings['Config File'], formulaepath = self.settings['Formulae File'])
-            CheckPP.ScaleData()
-            CheckPP.UpdateData()
-            firepydaq_logger.info(__name__ +": Formulae parsed succesfully using randomized data")
         
             if hasattr(self,'NIDAQ_Device'):
                 self.NIDAQ_Device.aitask.stop()
@@ -361,7 +361,6 @@ class application(QMainWindow):
             self.NIDAQ_Device = CreateDAQTask(self,"NI Task")
             self.NIDAQ_Device.CreateFromConfig()
         
-
             if self.NIDAQ_Device.ai_counter > 0:
                 sample_rate = int(self.settings["Sampling Rate"])
                 self.NIDAQ_Device.StartAIContinuousTask(sample_rate, sample_rate)
@@ -373,6 +372,7 @@ class application(QMainWindow):
             self.runpyDAQ()
         else:
             self.ContinueAcquisition = False
+            time.sleep(1)
             print(hasattr(self,'NIDAQ_Device'))
             self.run_counter = 0
             self.save_button.setEnabled(False)
@@ -391,6 +391,7 @@ class application(QMainWindow):
         pl_list = pl_cols.tolist()
         self.save_dataframe = pl.DataFrame(schema = pl_list, data = temp_data)
         self.parquet_file = self.common_path + ".parquet"
+
         try:
             if os.path.isfile(self.parquet_file):
                 table = pq.read_table(self.parquet_file)
@@ -470,8 +471,7 @@ class application(QMainWindow):
 
                 #Plots
                 if hasattr(self, "data_vis_tab"):
-                    self.data_vis_tab.set_data_and_plot(self.ydata[self.data_vis_tab.get_curr_selection()], self.xdata)
-                    print(self.data_vis_tab.get_curr_selection())
+                    self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])
 
             except:
                 the_type, the_value, the_traceback = sys.exc_info()
@@ -491,7 +491,6 @@ class application(QMainWindow):
             self.save_button.setText("Stop")
             self.save_bool = True
             self.run_counter = 0
-            self.save_tdms = True
 
             if hasattr(self, "save_dir"):
                 if not os.path.exists(self.save_dir):
@@ -502,28 +501,24 @@ class application(QMainWindow):
             file_name = f"{self.common_path}{extension}"
 
             while os.path.isfile(file_name):
-                file_name = f"{self.common_path}({counter}){extension}"
+                file_name = f"{self.common_path}_{counter}{extension}"
                 counter = counter + 1  
             self.json_file = file_name
             with open(self.json_file, "x") as outfile:
                 outfile.write(self.settings_to_json())
 
-            print("Empty now")
-            print(self.settings["Config File"])
             y_len = int(len(self.config_df["Device"]))
             self.ydata = np.empty((y_len,0))
             self.xdata = np.array([0])
-
-            print("Dashboard:", self.dashboard)
-            firepydaq_logger.info("Saving Initiated Succesfully")
+            firepydaq_logger.info("Saving intiated properly.")
 
             if self.dashboard:
-                self.dash_thread = multiprocessing.Process(target = create_dash_app, kwargs = {"jsonpath": self.json_file})
+                firepydaq_logger.info("Dash app Process initiated after saving initiations")
+                mp.freeze_support()
+                self.dash_thread = mp.Process(target = create_dash_app, kwargs = {"jsonpath": self.json_file})
                 self.dash_thread.start()
-            firepydaq_logger.info("Dash app Process initiated after saving initiations")
         else:
             self.save_button.setText("Save")
-            self.dash_thread.terminate()
             if hasattr(self,"dash_thread"):
                 self.dash_thread.terminate()
             self.save_bool = False
@@ -570,6 +565,7 @@ class application(QMainWindow):
 
     def closeEvent(self, *args, **kwargs):
         self.running = False
+        time.sleep(1)
         if hasattr(self, "dash_thread"):
                 self.dash_thread.terminate()
         if hasattr(self,'NIDAQ_Device'):

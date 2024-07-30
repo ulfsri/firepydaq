@@ -19,13 +19,15 @@ class data_vis(QWidget):
         self.data_layout = QVBoxLayout()
         self.plot_graph = pg.PlotWidget()
         self.plot_graph.plot(self.ydata, self.xdata)
+        self.plot_graph.setLabel('bottom', "Time (s)")
         self.data_layout.addWidget(self.plot_graph)
         self.widget.setLayout(self.data_layout )
         return self.widget 
 
-    def set_data_and_plot(self, ydata, xdata):
+    def set_data_and_plot(self, xdata, ydata):
         self.plot_graph.clear()
         self.plot_graph.plot(xdata, ydata) 
+        self.plot_graph.setLabel('left', self.dev_edit.currentText())
 
     def set_labels(self, config_file):
         self.label = QLabel("Select Channel to View:")
