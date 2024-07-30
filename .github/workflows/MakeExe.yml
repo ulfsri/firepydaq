@@ -31,15 +31,12 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    # Need to edit this using MPL-Data-Cast repo or some other repo using pyinstaller
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
         echo "Directory list"
         ls
-        echo "Python PATH"
-        where python
         pip install .
         pip list
     - name: Build windows executable
@@ -48,11 +45,7 @@ jobs:
       run: |
         pip install -r build_requirements.txt
         pyinstaller -y --log-level=WARN FIREpyDAQ_NIConfigMaker.spec
-        pyinstaller -y --log-level=WARN --copy-metadata ../pyproj FIREpyDAQ_Acquisition.spec
-    #     # Run the binary (the most simple test)
-    #     dist\\FIREpyDAQ_NIConfigMaker.exe --version
-    #     python win_make_iss.py
-    #     ISCC.exe /Q win_mpl-data-cast.iss
+        pyinstaller -y --log-level=WARN FIREpyDAQ_Acquisition.spec
     - name: Release Assets
       uses: softprops/action-gh-release@v2
       with:
@@ -60,6 +53,6 @@ jobs:
         draft: true
         prerelease: false
     #     body: |
-            # ![](https://img.shields.io/github/downloads/GuckLab/MPL-Data-Cast/${{ env.RELEASE_VERSION }}/total.svg)
+            # ![](url if needed)
         files: |
           ./build-recipes/dist/*.exe
