@@ -1,0 +1,15 @@
+alicat==0.6.2
+dash==2.17.1
+dash_auth==2.3.0
+dash_bootstrap_components==1.6.0
+matplotlib==3.8.4
+nidaqmx==1.0.0
+numpy==2.0.0
+pandas==2.2.2
+plotly==5.22.0
+polars==1.1.0
+pyarrow==14.0.2
+pyqtgraph==0.13.7
+pyserial==3.5
+PySide6==6.7.2
+pyvisa==1.14.1
