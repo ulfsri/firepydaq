@@ -1,0 +1,84 @@
+\documentclass[12pt,oneside]{book}
+\input{commoncommands}
+
+% -----------------------------------------------
+% Set Report Title and Authors
+% -----------------------------------------------
+\newcommand{\vartitle}{FIREpyDAQ User's Guide}
+\newcommand{\vardate}{\today \\}
+\newcommand{\varauthors}{Dushyant M. Chaudhari\\
+						}
+\newcommand{\varaddress}{UL's Fire Safety Research Institute \\
+						Columbia, MD 21045 \\}
+\newcommand{\vardoi}{\url{https://dx.doi.org/10.54206/XXXXXXXX}}
+
+% COMMENT TO REMOVE WATERMARK
+% \usepackage{draftwatermark}
+% \SetWatermarkText{DRAFT}
+% \SetWatermarkScale{1}
+
+\usepackage{lipsum}
+\usepackage{tabularx}
+
+\usepackage{longtable} % allows tables to flow across pages
+\usepackage[version=4]{mhchem}
+
+\titleclass{\chapter}{straight}
+\titlespacing{\chapter}{0pt}{*4}{*1.5}
+
+\begin{document}
+\pagenumbering{gobble}
+\bibliographystyle{unsrturl}
+\hypersetup{pageanchor=false}
+
+%------------------------------------------------
+% Title Page 1
+%------------------------------------------------
+\begin{minipage}[t][9in][s]{6.25in}
+\titleA
+\titleB
+% \titleC
+\vfill
+\titleD
+\titleE
+\end{minipage}
+
+{
+\hypersetup{linkcolor=black} 
+% \setcounter{tocdepth}{2}
+\tableofcontents
+}
+
+\mainmatter
+
+
+\chapter{Introduction}
+
+This is a User Guide.
+
+\begin{enumerate}
+	\item Acquisition App (Chapter~\ref{chap:Acquisition})
+	\item Using NI independently in Python (Chapter~\ref{chap:NIAPI})
+	\item Using Alicat independently in Python (Chapter~(\ref{chap:AlicatAPI}))
+	\item Using ThorLabsCLD101X independently in Python (Chapter~\ref{chap:ThorLabsAPI})
+	\item Dashboard (Chapter~\ref{chap:dashboard})
+\end{enumerate}{}
+
+
+\chapter{Acquisition Application}\label{chap:Acquisition}
+\lipsum[2]
+
+\chapter{Using NI independently in Python}\label{chap:NIAPI}
+\lipsum[1]
+
+\chapter{Using Alicat independently in Python}\label{chap:AlicatAPI}
+\lipsum[1]
+
+
+\chapter{Using ThorLabsCLD101X independently in Python}\label{chap:ThorLabsAPI}
+\lipsum[1]
+
+\chapter{Dashboard}\label{chap:dashboard}
+\lipsum[0]
+
+\end{document}

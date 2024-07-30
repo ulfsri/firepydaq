@@ -1,10 +1,12 @@
-[![Pytest Checks](https://github.com/dushyant-fire/fsripydaq/actions/workflows/RunPytest.yml/badge.svg)](https://github.com/dushyant-fire/fsripydaq/actions/workflows/RunPytest.yml)
-[![Releases](https://github.com/dushyant-fire/fsripydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/dushyant-fire/fsripydaq/actions/workflows/MakeExe.yml)
+[![Pytest Checks](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg)](https://github.com/ulfsri/fsripydaq/actions/workflows/RunPytest.yml)
+[![Releases](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
 # firepydaq
 
-firepydaq is a python based Facilitated Interface for Recording Experiments (FIRE), for devices that are traditionally used for data acquisition. The device list and general requirements are given below.
+FIREpyDAQ is a python based Facilitated Interface for Recording Experiments (FIRE), for devices that are traditionally used for data acquisition. The device list and general requirements are given below.
 
 ## Installation
+
+Using `pip`, you can install this package. `pip` will also install relevant dependencies.
 
 ```bash
 $ pip install firepydaq
@@ -38,8 +40,9 @@ sys.exit(app.exec())
 ### For development
 
 - Fork and Clone this repository
-- Install poetry using `pipx` as recommended, and `make`. 
+- Install poetry using `pipx` as recommended, and `make` (optional). 
 - Then run `make build`, which will initiate the commands `poetry build`, `poetry lock`, and `poetry install` in succession. This will create a virtual environment for testing your developments.
+- Alternatively, you can even run individual poetry commands to install the package on a virtual environment for local development.
 
 ## Contributing
 
@@ -54,5 +57,6 @@ of the GNU General Public license, v.3.0.
 
 ## Acknowledgements
 
-`firepydaq` was created by following guidelines listed by:
+Thanks to the following community guidelines which were immensely helpful while making this package.
+
 - <a href="https://py-pkgs.org/welcome" target="_blank">py-pkgs</a>

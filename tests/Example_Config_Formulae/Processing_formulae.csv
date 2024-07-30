@@ -1,0 +1,23 @@
+Label,RHS,Chart,Legend,Layout,Position,Processed_Unit
+Tmean,(DuctTC1 + DuctTC2 + DuctTC3)/3 +273.15, DuctTC, Mean gas temp,2,2,K
+KRosemont,0.6033, Constant, Avg pitot tube coefficient,0,0,-
+KDwyer,0.81, Constant, Dwyer flow coefficient,0,0,-
+rho_e,101325*0.02896/(8.314*Tmean),Intermediate, Air density based on ideal gas law,0,0,kg/m^3
+ID,17.8*0.0254,Intermediate, Internal diameter of the duct in inches multiplied by m/inch factor,0,0,m
+A_duct,pi*(ID**2)/4,Intermediate, Duct area,0,0,m^2
+vel_e,KRosemont*sqrt(2*dPDuctAvg/rho_e), DuctFlow, Avg. Velocity (m/s),3,1,m/s
+m_e,vel_e*A_duct*rho_e , DuctFlow, Avg. mass flow (kg/s),3,2,kg/s
+vel_dwyer,KDwyer*sqrt(2*dPDuctDwyer/rho_e) , DuctFlow, Local Velocity (m/s),3,1,m/s
+m_dwyer,vel_dwyer*A_duct*rho_e , DuctFlow, Local mass flow (kg/s),3,2,kg/s
+volAvg_e,vel_e*A_duct , DuctFlow, Avg. Vol. Flow (m^3/s),3,3,m^3/s
+volDwyer,vel_dwyer*A_duct , DuctFlow, Local. Vol. Flow (m^3/s) ,3,3,m^3/s
+E,13100,Constant,kJ per kg of oxygen consumed,0,0,kJ/kg
+O2Base,"mean(DuctO2[:max(50*10,10)])",Intermediate,Baseline O2 before ignition,0,0,-
+CO2Base,"mean(DuctCO2[:max(50*10,10)])",Intermediate,Baseline CO2 before ignition,0,0,-
+COBase,"mean(DuctCO[:max(50*10,10)])",Intermediate,Baseline CO before ignition,0,0,-
+O2Depletion,abs((O2Base- DuctO2)/(1.105 - 1.5*DuctO2)),Intermediate,O2 depletion,0,0,-
+C_factor,1,Constant,Correction factor,0,0,-
+HRR,E*C_factor*1.10*m_e*O2Depletion,HRR,O2_Based HRR,1,1,kW
+O2DepletionCOCO2,(O2Base*(1-DuctCO2-DuctCO) - DuctO2*(1-CO2Base))/(O2Base*(1-DuctCO2 - DuctCO - DuctO2)),Intermediate,O2 depletion for CO CO2 measurement,0,0,-
+O2Mult,abs(O2Base*(O2DepletionCOCO2 - 0.172*(1-O2DepletionCOCO2)*DuctCO2/DuctO2)/(1-O2Base+1.105*O2DepletionCOCO2)),Intermediate,O2_mult,0,0,-
+HRR_COCO2,E*C_factor*1.10*m_e*O2Mult,HRR,O2_CO2_CO based HRR,1,1,kW
