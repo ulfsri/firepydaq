@@ -7,7 +7,7 @@ print("test file opens")
 # create_dash_app(jsonpath = r"C:\Users\MishraAnvii\Documents\GitHub\fsripydaq\tests\Example_ExpData\20240724_1045_Anvii_Project1_Test1.json")
 import sys
 from PySide6.QtWidgets import QApplication
-from fsripydaq.acquisition.acquisition import application
+from firepydaq.acquisition.acquisition import application
 # import multiprocessing
 # multiprocessing.freeze_support()
 

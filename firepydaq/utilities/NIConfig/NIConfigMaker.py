@@ -76,7 +76,7 @@ class NIConfigMaker(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main_app = application()
+    main_app = NIConfigMaker()
     time.sleep(5)
     main_app.show()
     
