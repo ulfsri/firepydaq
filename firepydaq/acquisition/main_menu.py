@@ -374,12 +374,7 @@ class MyMenu(QMenuBar):
         try:
             json_setting = self.parent.settings_to_json()
         except Exception as e: 
-            raise ValueError("Fill all fields before saving")
-            # print(e)
-            # dlg = QMessageBox(self)
-            # dlg.setWindowTitle("Error Encountered")
-            # dlg.setText("Fill in all settings before loading.") 
-            # dlg.exec()
+            self.parent.inform_user(str(e))
             return
         
         dlg_save_json = SaveSettingsDialog("Save settings to .json")
