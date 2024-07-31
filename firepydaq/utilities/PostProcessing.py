@@ -13,7 +13,7 @@ import sys
 import pyarrow.parquet as pq # Try to read groups of rows for potentially faster updates
 import json
 import os
-from .ErrorUtils import firepydaq_logger
+# from .ErrorUtils import firepydaq_logger
 
 class PostProcessData():
 	""" An object that processes data based on the config and formulae file
@@ -94,7 +94,7 @@ class PostProcessData():
 						initializing_path_lists.append(formula_f)
 			except Exception as e:
 				print(e) # REmove Print after all debug and tests and completed
-				firepydaq_logger.error(__name__+':'+str(type(e)) + str(e)) 
+				# firepydaq_logger.error(__name__+':'+str(type(e)) + str(e)) 
 			
 		self.Formulae_dict = {"sqrt":"np.sqrt",
 							"pi":"np.pi",
@@ -105,7 +105,7 @@ class PostProcessData():
 
 		self.pathdict, self.data_dict = self.initialize_Data(initializing_path_lists)
 		self.MergeConfig_Formulae()
-		firepydaq_logger.info(__name__ + ": PostProcessing initiated succesfully")
+		# firepydaq_logger.info(__name__ + ": PostProcessing initiated succesfully")
 	
 	def _CallParser(self):
 		'''
@@ -301,7 +301,7 @@ class PostProcessData():
 						err_val = the_value.__str__()
 						if not (lhs, err_val) in self.Errors:
 							self.Errors[(lhs, err_val)] = str(the_type)
-							firepydaq_logger.error(__name__ + ": " + lhs + ' '+ the_type, ': ' + err_val.strip())
+							# firepydaq_logger.error(__name__ + ": " + lhs + ' '+ the_type, ': ' + err_val.strip())
 						skip_processing = True
 				for i in self.Formulae_dict.keys(): # final replacement of formulae to python parseable functions
 					if i in rhs:
@@ -322,7 +322,7 @@ class PostProcessData():
 						err_val = the_value.text.split('=')[0]
 					if not (lhs, err_val) in self.Errors:
 						self.Errors[(lhs, err_val)] = str(the_type)
-						firepydaq_logger.error(__name__ + ": " + lhs + ' '+ the_type, ': ' + err_val.strip())
+						# firepydaq_logger.error(__name__ + ": " + lhs + ' '+ the_type, ': ' + err_val.strip())
 					skip_processing = True
 				
 		if self.Errors !=[]:
