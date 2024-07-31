@@ -16,6 +16,44 @@ import os
 # from .ErrorUtils import firepydaq_logger
 
 class PostProcessData():
+	""" An object that processes data based on the config and formulae file
+
+	Attributes
+	---------
+	arg_nos: int
+		Number of arguments passed by the user
+
+	Formulae_dict: dict
+		A dictionary of functions that maps user-inputted functions in the formulae file to equivalent numpy functions.
+
+		For example, `exp` used in a formulae file is converted into `np.exp` while executing the formulae
+
+		This formulae_dict is defined in DAQUtils.py
+
+	Errors: dict
+		A dictionary that maps the label (or LHS) for which an error was encountered while parsing the formulae to the corresponding error.
+
+	path_dict: dict
+		Contains a dictionary that maps `datapath`,`configpath`, and `formulaepath`. 
+		The items of the keys are read as `polars.DataFrame`
+
+		`datapath` can be path to live data, or data collected after an experiment, or randomly created numpy array to validate formulae before acquisition begins.
+
+		`configpath` can be path to the configuration file for the NI hardware that uses ni-daqmx driver.
+
+		`formulaepath` can be a path to the formulae file. Optionally, if processing formulae needs to be skipped, the path is passed as an either an empty string ('').
+		Formulae file should use the variables defined in the `Label` column of the config file. The formulae file will be processed in the order that the formulae appears, from the topmost row to the bottom.
+
+	data_dict: dict
+		Contains a dictionary that maps the keys `data`, `config`, and `formulae` to the data read from `datapath`, `configpath`, and `formulaepath` in `path_dict`
+		The items of the keys are read as `polars.DataFrame`
+		
+		`data` can be live data, data collected after an experiment, or randomly created numpy array to validate formulae before acquisition begins.
+
+		`config` is the NI configuration file.
+
+		`formulae` is the the formulae stored as a DataFrame. If `formulaepath` key in `path_dict` does not exist (if '' is passed as `formulaepath` argument while instantiating this object), `formulae` key does not exist in `data_dict` either.
+	"""
 	def __init__(self, **files) -> object:
 		'''Setting up how the post processing will be done, as a utility or use in the dash app
 		
@@ -28,6 +66,7 @@ class PostProcessData():
 		Input keyword can be 'data', 'config', and 'formulae' with formulae being being optional. 
 		The input must have reference to data and config paths
 		
+
 		'''
 		arg_nos = len(files.items())
 		initializing_path_lists = []
@@ -69,11 +108,17 @@ class PostProcessData():
 		# firepydaq_logger.info(__name__ + ": PostProcessing initiated succesfully")
 	
 	def _CallParser(self):
+		'''
+		:meta private:
+		'''
 		if len(self.pathdict.keys()) == 3:
 			self.ParseFormulae()
 		return
 
 	def _CallScaler(self):
+		'''
+		:meta private:
+		'''
 		self.ScaleData()
 		return
 		
@@ -123,18 +168,29 @@ class PostProcessData():
 		return dfpath_dict, dfdata_dict
 
 	def UpdateData(self,dump_output = True):
-		''' A method to update the processed data using the initiated path configs
-
-		Parameters:
-
-		dump_output: bool = True
-
-			True: Will save the processed dataframe in datapath.strip('.parquet')[-1]+'_PostProcessed.parquet'
-
-			False: Will not save the processed data
+		"""A method to update the processed data using the initiated path configs
 		
-		'''
-		if not self.fpathIsDf:
+		An attribute df_processed: `polars.DataFrame`
+
+			If `dump_output = True` (Default), A new file having the name `self.pathdict['datapath'].split('.parquet')[0]+'_PostProcessed.parquet'` will be created.
+		
+		Parameters
+		----------
+		dump_output: bool, Optional
+			Default `dump_outut = True`
+
+			`True`: Processed data will be saved at the location where the data is read from. 
+
+			`False`: Processed data will not save the processed data
+
+		Returns
+		_______
+
+		None: None
+
+		
+		"""
+		if not self.fpathIsDf: # Used for authenticating formulae file using random numbers before acquisition begins
 			self.data_dict['data'] = pl.read_parquet(self.pathdict['datapath'])
 		self._CallScaler()
 		self._CallParser()
@@ -150,6 +206,8 @@ class PostProcessData():
 		`Unit_per_V` variable is created which is the ratio of the differrence between the `ScaleMax` and `ScaleMin`, to the difference between `AIRangeMax` and `AIRangeMin`
 		Scaled data, scaled_data is then obtained as follows,
 			`scaled_data` = (`raw_data` - `min_AI`)*`unit_per_V` + `ScaleMin`
+
+
 		'''
 		self.df_processed = pl.DataFrame()
 		for col in self.data_dict['data'].columns:
