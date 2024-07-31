@@ -197,7 +197,7 @@ def test_save_enabled(qtbot, monkeypatch):
     main_app.config_file_edit.setText( r"C:\Users\MishraAnvii\Documents\GitHub\firepydaq\tests\Example_Config_Formulae\20240329_1354_Testing.csv")  
     button = main_app.save_button
     def my_init():
-        self.
+        CreateDAQTask.a = 4
 
     try:
         acq_calls = []
