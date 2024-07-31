@@ -49,7 +49,6 @@ class application(QMainWindow):
         self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)") 
         self.menu = MyMenu(self)
         self.setMenuBar(self.menu)
-        print(self.menu.smell)
 
         self.setWindowIcon(QIcon('assets/fsri-logo.ico'))
         
@@ -203,25 +202,14 @@ class application(QMainWindow):
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
             file_json = self.common_path + ".json"
-            # print(file_pq)
-            file_name = dlg_save_file.file_name
             folder_pq = dlg_save_file.folder_path
             if os.path.exists(folder_pq):
-                if os.path.exists(file_pq) and os.path.exists(file_json):
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("File with this name already exists.") 
-                    dlg.exec()
+                if os.path.exists(file_pq) or os.path.exists(file_json):
+                    self.inform_user("File to save in already exists.")
                 else:
                     self.parquet_file = file_pq
+                    self.json_file = file_json
                     self.test_input.setText(self.parquet_file)
-                    self.settings["Test Name"] = self.parquet_file
-            else:
-                dlg = QMessageBox(self)
-                dlg.setWindowTitle("Error Encountered")
-                dlg.setText("Folder path does not exist.") 
-                dlg.exec()
-                return
     
     def dev_arr_to_dict(self):
         dict_dev =  {}
@@ -255,6 +243,12 @@ class application(QMainWindow):
         self.all_fields_filled()
         self.settings["Experiment Type"] = self.test_type_input.currentText()
 
+        try:
+            sampling_rate = int(self.sample_rate_input.text())
+        except ValueError as e:
+            raise ValueError("Invalid Sampling Rate") from e
+        self.settings["Sampling Rate"] = sampling_rate
+
         if (all(c.isalnum() or c == "_" for c in self.name_input.text()) 
             and all(c.isalnum() or c == "_" for c in self.exp_input.text())):
             self.settings["Name"] = (self.name_input.text())
@@ -264,19 +258,21 @@ class application(QMainWindow):
 
         if self.is_valid_path(self.test_input.text()):
             if os.path.isfile(self.test_input.text()):
+                file_name = f"{self.common_path}"
                 counter = 1
-                extension = ".parquet"
-                file_name = f"{self.common_path}_{counter}{extension}"
-                
-                self.settings["Test Name"] = file_name
-                self.common_path = f"{self.common_path}_{counter}"
-                # print(self.common_path)
-                self.parquet_file = file_name
+                while os.path.isfile(file_name + ".json") or os.path.isfile(file_name + ".parquet"):
+                    file_name = f"{self.common_path}_{counter}"
+                    counter = counter + 1  
+                self.json_file = file_name + ".json"
+                self.parquet_file = file_name + ".parquet"
+                self.settings["Test Name"] = self.parquet_file
+                self.common_path = file_name
                 self.test_input.setText(self.parquet_file)
-
             else:
                 self.settings["Test Name"] = self.test_input.text()
+                self.common_path = self.settings["Test Name"].split(".parquet")[0]
                 self.parquet_file = self.settings["Test Name"] 
+                self.json_file = self.common_path + ".json"
         else:
             if (all(c.isalnum() or c == "_" for c in self.test_input.text())):
                 cwd = os.getcwd()
@@ -284,25 +280,46 @@ class application(QMainWindow):
                 self.save_dir = cwd + os.sep + self.settings["Experiment Type"]
                 self.common_path = self.save_dir + os.sep + now.strftime("%Y%m%d_%H%M") + "_" + self.settings["Name"] + "_" + self.settings["Experiment Name"] + "_" + self.test_input.text()
                 self.settings["Test Name"] = (self.common_path + ".parquet")
+                self.json_file = self.common_path + ".json"
                 self.parquet_file = self.settings["Test Name"]
                 self.test_input.setText(self.settings["Test Name"])
             else:
                 raise ValueError("Names can only be alphanumeric or contain underscores.")       
-            
+
+        if self.formulae_file_edit.text().strip() == "" or self.validate_df("f", self.formulae_file_edit.text()):
+            self.settings["Formulae File"] = self.formulae_file_edit.text()
+            self.formulae_file = self.formulae_file_edit.text()
+        else:
+            self.inform_user("Formulae File does not meet requirements.")
+
+        if self.validate_df("c", self.config_file_edit.text()):
+            self.settings["Config File"] = self.config_file_edit.text()
+            self.config_df = pl.read_csv(self.config_file)
+            self.labels_to_save = self.config_df.select("Label").to_series().to_list()
+        else:
+            self.inform_user("Config File does not meet requirements.")
+
+        if self.device_arr:
+            self.settings["Devices"] = self.dev_arr_to_dict()
+
+
+    def settings_to_json(self):
+        self.all_fields_filled()
+        self.settings["Experiment Type"] = self.test_type_input.currentText()
         try:
             sampling_rate = int(self.sample_rate_input.text())
         except ValueError as e:
             raise ValueError("Invalid Sampling Rate") from e
         self.settings["Sampling Rate"] = sampling_rate
-
-        self.settings["Formulae File"] = self.formulae_file
-        self.settings["Config File"] = self.config_file
-
+        if (all(c.isalnum() or c == "_" for c in self.name_input.text()) 
+            and all(c.isalnum() or c == "_" for c in self.exp_input.text())):
+            self.settings["Name"] = (self.name_input.text())
+            self.settings["Experiment Name"] = self.exp_input.text()
+        self.settings["Test Name"] = self.test_input.text()
+        self.settings["Formulae File"] = self.formulae_file_edit.text()
+        self.settings["Config File"] = self.config_file_edit.text()
         if self.device_arr:
             self.settings["Devices"] = self.dev_arr_to_dict()
-
-    def settings_to_json(self):
-        self.set_up()
         json_string = json.dumps(self.settings, indent=4) 
         return json_string
     
@@ -318,35 +335,35 @@ class application(QMainWindow):
         self.test_type_input.setCurrentText(self.settings["Experiment Type"])
         self.config_file = self.settings["Config File"]
         self.config_file_edit.setText(self.settings["Config File"])
-        self.config_df = pl.read_csv(self.config_file)
-        for dev in self.config_df["Label"]:
-            self.labels_to_save.append(dev)
         firepydaq_logger.info(__name__ + ": Config texts updated.")
     
-    @error_logger("Validating fields")
-    def ValidateFields(self):
+    def inform_user(self, err_txt):
+        msg = QMessageBox()
+        msg.setWindowTitle("Error Encountered")
+        msg.setText(err_txt)
+        msg.exec()
 
+    def validate_fields(self):
         self.set_up()
-        firepydaq_logger.info(__name__ +": Set_up succesfully validated")
-        
         if self.display and self.tab and hasattr(self, "data_vis_tab"):
             self.data_vis_tab.set_labels(self.config_file)
-
         config_df = pl.read_csv(self.settings["Config File"])
         random_input = np.array([np.random.randint(0,10)*i for i in np.ones(config_df.select("Label").shape)])
-        config_label_list = config_df.select("Label").to_series().to_list()
-        random_dict = {i : random_input[n] for n,i in enumerate(config_label_list)}
+        random_dict = {i : random_input[n] for n,i in enumerate(self.labels_to_save)}
         random_df = pl.DataFrame(data=random_dict)
         CheckPP = PostProcessData(datapath = random_df, configpath = self.settings['Config File'], formulaepath = self.settings['Formulae File'])
         CheckPP.ScaleData()
         CheckPP.UpdateData(dump_output=False)
-        firepydaq_logger.info(__name__ +": Formulae parsed succesfully using randomized data")
 
     def acquisition_begins(self):
         if self.acquisition_button.isChecked():
-            self.ValidateFields()
-            self.save_button.setEnabled(True)
-            self.acquisition_button.setText("Stop Acquisition")
+            try:
+                self.validate_fields()
+                self.save_button.setEnabled(True)
+                self.acquisition_button.setText("Stop Acquisition")
+            except Exception as e:
+                self.inform_user(str(e))
+                return 
         
             self.run_counter = 0
         
@@ -357,10 +374,14 @@ class application(QMainWindow):
                     self.NIDAQ_Device.aotask.stop()
                     self.NIDAQ_Device.aotask.close()
                 del self.NIDAQ_Device
-           
-            self.NIDAQ_Device = CreateDAQTask(self,"NI Task")
-            self.NIDAQ_Device.CreateFromConfig()
-        
+
+            try:
+                self.NIDAQ_Device = CreateDAQTask(self,"NI Task")
+                self.NIDAQ_Device.CreateFromConfig()
+            except Exception as e:
+                self.inform_user("Terminating acquisition due to DAQ Connection Errors")
+                return
+            
             if self.NIDAQ_Device.ai_counter > 0:
                 sample_rate = int(self.settings["Sampling Rate"])
                 self.NIDAQ_Device.StartAIContinuousTask(sample_rate, sample_rate)
@@ -373,7 +394,7 @@ class application(QMainWindow):
         else:
             self.ContinueAcquisition = False
             time.sleep(1)
-            print(hasattr(self,'NIDAQ_Device'))
+            self.save_bool = False
             self.run_counter = 0
             self.save_button.setEnabled(False)
             self.acquisition_button.setText("Start Acquisition")
@@ -385,11 +406,12 @@ class application(QMainWindow):
         abs_time = abs_time[np.newaxis,:]
         temp_data = np.append(time_data, np.array(self.ydata_new), axis=0)
         temp_data = np.append(abs_time, temp_data, axis=0).T 
-
-        pl_cols = np.insert(self.labels_to_save, 0 ,"Time")
+        print(self.labels_to_save)
+        pl_cols = np.insert(self.labels_to_save, 0, "Time")
         pl_cols = np.insert(pl_cols, 0, "AbsoluteTime")
         pl_list = pl_cols.tolist()
         self.save_dataframe = pl.DataFrame(schema = pl_list, data = temp_data)
+        
         self.parquet_file = self.common_path + ".parquet"
 
         try:
@@ -426,7 +448,6 @@ class application(QMainWindow):
                     aithread = executor.submit(self.NIDAQ_Device.threadaitask)
                     par_ai = time.time()
                     self.ydata_new = aithread.result()
-                    # print("Par bef AI: " +str(par_ai - parallels_bef))
                     if self.NIDAQ_Device.ao_counter> 0:
                         AO_outputs = [0 for i in range(self.NIDAQ_Device.ao_counter)]
                         # AO_outputs will need user iniput. either on/off, or a float value input 
@@ -443,12 +464,12 @@ class application(QMainWindow):
                 t_now_str = t_now.strftime("%d/%m/%Y, %H:%M:%S")
 
                 if (t_aft_read-t_bef_read)>1/self.ActualSamplingRate:#self.task.sampleRate:
-                    print("Time to read exceeds frequency. Reduce the frequency.")
+                    self.inform_user("Time to read exceeds frequency. Reduce the frequency.")
+                    return
 
                 self.ydata = np.append(self.ydata,self.ydata_new,axis=1)
                 t_diff = no_samples/self.ActualSamplingRate#self.task.sampleRate
                 tdiff_array = np.linspace(1/self.ActualSamplingRate,t_diff,no_samples)
-                # print(self.ydata_new)
                 if self.xdata[-1]==0:
                     self.xdata_new = np.linspace(self.xdata[-1],self.xdata[-1]+t_diff,no_samples,endpoint=False)
                     if self.ydata.shape[1]>1 and len(self.xdata_new)==1:
@@ -478,7 +499,7 @@ class application(QMainWindow):
                 print(str(the_type) + the_value, the_traceback)
     
         if self.ContinueAcquisition and self.running:
-            QTimer.singleShot(10,self.runpyDAQ)
+            QTimer.singleShot(10, self.runpyDAQ)
         else:
             self.run_counter = 0
             self.save_button.setEnabled(False)
@@ -496,21 +517,13 @@ class application(QMainWindow):
                 if not os.path.exists(self.save_dir):
                     os.makedirs(self.save_dir)
 
-            counter = 1
-            extension = ".json"
-            file_name = f"{self.common_path}{extension}"
-
-            while os.path.isfile(file_name):
-                file_name = f"{self.common_path}_{counter}{extension}"
-                counter = counter + 1  
-            self.json_file = file_name
             with open(self.json_file, "x") as outfile:
-                outfile.write(self.settings_to_json())
+                outfile.write(json.dumps(self.settings, indent=4))
 
             y_len = int(len(self.config_df["Device"]))
             self.ydata = np.empty((y_len,0))
             self.xdata = np.array([0])
-            firepydaq_logger.info("Saving intiated properly.")
+            firepydaq_logger.info("Saving initiated properly.")
 
             if self.dashboard:
                 firepydaq_logger.info("Dash app Process initiated after saving initiations")
@@ -529,6 +542,22 @@ class application(QMainWindow):
             or self.sample_rate_input.text().strip() == "") :
             raise UnfilledFieldError("Unfilled fields encountered")
         return True
+    
+    def validate_df(self, letter, path):
+        try:
+            df = pl.read_csv(path)
+            cols = []
+        except:
+            return False
+        if letter == "f":
+            cols = ["Label", "RHS", "Chart", "Legend", "Layout", "Position", "Processed_Unit"]
+        if letter == "c":
+            cols = ["", "Panel", "Device" , "Channel" , "ScaleMax" , "ScaleMin" , "Label" , 
+            "Type", "Chart" , "AIRangeMin", "AIRangeMax", "Layout", "Position", "Processed_Unit", "Legend"]
+        
+        if cols == df.columns:
+            return True
+        return False
 
     def set_formulae_file(self):
         dlg = QFileDialog(self, 'Select a File', None, "CSV files (*.csv)")
@@ -540,19 +569,17 @@ class application(QMainWindow):
             self.formulae_file = f.name
             self.formulae_file_edit.setText(self.formulae_file)
 
-    def set_config_file(self):
+    def set_config_file(self): 
         dlg = QFileDialog(self, 'Select a File', None, "CSV files (*.csv)")
         f = ""
         if dlg.exec():
             filenames = dlg.selectedFiles()
             f = open(filenames[0], 'r')
-        if not isinstance(f, str):
+        if not isinstance(f, str):         
             self.config_file = f.name
             self.config_file_edit.setText(self.config_file)
-            self.config_df = pl.read_csv(self.config_file)
-            for dev in self.config_df["Label"]:
-                self.labels_to_save.append(dev)
-    
+            
+
     def safe_exit(self):
         if hasattr(self,'NIDAQ_Device'):
                 self.NIDAQ_Device.aitask.stop()
@@ -576,6 +603,5 @@ class application(QMainWindow):
                     self.NIDAQ_Device.aotask.stop()
                     self.NIDAQ_Device.aotask.close()
                 del self.NIDAQ_Device
-        print("Clean up performed")
         super(QMainWindow, self).closeEvent(*args, **kwargs)
         
