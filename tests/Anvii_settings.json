@@ -1,9 +1,0 @@
-{
-    "Experiment Type": "Experiment",
-    "Name": "Anvii",
-    "Experiment Name": "Project1",
-    "Test Name": "C:\\Users\\MishraAnvii\\Documents\\GitHub\\fsripydaq\\tests\\Experiment\\20240724_1045_Anvii_Project1_Test1.parquet",
-    "Sampling Rate": 15,
-    "Formulae File": "",
-    "Config File": "C:/Users/MishraAnvii/Documents/GitHub/fsripydaq/tests/Config_Formulae_Example/20240329_1354_Testing.csv"
-}
