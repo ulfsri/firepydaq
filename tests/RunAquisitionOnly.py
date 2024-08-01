@@ -1,6 +1,7 @@
 # RunAquisitionOnly
 
 if __name__ == '__main__':
+    import qdarktheme
     import multiprocessing as mp
     mp.freeze_support()
     from firepydaq.acquisition.acquisition import application
@@ -8,6 +9,7 @@ if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)
+    qdarktheme.setup_theme()
     main_app = application()
     main_app.show()
     app.exec()

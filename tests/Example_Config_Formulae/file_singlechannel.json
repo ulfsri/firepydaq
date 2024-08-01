@@ -1,0 +1,9 @@
+{
+    "Experiment Type": "Experiment",
+    "Sampling Rate": 10,
+    "Name": "Anvii",
+    "Experiment Name": "Project1",
+    "Test Name": "SingleChannel",
+    "Formulae File": "C:/Users/MishraAnvii/Documents/GitHub/firepydaq/tests/Example_Config_Formulae/Processing_formulaeTesting.csv",
+    "Config File": "C:/Users/MishraAnvii/Documents/GitHub/firepydaq/tests/Example_Config_Formulae/20240329_1354_Testing copy.csv"
+}

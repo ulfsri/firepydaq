@@ -38,6 +38,11 @@ class MyMenu(QMenuBar):
         self.file_menu.addAction(self.save_daq_action)
         self.save_daq_action.setShortcut("Ctrl+S")
 
+        self.save_notif_action = QAction("Save Notifications", self)
+        self.save_notif_action.triggered.connect(self.save_notifs)
+        self.file_menu.addAction(self.save_notif_action)
+        self.save_notif_action.setShortcut("Ctrl+N")
+
         self.exit_action = QAction("Exit Application", self)
         self.exit_action.triggered.connect(self.parent.safe_exit)
         self.file_menu.addAction(self.exit_action)
@@ -125,10 +130,16 @@ class MyMenu(QMenuBar):
         self.report_issues.triggered.connect(self.report_issue)
         self.help_menu.addAction(self.report_issues)
 
+    def save_notifs(self):
+        f = open("myfile. txt", "w") 
+        f.write(self.parent.notif_text_slot.text())
+        self.parent.notify("File Saved")
+            
+
     def display_all(self):
         self.parent.display = True
         self.parent.tab = True
-        self.parent.dashboard = False
+        self.parent.dashboard = True
         if not hasattr(self.parent, "data_vis_tab"):
             self.parent.data_vis_tab = data_vis(self.parent)
 

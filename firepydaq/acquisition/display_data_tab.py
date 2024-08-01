@@ -30,13 +30,14 @@ class data_vis(QWidget):
         self.plot_graph.setLabel('left', self.dev_edit.currentText())
 
     def set_labels(self, config_file):
-        self.label = QLabel("Select Channel to View:")
-        self.data_layout.addWidget(self.label)
-        self.dev_edit = QComboBox()
-        self.data_layout.addWidget(self.dev_edit)
-        df = pd.read_csv(config_file)
-        for dev in df["Label"]:
-            self.dev_edit.addItem(dev)
+        if not hasattr(self, "label") and not hasattr(self, "dev_edit"):
+            self.label = QLabel("Select Channel to View:")
+            self.data_layout.addWidget(self.label)
+            self.dev_edit = QComboBox()
+            self.data_layout.addWidget(self.dev_edit)
+            df = pd.read_csv(config_file)
+            for dev in df["Label"]:
+                self.dev_edit.addItem(dev)
         
     def get_curr_selection(self):
         self.index = self.dev_edit.currentIndex()
