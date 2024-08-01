@@ -371,6 +371,17 @@ class application(QMainWindow):
         CheckPP.ScaleData()
         CheckPP.UpdateData(dump_output=False)
 
+    def initiate_dataArrays(self):
+        
+        if self.NIDAQ_Device.ai_counter>0:
+            self.ydata=np.empty((len(self.NIDAQ_Device.ailabel_map),0))
+        else: # To check for bugs
+            self.ydata = np.empty((len(self.settings["Label"]),0))
+        
+        self.xdata=np.array([0])
+        self.abs_timestamp= np.array([])
+        self.timing_np = np.empty((0,3))
+
     def acquisition_begins(self):
         if self.acquisition_button.isChecked():
             try:
@@ -404,7 +415,7 @@ class application(QMainWindow):
             if self.NIDAQ_Device.ao_counter > 0:
                 AO_initials = [0 for i in self.NIDAQ_Device.ao_counter]
                 self.NIDAQ_Device.StartAOContinuousTask(AO_initials = AO_initials)
-            self.NIDAQ_Device.initiate_dataArrays()
+            self.initiate_dataArrays()
             self.ContinueAcquisition = True
             self.runpyDAQ()
         else:
@@ -464,6 +475,7 @@ class application(QMainWindow):
                     aithread = executor.submit(self.NIDAQ_Device.threadaitask)
                     par_ai = time.time()
                     self.ydata_new = aithread.result()
+                    self.ydata_new = np.array(self.ydata_new)
                     if self.NIDAQ_Device.ao_counter> 0:
                         AO_outputs = [0 for i in range(self.NIDAQ_Device.ao_counter)]
                         # AO_outputs will need user iniput. either on/off, or a float value input 
@@ -483,7 +495,13 @@ class application(QMainWindow):
                     self.inform_user("Time to read exceeds frequency. Reduce the frequency.")
                     return
 
-                self.ydata = np.append(self.ydata,self.ydata_new,axis=1)
+                # print(self.ydata.shape,self.ydata_new.shape,self.ydata,self.ydata_new)
+                
+                if len(self.ydata.shape)==1:
+                    self.ydata = np.append(self.ydata,self.ydata_new,axis=0)
+                else:
+                    self.ydata = np.append(self.ydata,self.ydata_new,axis=1)
+                # print(self.ydata)
                 t_diff = no_samples/self.ActualSamplingRate#self.task.sampleRate
                 tdiff_array = np.linspace(1/self.ActualSamplingRate,t_diff,no_samples)
                 if self.xdata[-1]==0:
@@ -537,6 +555,7 @@ class application(QMainWindow):
                 outfile.write(json.dumps(self.settings, indent=4))
 
             y_len = int(len(self.config_df["Device"]))
+            print(y_len)
             self.ydata = np.empty((y_len,0))
             self.xdata = np.array([0])
             firepydaq_logger.info("Saving initiated properly.")
