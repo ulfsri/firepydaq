@@ -136,17 +136,6 @@ class CreateDAQTask:
             self.aotask.in_stream.configure_logging(save_tdms_path,logging_mode=log_mode)
         
         self.aotask.start()
-
-    def initiate_dataArrays(self):
-        
-        if self.ai_counter>0:
-            self.parent.ydata=np.empty((len(self.ailabel_map),0))
-        else: # To check for bugs
-            self.parent.ydata = np.empty((len(self.Fig_titles),0))
-        
-        self.parent.xdata=np.array([0])
-        self.parent.abs_timestamp= np.array([])
-        self.parent.timing_np = np.empty((0,3))
     
     ## Method to read data from AI task. 
     def threadaitask(self):
