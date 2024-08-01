@@ -2,11 +2,10 @@
 General imports 
 """
 import sys
-
 # PyQT Related
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QDialog, QMainWindow, QWidget, QVBoxLayout, QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit, QComboBox, QPushButton, QMessageBox, QFileDialog
+from PySide6.QtGui import QIcon, Qt
+from PySide6.QtWidgets import QDialog, QMainWindow, QWidget, QVBoxLayout, QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit, QComboBox, QPushButton, QMessageBox, QFileDialog, QScrollArea
 from .save_setting_to_json_dialog import SaveSettingsDialog
 import pyqtgraph as pg
 from .main_menu import MyMenu
@@ -28,6 +27,7 @@ import pyarrow as pa
 import glob
 import re
 import os
+
 from .exception_list import UnfilledFieldError
 from ..api.CreateNIDAQTask import CreateDAQTask
 
@@ -84,7 +84,6 @@ class application(QMainWindow):
         #Input Settings Layout
         self.input_settings_widget = QWidget()
         self.main_input_layout = QHBoxLayout(self.input_tab_widget)
-        self.input_layout_container = QWidget()
         self.input_layout = QGridLayout()
 
         #Experimenter's Name
@@ -189,7 +188,19 @@ class application(QMainWindow):
         self.input_layout.addWidget(self.save_button, 7, 1)
         self.save_bool = False
 
+        self.notifications_layout = QVBoxLayout()
+        self.notif_bar = QScrollArea()
+        self.notif_bar.setWidgetResizable(True)
+        self.notif_bar.setFixedWidth(350)
+        self.notif_bar.setAlignment(Qt.AlignRight)
+        self.notif_bar.setAlignment(Qt.AlignTop)
+        self.notif_text_slot = QLabel("Welcome User!")
+        self.notif_text_slot.setAlignment(Qt.AlignTop)
+        self.notif_bar.setWidget(self.notif_text_slot)
+        self.notifications_layout.addWidget(self.notif_bar)
+        
         self.main_input_layout.addLayout(self.input_layout)
+        self.main_input_layout.addLayout(self.notifications_layout)
         self.data_visualizer_layout = QHBoxLayout()
         self.main_input_layout.addLayout(self.data_visualizer_layout)
         self.input_settings_widget.setLayout(self.main_input_layout)
@@ -210,6 +221,11 @@ class application(QMainWindow):
                     self.parquet_file = file_pq
                     self.json_file = file_json
                     self.test_input.setText(self.parquet_file)
+    
+    def notify(self, str):
+        line = self.notif_text_slot.text()
+        new_txt = line + "\n" + str
+        self.notif_text_slot.setText(new_txt)
     
     def dev_arr_to_dict(self):
         dict_dev =  {}

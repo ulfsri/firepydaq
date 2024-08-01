@@ -3,6 +3,7 @@
 # import time
 
 print("test file opens")
+import qdarktheme
 
 # create_dash_app(jsonpath = r"C:\Users\MishraAnvii\Documents\GitHub\fsripydaq\tests\Example_ExpData\20240724_1045_Anvii_Project1_Test1.json")
 import sys
@@ -13,6 +14,7 @@ from firepydaq.acquisition.acquisition import application
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
+    qdarktheme.setup_theme()
     main_app = application()
     main_app.show()
     sys.exit(app.exec())

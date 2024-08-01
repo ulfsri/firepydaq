@@ -305,20 +305,14 @@ class MyMenu(QMenuBar):
                     dlg.exec()
                     return
                 if dev_name in self.parent.device_arr:
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("All devices must have unique names.") 
-                    dlg.exec()
+                    self.parent.notify("All devices must have unique names.")
                     return
                 self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
             else:
-                print("No MFC added.")
+                self.parent.notify("No MFC Added.")
         else:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("Maximum 4 MFC's allowed.") 
-            dlg.exec()
+            self.parent.notify("Maximum 4 MFC's can be added.")
             return
         
     def remove_laser(self):
