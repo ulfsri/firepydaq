@@ -1,2 +1,2 @@
 Label,RHS,Chart,Legend,Layout,Position,Processed_Unit
-Tmean,(Temperature1+Temperature2)/2, Temperature, Mean temp,1,1,C
+Temp_F,(Temperature1)*9/5 + 32,Temperature,Fahrenheit temp,1,1,F

@@ -191,13 +191,26 @@ class application(QMainWindow):
         self.notifications_layout = QVBoxLayout()
         self.notif_bar = QScrollArea()
         self.notif_bar.setWidgetResizable(True)
-        self.notif_bar.setFixedWidth(350)
+        self.notif_bar.setMaximumHeight(375)
+        self.notif_bar.setFixedWidth(250)
         self.notif_bar.setAlignment(Qt.AlignRight)
         self.notif_bar.setAlignment(Qt.AlignTop)
         self.notif_text_slot = QLabel("Welcome User!")
         self.notif_text_slot.setAlignment(Qt.AlignTop)
         self.notif_bar.setWidget(self.notif_text_slot)
         self.notifications_layout.addWidget(self.notif_bar)
+
+        self.notif_save_layout = QHBoxLayout()
+        self.notif_save_edit = QLineEdit()
+        self.notif_save_btn = QPushButton("Save")
+        self.notif_save_btn.clicked.connect(self.print)
+        self.notif_save_btn.setMaximumWidth(50)
+        self.notif_save_btn.setMaximumHeight(25)
+        self.notif_save_edit.setMaximumWidth(200)
+        self.notif_save_edit.setMaximumHeight(25)
+        self.notif_save_layout.addWidget(self.notif_save_edit)
+        self.notif_save_layout.addWidget(self.notif_save_btn)
+        self.notifications_layout.addLayout(self.notif_save_layout)
         
         self.main_input_layout.addLayout(self.input_layout)
         self.main_input_layout.addLayout(self.notifications_layout)
@@ -206,6 +219,10 @@ class application(QMainWindow):
         self.input_settings_widget.setLayout(self.main_input_layout)
 
         return self.input_settings_widget
+    
+    def print(self):
+        self.notify(self.notif_save_edit.text())
+        self.notif_save_edit.clear()
     
     def set_test_file(self):
         dlg_save_file = SaveSettingsDialog("Select File to Save Data")
@@ -224,7 +241,8 @@ class application(QMainWindow):
     
     def notify(self, str):
         line = self.notif_text_slot.text()
-        new_txt = line + "\n" + str
+        str_time = time.strftime("%X")
+        new_txt = line + "\n" + "[" + str_time + "]: " + str
         self.notif_text_slot.setText(new_txt)
     
     def dev_arr_to_dict(self):
@@ -256,6 +274,7 @@ class application(QMainWindow):
             return False
         
     def set_up(self):
+        self.notify("Validating data . . .")
         self.all_fields_filled()
         self.settings["Experiment Type"] = self.test_type_input.currentText()
 
@@ -390,6 +409,7 @@ class application(QMainWindow):
                 self.acquisition_button.setText("Stop Acquisition")
             except Exception as e:
                 self.inform_user(str(e))
+                self.notify("Validation failed.")
                 return 
         
             self.run_counter = 0
@@ -417,13 +437,16 @@ class application(QMainWindow):
                 self.NIDAQ_Device.StartAOContinuousTask(AO_initials = AO_initials)
             self.initiate_dataArrays()
             self.ContinueAcquisition = True
+            self.notify("Validation complete. Acquisition begins.")
             self.runpyDAQ()
+            self.notify("Acquiring Data . . .")
         else:
             self.ContinueAcquisition = False
             time.sleep(1)
             self.save_bool = False
             self.run_counter = 0
             self.save_button.setEnabled(False)
+            self.notify("Acquisition stopped.")
             self.acquisition_button.setText("Start Acquisition")
     
     def save_data_thread(self):
@@ -523,9 +546,11 @@ class application(QMainWindow):
                     # self.save_data_thread()
                     self.save_thread = threading.Thread(target = self.save_data_thread)
                     self.save_thread.start()
-
+                
                 #Plots
                 if hasattr(self, "data_vis_tab"):
+                    if not hasattr(self.data_vis_tab, "dev_edit"):
+                        self.data_vis_tab.set_labels(self.config_file)
                     self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])
 
             except:
@@ -539,6 +564,7 @@ class application(QMainWindow):
             self.save_button.setEnabled(False)
             if hasattr(self, "dash_thread"):
                 self.dash_thread.terminate()
+                self.notify("Dashboard closed.")
 
     @error_logger("SaveData")
     def save_data(self):
@@ -551,8 +577,9 @@ class application(QMainWindow):
                 if not os.path.exists(self.save_dir):
                     os.makedirs(self.save_dir)
 
-            with open(self.json_file, "x") as outfile:
-                outfile.write(json.dumps(self.settings, indent=4))
+            if not os.path.exists(self.json_file):
+                with open(self.json_file, "x") as outfile:
+                    outfile.write(json.dumps(self.settings, indent=4))
 
             y_len = int(len(self.config_df["Device"]))
             print(y_len)
@@ -560,13 +587,17 @@ class application(QMainWindow):
             self.xdata = np.array([0])
             firepydaq_logger.info("Saving initiated properly.")
 
+            self.notify("Saving Data in " + self.parquet_file)
+
             if self.dashboard:
                 firepydaq_logger.info("Dash app Process initiated after saving initiations")
+                self.notify("Launching Dashboard on https://127.0.0.1:1222")
                 mp.freeze_support()
                 self.dash_thread = mp.Process(target = create_dash_app, kwargs = {"jsonpath": self.json_file})
                 self.dash_thread.start()
         else:
             self.save_button.setText("Save")
+            self.notify("Saving Stopped")
             if hasattr(self,"dash_thread"):
                 self.dash_thread.terminate()
             self.save_bool = False
@@ -575,7 +606,7 @@ class application(QMainWindow):
         if (self.name_input.text().strip() == "" or self.exp_input.text().strip() == "" 
             or self.test_input.text().strip() == "" or self.config_file.strip() == "" 
             or self.sample_rate_input.text().strip() == "") :
-            raise UnfilledFieldError("Unfilled fields encountered")
+            raise UnfilledFieldError("Unfilled fields encountered.")
         return True
     
     def validate_df(self, letter, path):
@@ -603,6 +634,7 @@ class application(QMainWindow):
         if not isinstance(f, str):
             self.formulae_file = f.name
             self.formulae_file_edit.setText(self.formulae_file)
+        
 
     def set_config_file(self): 
         dlg = QFileDialog(self, 'Select a File', None, "CSV files (*.csv)")
