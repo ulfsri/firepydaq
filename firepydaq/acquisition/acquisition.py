@@ -46,6 +46,7 @@ class application(QMainWindow):
         # Set window properties
         self.setGeometry(0, 0, 900, 600)
         self.setFixedSize(900, 600)
+        self.setStyleSheet('mystylesheet.css')
         self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)") 
         self.menu = MyMenu(self)
         self.setMenuBar(self.menu)
@@ -75,6 +76,9 @@ class application(QMainWindow):
         self.dashboard = False
 
     def initialise_tabs(self):
+        """
+        :meta-private:
+        """
         self.input_tab_widget = QTabWidget()
         self.input_tab_content = self.input_content()
         self.input_tab_widget.addTab(self.input_tab_content, "Input Settings")
@@ -240,7 +244,7 @@ class application(QMainWindow):
                     self.test_input.setText(self.parquet_file)
     
     def notify(self, str):
-        line = self.notif_text_slot.text()
+        line = self.notif_text_slot.text()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         str_time = time.strftime("%X")
         new_txt = line + "\n" + "[" + str_time + "]: " + str
         self.notif_text_slot.setText(new_txt)
