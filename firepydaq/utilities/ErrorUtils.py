@@ -4,6 +4,8 @@ from PySide6.QtWidgets import QMessageBox
 
 import logging
 import os
+import sys
+import traceback
 
 def setup_logger(name, logfile, formatter, stream_handler=False, level=logging.DEBUG):
     """Logger file when acquisition is running"""
@@ -42,11 +44,11 @@ def error_logger(error_func_info:str):
         @wraps(f)
         def wrapped(*args, **kwargs):
             try:
-                print('there')
                 return f(*args, **kwargs)
-            except Exception as e:
-                print('here')
-                err_txt = 'In ' +error_func_info + ':' + str(type(e)) + str(e)
+            except Exception:
+                print('error utils exception')
+                type, value, tb = sys.exc_info()
+                err_txt = 'In ' +error_func_info + ':' + str(type) + str(value) + str(traceback.print_tb(tb))
                 err_msg = __name__ + err_txt
                 firepydaq_logger.error(err_msg)
 

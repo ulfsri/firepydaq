@@ -134,7 +134,6 @@ class MyMenu(QMenuBar):
         f = open("myfile. txt", "w") 
         f.write(self.parent.notif_text_slot.text())
         self.parent.notify("File Saved")
-            
 
     def display_all(self):
         self.parent.display = True
@@ -455,14 +454,13 @@ class MyMenu(QMenuBar):
 
     def repopulate_settings(self, data):
         self.parent.settings["Name"] = data["Name"]
-        self.parent.name_input.setText(self.parent.settings["Name"])
         self.parent.settings["Experiment Name"] = data["Experiment Name"] 
         self.parent.settings["Test Name"] = data["Test Name"] 
         self.parent.settings["Sampling Rate"] = data["Sampling Rate"]
         self.parent.settings["Formulae File"] = data["Formulae File"]
         self.parent.settings["Experiment Type"] = data["Experiment Type"]
         self.parent.settings["Config File"] = data["Config File"]
-        self.parent.set_texts()
+        self.parent._set_texts()
        
     def remove_all(self):
         if self.parent.device_arr:

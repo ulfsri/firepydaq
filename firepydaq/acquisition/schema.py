@@ -12,7 +12,8 @@ schema = {
                     "type": "string"
                 },
                 "Sampling Rate": {
-                    "type": "integer"
+                    "type": "number",
+                    "minimum": 0
                 },
                 "Formulae File": {
                     "type": "string"
