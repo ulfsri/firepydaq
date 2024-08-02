@@ -220,10 +220,12 @@ class PostProcessData():
 			else:
 				try:
 					local_scales = self.data_dict['config'].filter(pl.col("Label")==col)
-					min_AI = local_scales.select("AIRangeMin").item()
-					unit_per_V = ((local_scales.select("ScaleMax") - local_scales.select("ScaleMin"))/(local_scales.select("AIRangeMax") - local_scales.select("AIRangeMin"))).item()
-					offset = local_scales.select("ScaleMin").item()
-					self.df_processed = self.df_processed.with_columns((pl.Series((self.data_dict['data'].select(pl.col(col).abs())-min_AI)*unit_per_V+offset)).alias(col))
+					min_AI = np.float32(local_scales.select("AIRangeMin").item())
+					max_AI = np.float32(local_scales.select("AIRangeMax").item())
+					min_Scale = np.float32(local_scales.select("ScaleMin").item())
+					max_Scale = np.float32(local_scales.select("ScaleMax").item())
+					unit_per_V = (max_Scale - min_Scale)/(max_AI - min_AI)
+					self.df_processed = self.df_processed.with_columns((pl.Series((self.data_dict['data'].select(pl.col(col).abs())-min_AI)*unit_per_V+min_Scale)).alias(col))
 				except ValueError:
 					self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
 
@@ -329,6 +331,12 @@ class PostProcessData():
 			with open('Errorlog_formulae.log','w') as f:
 				for key,error_item in self.Errors.items():
 					f.write(key[0] + " : " + key[1] + " :: " + error_item +'\n')
+	
+	@property
+	def Processed_df(self):
+		"""Returns processed data frame
+		"""
+		return self.df_processed
 
 if __name__ == "__main__":
 	print("Testing with pytest and poetry")
