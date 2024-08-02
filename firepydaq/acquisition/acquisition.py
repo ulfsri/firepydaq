@@ -3,8 +3,8 @@ General imports
 """
 import sys
 # PyQT Related
-from PySide6.QtCore import QTimer
-from PySide6.QtGui import QIcon, Qt
+from PySide6.QtCore import QTimer, QRegularExpression
+from PySide6.QtGui import QIcon, Qt, QRegularExpressionValidator
 from PySide6.QtWidgets import QDialog, QMainWindow, QWidget, QVBoxLayout, QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit, QComboBox, QPushButton, QMessageBox, QFileDialog, QScrollArea
 from .save_setting_to_json_dialog import SaveSettingsDialog
 import pyqtgraph as pg
@@ -141,12 +141,16 @@ class application(QMainWindow):
 
         #Sampling Rate
         self.sample_rate_label = QLabel("Enter Sampling Rate:")
+        self.sample_rate_label.setToolTip("Will only accept floats")
+        self.sample_rate_label.setToolTipDuration(500)
         self.sample_rate_label.setMaximumWidth(200)
         self.input_layout.addWidget(self.sample_rate_label, 4, 0)
     
         self.sample_rate_input = QLineEdit()
         self.sample_rate_input.setMaximumWidth(200)
-        self.sample_rate_input.setPlaceholderText("10 datapoints per second")
+        self.sample_rate_input.setPlaceholderText("10")
+        reg_ex_1 = QRegularExpression("[0-9]+.?[0-9]{,2}") # double
+        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1)) #.setValidator(QRegExpValidator(reg_ex_1))
         self.input_layout.addWidget(self.sample_rate_input, 4, 1)
 
         #Configuration File Name
@@ -369,33 +373,37 @@ class application(QMainWindow):
     def Create_SavePath(self):
         inp_text = self.test_input.text()
         fname = inp_text.split(self.fextension)[0]
-        if self.is_valid_path(inp_text): # If the user selected a custom path to save the data
-            if os.path.isfile(inp_text): # If there is already a file by that name
+        fpath = inp_text + self.fextension
+        if self.is_valid_path(fpath): # If the user selected a custom path to save the data
+            if os.path.isfile(fpath): # If there is already a file by that name
                 test_name = f"{fname}"
                 
                 files = glob.glob(f"%s*%s"%(fname,self.fextension))
                 print(files)
-                if len(files) ==1: # no previous files
+                if len(files) ==1: # one previous file
                     fnumber = re.findall(r'\d+', files[0].split(self.fextension)[0][-3:]) # Checking if there is any appended number at the last 3 characters before extension
-                    if not fnumber: # If no number at the end, append `_01`
+                    if not fnumber: # If no number at the end of that file, append `_01`
                         test_name = f"{fname}_01"
                     else: # If there is a number, get that number, increment by 1. 
-                        test_name = f"{fname.split('_'+fnumber[0])[0]}_{f"{int(fnumber[0])+1:02d}"}" 
+                        fno_appender = str(int(fnumber[0])+1).rjust(2,'0')
+                        test_name = f"{fname.split('_'+fnumber[0])[0]}_{fno_appender}" 
                 else: # If previous files exits, sort them, get the last one, and increment the number
                     files = [sorted(files)[-1]]
                     fnumber = re.findall(r'\d+', files[0].split(self.fextension)[0][-3:])
-                    test_name = f"{fname.split('_'+fnumber[0])[0]}_{f"{int(fnumber[0])+1:02d}"}" 
-            else:
+                    fno_appender = str(int(fnumber[0])+1).rjust(2,'0')
+                    test_name = f"{fname.split('_'+fnumber[0])[0]}_{fno_appender}"
+            else: # no previous file
                 test_name = fname
         else: # If the test name is only the name and the program will create the file path to save
-            if re.match(self.re_strAllowable, inp_text):
+            if re.match(self.re_strAllowable, fname):
                 cwd = os.getcwd()
                 now = datetime.now()
                 self.save_dir = cwd + os.sep + self.settings["Experiment Type"] + os.sep + now.strftime("%Y%m%d_%H%M%S") + "_" + self.settings["Name"] + "_" + self.settings["Experiment Name"] + "_"
-                test_name =  inp_text
+                test_name =  fname
             else:
                 raise ValueError("Check test name. It should be either a valid path or a test name that can only contain alphanumeric or contain underscores (no spaces).")
-
+        
+        print(test_name)
         self.json_file = test_name + ".json"
         self.parquet_file = test_name + ".parquet"
         if self.is_valid_path(inp_text):
@@ -474,7 +482,9 @@ class application(QMainWindow):
 
     @error_logger("AcqBegins")
     def acquisition_begins(self):
-        #todo: Acquisition needs to take the values of updated fields and not the ones saved in settings
+        # todo: Disable config, formulae, and sampling rate after acq begins. Only allow name changes after acq begins.
+        # todo: regarding notification panel: save option pop up after acq stops
+        # todo: if the dropdown is possible on notification panel, create a clear notification panel option.
         if self.acquisition_button.isChecked():
             try:
                 self.validate_fields()
@@ -565,6 +575,11 @@ class application(QMainWindow):
             pass
         return
 
+    def sleep_thread(self):
+        time.sleep(5)
+        print('slept for 5 s')
+        return
+    
     def runpyDAQ(self):
         '''
         Method that runs the Data acquisition system
@@ -582,7 +597,8 @@ class application(QMainWindow):
             try:
                 t_bef_read = time.time() 
                 parallels_bef = time.time()
-                with concurrent.futures.ThreadPoolExecutor() as executor: # threading input and output tasks
+                # Executor waits for the threads to complete their task. Pauses other buttons or creates delays.
+                with concurrent.futures.ThreadPoolExecutor() as executor: # threading input and output tasks. 
                     aithread = executor.submit(self.NIDAQ_Device.threadaitask)
                     par_ai = time.time()
                     self.ydata_new = aithread.result()
@@ -605,7 +621,6 @@ class application(QMainWindow):
 
                 if (t_aft_read-t_bef_read)>1/self.ActualSamplingRate:# Read time exceeds prescribed 1/(sampling frequency)
                     self.notify("WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.")
-                    return
                                 
                 if len(self.ydata.shape)==1:
                     self.ydata = np.append(self.ydata,self.ydata_new,axis=0)
