@@ -118,6 +118,18 @@ class MyMenu(QMenuBar):
         self.display_type.addAction(self.dash_display)
         self.display_type.addAction(self.no_display)
 
+        #Mode
+        self.mode_menu = self.addMenu("&Mode")
+
+        # Design Mode Switch
+        self.dark_mode = QAction("Dark Mode", self)
+        self.dark_mode.triggered.connect(lambda: self.switch_mode("Dark"))
+        self.mode_menu.addAction(self.dark_mode)
+
+        self.light_mode = QAction("Light Mode", self)
+        self.light_mode.triggered.connect(lambda: self.switch_mode("Light"))
+        self.mode_menu.addAction(self.light_mode)
+
         #Help
         self.help_menu = self.addMenu("&Help")
 
@@ -134,6 +146,17 @@ class MyMenu(QMenuBar):
         f = open("myfile. txt", "w") 
         f.write(self.parent.notif_text_slot.text())
         self.parent.notify("File Saved")
+    
+    def switch_mode(self, str):
+        if str == "Light":
+            f = open("styles_light.css", "r")
+        else:
+            f = open("styles_dark.css", "r")
+        
+        style_str = f.read()
+        self.parent.setStyleSheet(style_str)
+        f.close()
+
 
     def display_all(self):
         self.parent.display = True
