@@ -1,12 +1,23 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFileDialog
 
 class SaveSettingsDialog(QDialog):
-    def __init__(self, string):
+    def __init__(self, string, mode):
+
+        
         super().__init__()
         self.file_name = ""
         layout = QVBoxLayout()
         self.setWindowTitle(string)
-        
+        self.mode = mode
+
+        if self.mode == "Light":
+            f = open("popup_light.css", "r")
+        else:
+            f = open("popup_dark.css", "r")
+        str = f.read()
+        self.setStyleSheet(str)
+        f.close()
+
         self.label = QLabel("Enter File Name:")
         layout.addWidget(self.label)
         self.file_name_edit = QLineEdit()

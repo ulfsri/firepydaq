@@ -1,11 +1,21 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout,QLabel, QLineEdit, QPushButton, QFileDialog
 
 class LoadSettingsDialog(QDialog):
-    def __init__(self):
+    def __init__(self, mode):
         super().__init__()
+        self.mode = mode
         self.file_name = ""
         layout = QVBoxLayout()
         self.setWindowTitle("Loading Settings")
+
+        if self.mode == "Light":
+            f = open("popup_light.css", "r")
+        else:
+            f = open("popup_dark.css", "r")
+        str = f.read()
+        self.setStyleSheet(str)
+        f.close()
+
 
         self.sec_label = QLabel("Select a File (.json):")
         layout.addWidget(self.sec_label)
