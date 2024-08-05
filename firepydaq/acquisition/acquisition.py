@@ -68,6 +68,7 @@ class application(QMainWindow):
         self.settings = {}
         self.lasers = {}
         self.mfms = {}
+        self.curr_mode = "Light"
         self.mfcs = {}
         self.running = True
         self.labels_to_save = []
@@ -252,7 +253,7 @@ class application(QMainWindow):
         self.notif_text_slot.setText(self.StagNotifTxt)
 
     def set_test_file(self):
-        dlg_save_file = SaveSettingsDialog("Select File to Save Data")
+        dlg_save_file = SaveSettingsDialog("Select File to Save Data", self.curr_mode)
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
@@ -455,10 +456,18 @@ class application(QMainWindow):
         firepydaq_logger.info(__name__ + ": Config texts updated.")
     
     def inform_user(self, err_txt):
-        msg = QMessageBox()
-        msg.setWindowTitle("Error Encountered")
-        msg.setText(err_txt)
-        msg.exec()
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Error Encountered")
+        self.msg.setText(err_txt)
+        if self.curr_mode == "Dark":
+            print("here")
+            f = open("popup_dark.css", "r")
+        else:
+            f = open("popup_light.css", "r")
+        str = f.read()
+        self.msg.setStyleSheet(str)
+        f.close()
+        self.msg.exec()
 
     def validate_fields(self):
         self.set_up()
