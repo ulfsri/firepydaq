@@ -55,6 +55,7 @@ class application(QMainWindow):
         
         # Create main widget
         self.main_widget = QWidget()
+        self.main_widget.setObjectName("MainWidget")
         self.main_layout = QVBoxLayout(self.main_widget)
         self.setCentralWidget(self.main_widget)
         self.initialise_tabs()
@@ -214,6 +215,7 @@ class application(QMainWindow):
         self.notif_text_slot = QLabel(self.StagNotifTxt)
         self.notif_text_slot.setAlignment(Qt.AlignTop)
         self.notif_bar.setWidget(self.notif_text_slot)
+        self.notif_text_slot.setObjectName("NotifEdit")
         self.notifications_layout.addWidget(self.notif_bar)
 
         self.notif_save_layout = QHBoxLayout()
