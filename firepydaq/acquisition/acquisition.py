@@ -77,6 +77,10 @@ class application(QMainWindow):
         self.re_strAllowable = r'^[A-Za-z0-9_]+$'
         self.dt_format = "%Y-%m-%d %H:%M:%S:%f"
         self.fextension = '.parquet'
+        f = open("styles_light.css")
+        str = f.read()
+        self.setStyleSheet(str)
+        f.close()
 
     def initialise_tabs(self):
         """
