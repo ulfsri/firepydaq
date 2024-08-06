@@ -4,7 +4,41 @@
 body {
     width: 100vw;
     height: 100vh;
+    margin: 0;
+    padding: 0;
     background-color: #f0f0f0;
+}
+
+.titlebar {
+    padding: 0px;
+    margin-top: 0px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    background-color: white;
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow:
+    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
+    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px; 
+}
+
+#titlebar-head {
+    box-sizing: border-box;
+    padding: 1vw;
+    width: 40vw;
+    height: inherit;
+    font-family: Inter;
+    font-size: 2vw;
+    font: Inter;
+    font-weight: 800;
+    text-align: center;
 }
 
 .main-layout {
@@ -19,6 +53,7 @@ body {
     margin-right: 0vw;
     text-align: center;
     font-family: Inter;
+
     font-size: 1vw;
 }
 

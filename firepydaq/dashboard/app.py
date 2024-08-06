@@ -3,6 +3,7 @@ General imports
 """
 import dash                                 
 from dash import dcc, html, Input, Output, Dash, ctx, ALL
+import dash_daq as daq
 import plotly.graph_objects as go
 import json
 from plotly.subplots import make_subplots
@@ -85,10 +86,11 @@ def create_dash_app(**kwargs):
 
     def make_title():
         children_div = []
-        header = html.Div(id = 'titlebar-head', className = 'titlebar-tool', children = "Dashboard")
+        header = html.Div(id = 'titlebar-head', className = 'titlebar-tool', children = "FIREpydaq Dashboard")
         children_div.append(header)
         header = html.Div(id = 'titlebar-func', className = 'titlebar-tool', children = [
-            html.Button("Switch Mode", id = 'titlebar-button', className = 'titlebar-button')
+            daq.ToggleSwitch(id = 'display-switch', className = 'titlebar-btn')
+                          
         ])
         children_div.append(header)
         return html.Div(id = 'titlebar', className = 'titlebar', children = children_div)
