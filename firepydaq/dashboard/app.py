@@ -12,6 +12,9 @@ import os
 from ..utilities.PostProcessing import PostProcessData
 from threading import Timer
 import webbrowser
+import logging
+from contextlib import redirect_stdout
+
 
 
 
@@ -19,9 +22,11 @@ def create_dash_app(**kwargs):
     """
     Imports Post Processing file and data
     """
-    my_json_file = kwargs["jsonpath"]
-    processed_obj = PostProcessData(jsonpath = my_json_file)
+    processed_obj = PostProcessData(**kwargs)
     app = Dash(__name__, suppress_callback_exceptions=True)
+
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.WARNING)
 
     """
     Function that creates plot layouts from a data frame based on processed data available
@@ -38,14 +43,17 @@ def create_dash_app(**kwargs):
                 rendered_plots.append(df["Chart"][i])
                 fig = make_subplots(df["Layout"][i], 1)
                 fig.update_layout(
-                title_text = df["Chart"][i] + " Graphs", width= 400, height=300
+                title_text = df["Chart"][i] + " Graphs"
                 )
                 for j in range(df["Layout"][i]):
                     fig.add_trace(go.Scatter(), row = j + 1, col = 1)
                 plot_divs.append(html.Div(id = {'type': 'plot-layout', 'index' : df["Chart"][i]},
                 className = 'sub-layout', style = {'display':'none'}, children = 
                     [dcc.Graph(id =  {'type': 'graphs', 'index' : df["Chart"][i]}, figure = fig, className = 'graphs',
-                        responsive = True)]))
+                        responsive = True, style={
+                            'height': '35vw',
+                            'width': '50vw'
+                        })]))
 
         #Add Home Screen to help users navigate
         plot_divs.append(html.Div(id = {'type': 'plot-layout', 'index' : 'Home'},
@@ -73,6 +81,17 @@ def create_dash_app(**kwargs):
                 className = 'button'))
         
         return html.Div(id = 'sidebar', className = 'sidebar', children = button_divs)
+    
+
+    def make_title():
+        children_div = []
+        header = html.Div(id = 'titlebar-head', className = 'titlebar-tool', children = "Dashboard")
+        children_div.append(header)
+        header = html.Div(id = 'titlebar-func', className = 'titlebar-tool', children = [
+            html.Button("Switch Mode", id = 'titlebar-button', className = 'titlebar-button')
+        ])
+        children_div.append(header)
+        return html.Div(id = 'titlebar', className = 'titlebar', children = children_div)
 
     """
     Function that creates main application layout by parsing configuration files
@@ -89,8 +108,10 @@ def create_dash_app(**kwargs):
         #Creates plot layouts 
         main_layout = make_layout(final_df)
 
-        return sidebar, main_layout, dcc.Interval(id = "refresh", 
-            interval = 1 * 1000, n_intervals = 0)
+        title_bar = make_title()
+
+        return title_bar, sidebar, main_layout, dcc.Interval(id = "refresh", 
+            interval = 1 * 3000, n_intervals = 0)
 
     """
     Application Layout helper function called to serve layout
@@ -147,12 +168,11 @@ def create_dash_app(**kwargs):
 
         #Hold graphs and plot layouts intermediately 
         updates = {}
-        processed_obj = PostProcessData(jsonpath = my_json_file)
+        processed_obj = PostProcessData(**kwargs)
         #Obtain and load live data
         processed_obj.ScaleData()
         processed_obj.UpdateData()
         processed_data = processed_obj.df_processed
-        print(processed_data.shape)
         df = processed_obj.All_chart_info.sort("Chart")
 
         #Plotting for corresponding charts
@@ -172,11 +192,10 @@ def create_dash_app(**kwargs):
                         
                         #Add chart and axes titles
                         graph.update_layout(
-                            title_text = df["Chart"][i] + " Graphs", width=400, height=300
+                            title_text = df["Chart"][i] + " Graphs"
                         )
                         graph.update_xaxes(title_text = "Time (s)", row = df["Layout"][i])
                         graph.update_yaxes(title_text = df["Processed_Unit"][i], row = df["Position"][i])
-                        print("here")
                         #Plot points on graph
                         graph.add_trace(
                             go.Scatter(x = processed_data["Time"],
@@ -195,6 +214,7 @@ def create_dash_app(**kwargs):
                                 y = processed_data[label], name = label
                                 ), row = df["Position"][i], col = 1
                         )  
+                        print("here")
                         graph.update_yaxes(title_text = df["Processed_Unit"][i],row = df["Position"][i])
 
                     #Store new layout
@@ -214,8 +234,10 @@ def create_dash_app(**kwargs):
     if __name__ == "main":
         return app
     else:
-        Timer(1, open_browser).start()
-        app.run_server(port=1222)
+        with open('yourfile.txt', 'w') as f:
+            with redirect_stdout(f):
+                Timer(1, open_browser).start()
+                app.run_server(port=1222)
 
 """
 Runs app on Server

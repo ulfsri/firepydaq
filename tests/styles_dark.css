@@ -40,6 +40,13 @@ QMenuBar::item
     background: transparent;
 }
 
+QMenuBar::item:hover
+{
+    background: #106099;
+    border-radius: 5px;
+    border-color: #106099;
+}
+
 QMenuBar::item:pressed
 {
     background-color: #232323;
@@ -97,6 +104,12 @@ QScrollArea {
     color: #181818;
     background-color: #181818;
 }
+
+#NotifEdit :hover {
+    border-radius: 5px;
+    border-color: #053262;
+}
+
 
 QPushButton {
     padding: 2px;
