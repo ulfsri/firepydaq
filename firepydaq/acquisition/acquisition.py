@@ -357,6 +357,8 @@ class application(QMainWindow):
             raise ValueError("Invalid Sampling Rate") from e
         self.settings["Sampling Rate"] = sampling_rate
 
+        self.settings["Experiment Type"] = self.test_type_input.currentText()
+
         ## Create save path
         self.Create_SavePath()
 

@@ -91,6 +91,11 @@ QMenu::indicator:exclusive:checked:selected {
     
 }
 
+#NotifEdit:hover {
+    border-radius: 10px;
+    border-color: #167fca   
+}
+
 QScrollArea {
     border-radius: 10px;
     border-color: #f0f0f0;
@@ -297,6 +302,11 @@ QTabBar::tab:hover {
     background-color: #167fca;
     color: rgb(23, 22, 22);
     opacity: 50%;
+}
+
+QScrollArea:hover {
+    border-radius: 5px;
+    border-color: #167fca;
 }
 
 QTabBar::tab:selected {
