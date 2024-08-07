@@ -24,10 +24,11 @@ pyserial = "3.5"
 PySide6 = "6.7.2"
 PyVISA = "1.14.1"
 jsonschema = "4.23.0"
+setuptools = "^72.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.2.2"
-pyinstaller = "^6.9.0"
+pyinstaller = "6.7.0"
 pytest-qt = "^4.4.0"
 
 [tool.poetry.group.dev.dependencies]
