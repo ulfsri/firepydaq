@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QComboBox, QHBoxLayout, QPushButton
-from ..utilities.Utils import COMports
+from ..utilities.DAQUtils import COMports
 
 class thorlabs_laser(QWidget):
     def __init__(self, parent, str_name):
