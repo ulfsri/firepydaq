@@ -1,9 +1,0 @@
-{
-    "Name": "Anvii",
-    "Experiment Name": "Project1",
-    "Test Name": "C:\\Users\\ChaudhariDushyantMad\\Documents\\GitHub\\fsripydaq\\tests\\Example_ExpData\\20240724_1045_Anvii_Project1_Test1.parquet",
-    "Sampling Rate": 10,
-    "Formulae File": "C:\\Users\\ChaudhariDushyantMad\\Documents\\GitHub\\fsripydaq\\tests\\Example_Config_Formulae\\Processing_formulaeTesting.csv",
-    "Experiment Type": "Experiment",
-    "Config File": "C:/Users/ChaudhariDushyantMad/Documents/GitHub/fsripydaq/tests/Example_Config_Formulae/20240329_1354_Testing.csv"
-}
