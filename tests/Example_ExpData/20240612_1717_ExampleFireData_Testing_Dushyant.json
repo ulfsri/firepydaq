@@ -1,0 +1,9 @@
+{
+    "Name": "Dushyant",
+    "Experiment Name": "Testing",
+    "Test Name": "C:\\Users\\XXXX\\Documents\\GitHub\\fsripydaq\\tests\\Example_ExpData\\20240612_1717_ExampleFireData_Testing_Dushyant.parquet",
+    "Sampling Rate": 10,
+    "Formulae File": "C:\\Users\\XXXX\\Documents\\GitHub\\fsripydaq\\tests\\Example_Config_Formulae\\Processing_formulae.csv",
+    "Experiment Type": "Experiment",
+    "Config File": "C:/Users/XXXX/Documents/GitHub/fsripydaq/tests/Example_Config_Formulae/20240329_1354_CalorimetryWLaser_Dushyant.csv"
+}
