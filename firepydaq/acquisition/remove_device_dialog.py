@@ -1,12 +1,21 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton
 
 class RemoveDeviceDialog(QDialog):
-    def __init__(self, dev_arr):
+    def __init__(self, dev_arr, mode):
         super().__init__()
+        self.mode = mode
         self.device_to_del = ""
         layout = QVBoxLayout()
         self.setWindowTitle("Remove MFC")
-        
+
+        if self.mode == "Light":
+            f = open("popup_light.css", "r")
+        else:
+            f = open("popup_dark.css", "r")
+        str = f.read()
+        self.setStyleSheet(str)
+        f.close()
+
         self.label = QLabel("Select MFC to Remove:")
         layout.addWidget(self.label)
         self.dev_edit = QComboBox()

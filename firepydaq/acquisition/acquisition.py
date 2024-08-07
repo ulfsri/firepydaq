@@ -55,6 +55,7 @@ class application(QMainWindow):
         
         # Create main widget
         self.main_widget = QWidget()
+        self.main_widget.setObjectName("MainWidget")
         self.main_layout = QVBoxLayout(self.main_widget)
         self.setCentralWidget(self.main_widget)
         self.initialise_tabs()
@@ -67,6 +68,7 @@ class application(QMainWindow):
         self.settings = {}
         self.lasers = {}
         self.mfms = {}
+        self.curr_mode = "Light"
         self.mfcs = {}
         self.running = True
         self.labels_to_save = []
@@ -77,6 +79,10 @@ class application(QMainWindow):
         self.re_strAllowable = r'^[A-Za-z0-9_]+$'
         self.dt_format = "%Y-%m-%d %H:%M:%S:%f"
         self.fextension = '.parquet'
+        f = open("styles_light.css")
+        str = f.read()
+        self.setStyleSheet(str)
+        f.close()
 
     def initialise_tabs(self):
         """
@@ -210,6 +216,7 @@ class application(QMainWindow):
         self.notif_text_slot = QLabel(self.StagNotifTxt)
         self.notif_text_slot.setAlignment(Qt.AlignTop)
         self.notif_bar.setWidget(self.notif_text_slot)
+        self.notif_text_slot.setObjectName("NotifEdit")
         self.notifications_layout.addWidget(self.notif_bar)
 
         self.notif_save_layout = QHBoxLayout()
@@ -246,7 +253,7 @@ class application(QMainWindow):
         self.notif_text_slot.setText(self.StagNotifTxt)
 
     def set_test_file(self):
-        dlg_save_file = SaveSettingsDialog("Select File to Save Data")
+        dlg_save_file = SaveSettingsDialog("Select File to Save Data", self.curr_mode)
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
@@ -350,6 +357,8 @@ class application(QMainWindow):
             raise ValueError("Invalid Sampling Rate") from e
         self.settings["Sampling Rate"] = sampling_rate
 
+        self.settings["Experiment Type"] = self.test_type_input.currentText()
+
         ## Create save path
         self.Create_SavePath()
 
@@ -449,10 +458,18 @@ class application(QMainWindow):
         firepydaq_logger.info(__name__ + ": Config texts updated.")
     
     def inform_user(self, err_txt):
-        msg = QMessageBox()
-        msg.setWindowTitle("Error Encountered")
-        msg.setText(err_txt)
-        msg.exec()
+        self.msg = QMessageBox()
+        self.msg.setWindowTitle("Error Encountered")
+        self.msg.setText(err_txt)
+        if self.curr_mode == "Dark":
+            print("here")
+            f = open("popup_dark.css", "r")
+        else:
+            f = open("popup_light.css", "r")
+        str = f.read()
+        self.msg.setStyleSheet(str)
+        f.close()
+        self.msg.exec()
 
     def validate_fields(self):
         self.set_up()

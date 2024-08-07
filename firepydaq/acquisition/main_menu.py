@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTabWidget, QMessageBox, QMenuBar, QDialog
+from PySide6.QtWidgets import QTabWidget, QMenuBar, QDialog
 from PySide6.QtGui import QAction, QActionGroup
 
 import webbrowser
@@ -118,6 +118,18 @@ class MyMenu(QMenuBar):
         self.display_type.addAction(self.dash_display)
         self.display_type.addAction(self.no_display)
 
+        #Mode
+        self.mode_menu = self.addMenu("&Mode")
+
+        # Design Mode Switch
+        self.dark_mode = QAction("Dark Mode", self)
+        self.dark_mode.triggered.connect(lambda: self.switch_mode("Dark"))
+        self.mode_menu.addAction(self.dark_mode)
+
+        self.light_mode = QAction("Light Mode", self)
+        self.light_mode.triggered.connect(lambda: self.switch_mode("Light"))
+        self.mode_menu.addAction(self.light_mode)
+
         #Help
         self.help_menu = self.addMenu("&Help")
 
@@ -134,6 +146,19 @@ class MyMenu(QMenuBar):
         f = open("myfile. txt", "w") 
         f.write(self.parent.notif_text_slot.text())
         self.parent.notify("File Saved")
+    
+    def switch_mode(self, str):
+        if str == "Light":
+            f = open("styles_light.css", "r")
+            self.parent.curr_mode = "Light"
+        else:
+            f = open("styles_dark.css", "r")
+            self.parent.curr_mode = "Dark"
+        
+        style_str = f.read()
+        self.parent.setStyleSheet(style_str)
+        f.close()
+
 
     def display_all(self):
         self.parent.display = True
@@ -175,14 +200,11 @@ class MyMenu(QMenuBar):
 
     def add_laser(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add Laser")
+            dlg_dev_name = DeviceNameDialog("Add Laser", self.parent.curr_mode)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("Name can not be whitespaces.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device name can not be empty.")
                     return
                 self.parent.device_tab_widget = QTabWidget()
                 self.parent.main_layout.addWidget(self.parent.device_tab_widget)
@@ -192,41 +214,29 @@ class MyMenu(QMenuBar):
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
             
         elif len(self.parent.lasers) < 6:
-            dlg_dev_name = DeviceNameDialog("Add Laser")
+            dlg_dev_name = DeviceNameDialog("Add Laser", self.parent.curr_mode)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("Name can not be whitespaces.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device name can not be empty.")
                     return
                 if dev_name in self.parent.device_arr:
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("All devices must have unique names.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device names must be unique.")
                     return
                 self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
             else:
                 print("No Laser added.")
         else:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("Maximum 6 Lasers allowed.") 
-            dlg.exec()
+            self.parent.inform_user("Maximum 6 Lasers can be added.")
             return
     
     def remove_mfm(self):
         if not self.parent.mfms:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("No MFM to remove.") 
-            dlg.exec()
+            self.parent.inform_user("No MFM to remove.")
             return
 
-        dlg_del_name = RemoveDeviceDialog(self.parent.mfms)
+        dlg_del_name = RemoveDeviceDialog(self.parent.mfms, self.parent.curr_mode)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -243,14 +253,11 @@ class MyMenu(QMenuBar):
     
     def add_mfm(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add MFM")
+            dlg_dev_name = DeviceNameDialog("Add MFM", self.parent.curr_mode)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("Name can not be whitespaces.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device name can not be empty.")
                     return
                 self.parent.device_tab_widget = QTabWidget()
                 self.parent.main_layout.addWidget(self.parent.device_tab_widget)
@@ -260,42 +267,30 @@ class MyMenu(QMenuBar):
                 self.parent.mfms[dev_name] = self.parent.device_arr[dev_name]
 
         elif len(self.parent.mfms) < 4:
-            dlg_dev_name = DeviceNameDialog("Add MFM")
+            dlg_dev_name = DeviceNameDialog("Add MFM", self.parent.curr_mode)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("Name can not be whitespaces.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device name can not be empty.")
                     return
                 if dev_name in self.parent.device_arr:
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("All devices must have unique names.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device names must be unique.")
                     return
                 self.parent.device_arr[dev_name] = mfm(self.parent, dev_name)
                 self.parent.mfms[dev_name] = self.parent.device_arr[dev_name]
             else:
                 print("No MFM added.")
         else:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("Maximum 4 MFM's allowed.") 
-            dlg.exec()
+            self.parent.inform_user("Maximum 4 MFM's can be added.")
             return
 
     def add_mfc(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add MFC")
+            dlg_dev_name = DeviceNameDialog("Add MFC", self.parent.curr_mode)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("Name can not be whitespaces.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device name can not be empty.")
                     return
                 self.parent.device_tab_widget = QTabWidget()
                 self.parent.main_layout.addWidget(self.parent.device_tab_widget)
@@ -305,14 +300,11 @@ class MyMenu(QMenuBar):
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
 
         elif len(self.parent.mfcs) < 4:
-            dlg_dev_name = DeviceNameDialog("Add MFC")
+            dlg_dev_name = DeviceNameDialog("Add MFC", self.parent.curr_mode)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("Name can not be whitespaces.") 
-                    dlg.exec()
+                    self.parent.inform_user("Device name can not be empty.")
                     return
                 if dev_name in self.parent.device_arr:
                     self.parent.notify("All devices must have unique names.")
@@ -328,13 +320,10 @@ class MyMenu(QMenuBar):
     def remove_laser(self):
 
         if not self.parent.lasers:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("No Laser to remove.") 
-            dlg.exec()
+            self.parent.inform_user("No laser to remove.")
             return
 
-        dlg_del_name = RemoveDeviceDialog(self.parent.lasers)
+        dlg_del_name = RemoveDeviceDialog(self.parent.lasers, self.parent.curr_mode)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -352,13 +341,10 @@ class MyMenu(QMenuBar):
     def remove_mfc(self):
 
         if not self.parent.mfcs:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("No MFC to remove.") 
-            dlg.exec()
+            self.parent.inform_user("No MFC to remove.")
             return
 
-        dlg_del_name = RemoveDeviceDialog(self.parent.mfcs)
+        dlg_del_name = RemoveDeviceDialog(self.parent.mfcs, self.parent.curr_mode)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -381,30 +367,25 @@ class MyMenu(QMenuBar):
             self.parent.inform_user(str(e))
             return
         
-        dlg_save_json = SaveSettingsDialog("Save settings to .json")
+        dlg_save_json = SaveSettingsDialog("Save settings to .json", self.parent.curr_mode)
         if dlg_save_json.exec() == QDialog.Accepted:
             file_json = dlg_save_json.file_path + ".json"
             file_name = dlg_save_json.file_name
             folder_json = dlg_save_json.folder_path
             if os.path.exists(folder_json):
                 if os.path.exists(file_json):
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error Encountered")
-                    dlg.setText("File with this name already exists.") 
-                    dlg.exec()
+                    self.parent.inform_user("File with this name exists.")
+                    return
                 else:
                     with open(file_json, "w") as outfile:
                         outfile.write(json_setting)
                         outfile.close()
             else:
-                dlg = QMessageBox(self)
-                dlg.setWindowTitle("Error Encountered")
-                dlg.setText("Folder path does not exist.") 
-                dlg.exec()
+                self.parent.inform_user("Folder path not found.")
                 return
 
     def load_json_settings(self):
-        dlg_load = LoadSettingsDialog()
+        dlg_load = LoadSettingsDialog(self.parent.curr_mode)
         if dlg_load.exec() == QDialog.Accepted:
             settings_file = open(dlg_load.file_name)
             data = json.load(settings_file)
@@ -414,10 +395,7 @@ class MyMenu(QMenuBar):
                 validate(instance=data, schema=my_schema)
             except Exception as e:
                 print(e)
-                dlg = QMessageBox(self)
-                dlg.setWindowTitle("Error Encountered")
-                dlg.setText("Unable to resolve .json File into settings.") 
-                dlg.exec()
+                self.parent.inform_user("Unable to resolve json file.")
                 return
             if self.parent.device_arr:
                 self.parent.device_arr.clear()
@@ -474,9 +452,6 @@ class MyMenu(QMenuBar):
             self.parent.main_layout.removeWidget(self.parent.device_tab_widget)
             self.parent.device_tab_widget.deleteLater()
         else:
-            dlg = QMessageBox(self)
-            dlg.setWindowTitle("Error Encountered")
-            dlg.setText("No devices exist yet to remove.") 
-            dlg.exec()
+            self.parent.inform_user("No devices added yet.")
             return
         

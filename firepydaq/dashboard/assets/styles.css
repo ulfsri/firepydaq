@@ -2,79 +2,115 @@
 
 
 body {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     background-color: #f0f0f0;
 }
 
+.titlebar {
+    padding: 0px;
+    margin-top: 0px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    background-color: white;
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow:
+    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
+    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px; 
+}
+
+#titlebar-head {
+    box-sizing: border-box;
+    padding: 1vw;
+    width: 40vw;
+    height: inherit;
+    font-family: Inter;
+    font-size: 2vw;
+    font: Inter;
+    font-weight: 800;
+    text-align: center;
+}
+
 .main-layout {
-    padding: 10%;
-    height: 700px;
-    width: 900px;
+    padding-left: 15vw;
+    padding-right: 15vw;
+    padding-top: 15vh;
+    padding-bottom: 10vh;
+    height: 50vh;
+    width: 50vw;
     position: relative;
     display: inline-block;
-    margin-right: 0%;
+    margin-right: 0vw;
     text-align: center;
     font-family: Inter;
+
+    font-size: 1vw;
 }
 
-.h1 {
-    font-family: Inter;
-    font-style: italic;
-}
-
-.main-layout .sub-layout .h1 {
-    font-family: Inter;
-    font-size: 90vw;
-}
-
-.main-layout .sub-layout .p {
-    font-family: Inter;
-    border-radius: 2%;
-}
 
 .sidebar {
     font-family: Inter;
-    margin-top: 10%;
-    margin-bottom: 10%;
-    margin-left: 2%;
-    width: 15%;
+    margin-top: 10vw;
+    margin-bottom: 10vw;
+    margin-left: 2vw;
+    width: 15vw;
     float: left;
     height: 60vh;
     background-color: white;
-    padding: 1%;
-    border-radius: 5%;
+    padding: 1vw;
+    border-radius: 3vw;
     position: relative;
     box-shadow:
     rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
     rgba(19, 26, 32, 0.08) 0px 35px 75px -35px; 
     text-align: center;
+    font-size: 1vw;
     justify-content: center;
 }
 
 .sidebar .button {
-    margin: 0%;
-    padding: 3%;
-    font-size: 1rem;
+    margin: 0vw;
+    padding: 0.5vw;
+    font-size: 1vw;
     font-family: Inter;
     font: Inter;
     font-weight: 600;
     justify-content: center;
     border: white;
-    width: 50%;
-    border-radius: 5%;
+    width: 10vw;
+    border-radius: 1vw;
     overflow: hidden;
     background-color: white;
 }
 
 .sub-layout {
-    height: 400px;
-    width: 900px;
+    height: 35vw;
+    width: 50vw;
     box-shadow:
     rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
     rgba(19, 26, 32, 0.08) 0px 35px 75px -35px;
+} 
+
+.sub-layout- {
+    height: 35vw;
+    width: 50vw;
 }
 
 .sidebar .button:hover {
     background-color: #c3c3c3;
+}
+
+.sidebar .button:focus{
+    color: white;
+    background-color:#167fca;
 }
