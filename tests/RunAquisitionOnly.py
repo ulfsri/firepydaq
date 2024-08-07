@@ -12,4 +12,3 @@ if __name__ == '__main__':
     main_app = application()
     main_app.show()
     app.exec()
-
