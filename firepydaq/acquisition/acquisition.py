@@ -29,7 +29,7 @@ import re
 import os
 
 from .exception_list import UnfilledFieldError
-from ..api.EchoNIDAQTask import CreateDAQTask
+from ..api.CreateNIDAQTask import CreateDAQTask
 
 from ..utilities.PostProcessing import PostProcessData
 
@@ -46,7 +46,6 @@ class application(QMainWindow):
         # Set window properties
         self.setGeometry(0, 0, 900, 600)
         self.setFixedSize(900, 600)
-        self.setStyleSheet('mystylesheet.css')
         self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)") 
         self.menu = MyMenu(self)
         self.setMenuBar(self.menu)
@@ -79,7 +78,12 @@ class application(QMainWindow):
         self.re_strAllowable = r'^[A-Za-z0-9_]+$'
         self.dt_format = "%Y-%m-%d %H:%M:%S:%f"
         self.fext = '.parquet'
-        f = open("styles_light.css")
+        self.assets_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + os.path.sep + "assets"
+        self.style_light = self.assets_folder + os.path.sep + "styles_light.css"
+        self.style_dark = self.assets_folder + os.path.sep + "styles_dark.css"
+        self.popup_light = self.assets_folder + os.path.sep + "popup_light.css"
+        self.popup_dark = self.assets_folder + os.path.sep + "popup_dark.css"
+        f = open(self.style_light)
         str = f.read()
         self.setStyleSheet(str)
         f.close()
@@ -494,9 +498,9 @@ class application(QMainWindow):
         self.msg.setText(err_txt)
         if self.curr_mode == "Dark":
             print("here")
-            f = open("popup_dark.css", "r")
+            f = open(self.popup_dark, "r")
         else:
-            f = open("popup_light.css", "r")
+            f = open(self.popup_light, "r")
         str = f.read()
         self.msg.setStyleSheet(str)
         f.close()

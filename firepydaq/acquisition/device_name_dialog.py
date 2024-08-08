@@ -4,22 +4,12 @@ import webbrowser
 from .device import alicat_mfc 
 
 class DeviceNameDialog(QDialog):
-    def __init__(self, string, mode):
+    def __init__(self, string):
 
         super().__init__()
-        self.mode = mode
         self.device_name = ""
         layout = QVBoxLayout()
         self.setWindowTitle(string)
-
-        if self.mode == "Light":
-            f = open("popup_light.css", "r")
-        else:
-            f = open("popup_dark.css", "r")
-        str = f.read()
-        self.setStyleSheet(str)
-        f.close()
-
         
         self.label = QLabel("Enter Device Name:")
         layout.addWidget(self.label)
