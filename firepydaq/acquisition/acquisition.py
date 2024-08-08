@@ -5,9 +5,11 @@ import sys
 # PyQT Related
 from PySide6.QtCore import QTimer, QRegularExpression
 from PySide6.QtGui import QIcon, Qt, QRegularExpressionValidator
-from PySide6.QtWidgets import QDialog, QMainWindow, QWidget, QVBoxLayout, QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit, QComboBox, QPushButton, QMessageBox, QFileDialog, QScrollArea
+from PySide6.QtWidgets import (
+    QDialog, QMainWindow, QWidget, QVBoxLayout, 
+    QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit, 
+    QComboBox, QPushButton, QMessageBox, QFileDialog, QScrollArea)
 from .save_setting_to_json_dialog import SaveSettingsDialog
-import pyqtgraph as pg
 from .main_menu import MyMenu
 import threading
 from .device import alicat_mfc
@@ -17,19 +19,17 @@ from ..dashboard.app import create_dash_app
 import time
 import concurrent.futures
 import multiprocessing as mp
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 import polars as pl
-import pandas as pd
 import numpy as np
 import traceback
 import pyarrow.parquet as pq
-import pyarrow as pa
 import glob
 import re
 import os
 
 from .exception_list import UnfilledFieldError
-from ..api.CreateNIDAQTask import CreateDAQTask
+from ..api.EchoNIDAQTask import CreateDAQTask
 
 from ..utilities.PostProcessing import PostProcessData
 
@@ -63,7 +63,7 @@ class application(QMainWindow):
         self.main_layout.setStretch(0, 2.5)
         self.main_layout.setStretch(1, 1.5)
 
-        #array holding all device objects 
+        # array holding all device objects 
         self.device_arr = {}
         self.settings = {}
         self.lasers = {}
@@ -78,7 +78,7 @@ class application(QMainWindow):
         self.dashboard = False
         self.re_strAllowable = r'^[A-Za-z0-9_]+$'
         self.dt_format = "%Y-%m-%d %H:%M:%S:%f"
-        self.fextension = '.parquet'
+        self.fext = '.parquet'
         f = open("styles_light.css")
         str = f.read()
         self.setStyleSheet(str)
@@ -94,12 +94,12 @@ class application(QMainWindow):
         self.main_layout.addWidget(self.input_tab_widget)
 
     def input_content(self):
-        #Input Settings Layout
+        # Input Settings Layout
         self.input_settings_widget = QWidget()
         self.main_input_layout = QHBoxLayout(self.input_tab_widget)
         self.input_layout = QGridLayout()
 
-        #Experimenter's Name
+        # Experimenter's Name
         self.name_label = QLabel("Enter your name:")
         self.name_label.setMaximumWidth(200)
         self.input_layout.addWidget(self.name_label, 0, 0)
@@ -109,7 +109,7 @@ class application(QMainWindow):
         self.name_input.setPlaceholderText("Your name")
         self.input_layout.addWidget(self.name_input, 0, 1)
 
-        #Experimenter's Name
+        # Experimenter's Name
         self.test_label = QLabel("Enter your Test name:")
         self.test_label.setMaximumWidth(200)
         self.input_layout.addWidget(self.test_label, 2, 0)
@@ -124,7 +124,7 @@ class application(QMainWindow):
         self.test_layout.addWidget(self.test_btn)
         self.input_layout.addLayout(self.test_layout, 2, 1)
 
-        #Experiment Name
+        # Experiment Name
         self.exp_label = QLabel("Enter your Project's name:")
         self.exp_label.setMaximumWidth(200)
         self.input_layout.addWidget(self.exp_label, 1, 0)
@@ -134,7 +134,7 @@ class application(QMainWindow):
         self.exp_input.setMaximumWidth(200)
         self.input_layout.addWidget(self.exp_input, 1, 1)
 
-        #Test Name
+        # Test Name
         self.test_type_label = QLabel("Select Experiment Type:")
         self.test_type_label.setMaximumWidth(200)
         self.input_layout.addWidget(self.test_type_label, 3, 0)
@@ -145,7 +145,7 @@ class application(QMainWindow):
         self.test_type_input.setMaximumWidth(200)
         self.input_layout.addWidget(self.test_type_input, 3, 1)
 
-        #Sampling Rate
+        # Sampling Rate
         self.sample_rate_label = QLabel("Enter Sampling Rate:")
         self.sample_rate_label.setToolTip("Will only accept floats")
         self.sample_rate_label.setToolTipDuration(500)
@@ -155,11 +155,12 @@ class application(QMainWindow):
         self.sample_rate_input = QLineEdit()
         self.sample_rate_input.setMaximumWidth(200)
         self.sample_rate_input.setPlaceholderText("10")
-        reg_ex_1 = QRegularExpression("[0-9]+.?[0-9]{,2}") # double
-        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1)) #.setValidator(QRegExpValidator(reg_ex_1))
+        reg_ex_1 = QRegularExpression("[0-9]+.?[0-9]{,2}")  # double
+        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1)) 
+        # .setValidator(QRegExpValidator(reg_ex_1))
         self.input_layout.addWidget(self.sample_rate_input, 4, 1)
 
-        #Configuration File Name
+        # Configuration File Name
         self.config_label = QLabel("Select Configuration File:")
         self.input_layout.addWidget(self.config_label, 5, 0)
         self.config_label.setMaximumWidth(200)
@@ -174,7 +175,7 @@ class application(QMainWindow):
         self.config_file_layout.addWidget(self.config_input)
         self.input_layout.addLayout(self.config_file_layout, 5, 1)
 
-        #Formulae File Name
+        # Formulae File Name
         self.formulae_label = QLabel("Select Formulae File:")
         self.input_layout.addWidget(self.formulae_label, 6, 0)
         self.formulae_label.setMaximumWidth(200)
@@ -189,7 +190,7 @@ class application(QMainWindow):
         self.formulae_file_layout.addWidget(self.formulae_input)
         self.input_layout.addLayout(self.formulae_file_layout, 6, 1)
         
-        #Buttons to begin DAQ
+        # Buttons to begin DAQ
         self.acquisition_button = QPushButton("Start Acquisition")
         self.input_layout.addWidget(self.acquisition_button, 7, 0)
         self.acquisition_button.setCheckable(True)
@@ -291,7 +292,7 @@ class application(QMainWindow):
         return
     
     def dev_arr_to_dict(self):
-        dict_dev =  {}
+        dict_dev = {}
         if self.lasers:
             dict_dev["Lasers"] = {}
             for laser in self.lasers:
@@ -315,13 +316,15 @@ class application(QMainWindow):
                 if os.path.normpath(path):
                     return True
             return False
-        except(TypeError, ValueError):
+        except (TypeError, ValueError):
             return False
     
     def _all_fields_filled(self):
-        if (self.name_input.text().strip() == "" or self.exp_input.text().strip() == "" 
-            or self.test_input.text().strip() == "" or self.config_file.strip() == "" 
-            or self.sample_rate_input.text().strip() == "") :
+        if (self.name_input.text().strip() == ""
+            or self.exp_input.text().strip() == ""
+            or self.test_input.text().strip() == ""
+            or self.config_file.strip() == ""
+            or self.sample_rate_input.text().strip() == ""):
             raise UnfilledFieldError("Unfilled fields encountered.")
         return True
     
@@ -334,17 +337,32 @@ class application(QMainWindow):
         if letter == "f":
             cols = ["Label", "RHS", "Chart", "Legend", "Layout", "Position", "Processed_Unit"]
         if letter == "c":
-            cols = ["", "Panel", "Device" , "Channel" , "ScaleMax" , "ScaleMin" , "Label" , 
-            "Type", "Chart" , "AIRangeMin", "AIRangeMax", "Layout", "Position", "Processed_Unit", "Legend"]
-        
-        if cols == df.columns:
-            return True
+            cols = ["", "Panel", "Device", "Channel", "ScaleMax", "ScaleMin", "Label", "TCType",
+            "Type", "Chart", "AIRangeMin", "AIRangeMax", "Layout", "Position", "Processed_Unit", "Legend"]
+        cols.sort()
+        df_cols = [i.strip() for i in df.columns]
+        df_cols.sort()
+        col_intersect = list(set(cols) & set(df_cols))
+        print(col_intersect, " \n", cols, "\n", df_cols)
+        if letter == "f":
+            if cols == df_cols:
+                return True
+        elif letter == "c":
+            if self.display:
+                # todo: Add condition for when display is only tab
+                # or display is dashboard, or both
+                if len(col_intersect) == len(cols):
+                    return True
+            else:
+                if all(e in col_intersect for e in ["Device", "Channel", "Type", "TCType"]):
+                    # Allow running acquisition for a minimal config file
+                    return True
         return False
-    
+
     def set_up(self):
         self._all_fields_filled()
 
-        #### Allow only alphunumeric string with underscores in names
+        # Allow only alphunumeric string with underscores in names
         if re.match(self.re_strAllowable, self.name_input.text()) and re.match(self.re_strAllowable, self.exp_input.text()):
             self.settings["Name"] = (self.name_input.text())
             self.settings["Experiment Name"] = self.exp_input.text()
@@ -359,7 +377,7 @@ class application(QMainWindow):
 
         self.settings["Experiment Type"] = self.test_type_input.currentText()
 
-        ## Create save path
+        # Create save path
         self.Create_SavePath()
 
         if self.formulae_file_edit.text().strip() == "" or self.validate_df("f", self.formulae_file_edit.text()):
@@ -371,7 +389,8 @@ class application(QMainWindow):
         if self.validate_df("c", self.config_file_edit.text()):
             self.settings["Config File"] = self.config_file_edit.text()
             self.config_df = pl.read_csv(self.config_file)
-            self.labels_to_save = self.config_df.select("Label").to_series().to_list()
+            self.config_df.columns = [i.strip() for i in self.config_df.columns]
+            self.labels_to_save = self.config_df.select("Label").to_series().to_list()  # noqa: E501
         else:
             self.inform_user("Config File does not meet requirements.")
             raise ValueError("Check config file")
@@ -381,38 +400,49 @@ class application(QMainWindow):
 
     def Create_SavePath(self):
         inp_text = self.test_input.text()
-        fname = inp_text.split(self.fextension)[0]
-        fpath = inp_text + self.fextension
-        if self.is_valid_path(fpath): # If the user selected a custom path to save the data
-            if os.path.isfile(fpath): # If there is already a file by that name
+        fname = inp_text.split(self.fext)[0]
+        fpath = inp_text + self.fext
+        if self.is_valid_path(fpath):  # If the user selected a custom path to save the data
+            if os.path.isfile(fpath):  # If there is already a file by that name
                 test_name = f"{fname}"
-                
-                files = glob.glob(f"%s*%s"%(fname,self.fextension))
+
+                files = glob.glob(f"%s*%s" % (fname, self.fext))
                 print(files)
-                if len(files) ==1: # one previous file
-                    fnumber = re.findall(r'\d+', files[0].split(self.fextension)[0][-3:]) # Checking if there is any appended number at the last 3 characters before extension
-                    if not fnumber: # If no number at the end of that file, append `_01`
+                if len(files) == 1:  # one previous file
+                    # Checking if there is any appended number at the
+                    # last 3 characters before extension
+                    fnumber = re.findall(r'\d+', files[0].split(self.fext)[0][-3:])
+                    if not fnumber:
+                        # If no number at the end of that file, append `_01`
                         test_name = f"{fname}_01"
-                    else: # If there is a number, get that number, increment by 1. 
-                        fno_appender = str(int(fnumber[0])+1).rjust(2,'0')
-                        test_name = f"{fname.split('_'+fnumber[0])[0]}_{fno_appender}" 
-                else: # If previous files exits, sort them, get the last one, and increment the number
+                    else:
+                        # If there is a number, get the number, increment by 1
+                        f_x = str(int(fnumber[0])+1).rjust(2,'0')
+                        test_name = f"{fname.split('_'+fnumber[0])[0]}_{f_x}"
+                else:
+                    # If previous files exits, sort them, get the last one,
+                    # and increment the number
                     files = [sorted(files)[-1]]
-                    fnumber = re.findall(r'\d+', files[0].split(self.fextension)[0][-3:])
-                    fno_appender = str(int(fnumber[0])+1).rjust(2,'0')
-                    test_name = f"{fname.split('_'+fnumber[0])[0]}_{fno_appender}"
-            else: # no previous file
+                    fnumber = re.findall(r'\d+', files[0].split(self.fext)[0][-3:])
+                    f_x = str(int(fnumber[0])+1).rjust(2, '0')
+                    test_name = f"{fname.split('_'+fnumber[0])[0]}_{f_x}"
+            else:
+                # no previous file
                 test_name = fname
-        else: # If the test name is only the name and the program will create the file path to save
+        else:
+            # If the test name is only the name and the program will create
+            # the file path to save
             if re.match(self.re_strAllowable, fname):
                 cwd = os.getcwd()
                 now = datetime.now()
                 self.save_dir = cwd + os.sep + self.settings["Experiment Type"] + os.sep + now.strftime("%Y%m%d_%H%M%S") + "_" + self.settings["Name"] + "_" + self.settings["Experiment Name"] + "_"
-                test_name =  fname
+                test_name = fname
             else:
-                raise ValueError("Check test name. It should be either a valid path or a test name that can only contain alphanumeric or contain underscores (no spaces).")
+                raise ValueError("""Check test name. It should be either a\
+                                 valid path or a test name that can only\
+                                 contain alphanumeric or\
+                                 contain underscores (no spaces).""")
         
-        print(test_name)
         self.json_file = test_name + ".json"
         self.parquet_file = test_name + ".parquet"
         if self.is_valid_path(inp_text):
@@ -443,7 +473,8 @@ class application(QMainWindow):
         return json_string
     
     def _set_texts(self):
-        # Is called when main menu .json file is loaded. in repopulate_settings. 
+        # Is called when main menu .json file is loaded.
+        # Called in repopulate_settings.
         self.exp_input.setText(self.settings["Experiment Name"])
         self.name_input.setText(self.settings["Name"])
         self.test_input.setText(self.settings["Test Name"])
@@ -476,32 +507,35 @@ class application(QMainWindow):
         if self.display and self.tab and hasattr(self, "data_vis_tab"):
             self.data_vis_tab.set_labels(self.config_file)
         config_df = pl.read_csv(self.settings["Config File"])
-        random_input = np.array([np.random.randint(0,10)*i for i in np.ones(config_df.select("Label").shape)])
-        random_dict = {i : random_input[n] for n,i in enumerate(self.labels_to_save)}
+        random_input = np.array([np.random.randint(0, 10)*i for i in np.ones(config_df.select("Label").shape)])
+        random_dict = {i: random_input[n] for n, i in enumerate(self.labels_to_save)}
         random_df = pl.DataFrame(data=random_dict)
-        CheckPP = PostProcessData(datapath = random_df, configpath = self.settings['Config File'], formulaepath = self.settings['Formulae File'])
+        CheckPP = PostProcessData(datapath=random_df, configpath=self.settings['Config File'], formulaepath=self.settings['Formulae File'])
         CheckPP.ScaleData()
         CheckPP.UpdateData(dump_output=False)
 
     def initiate_dataArrays(self):
         
-        if self.NIDAQ_Device.ai_counter>0:
-            if len(self.NIDAQ_Device.ailabel_map) ==1:
+        if self.NIDAQ_Device.ai_counter > 0:
+            if len(self.NIDAQ_Device.ailabel_map) == 1:
                 self.ydata = np.empty(0)
             else:
-                self.ydata=np.empty((len(self.NIDAQ_Device.ailabel_map),0))
+                self.ydata = np.empty((len(self.NIDAQ_Device.ailabel_map), 0))
         else: # Todo: check for bugs with AO module
             self.ydata = np.empty((len(self.settings["Label"]),0))
         
-        self.xdata=np.array([0])
-        self.abs_timestamp= np.array([])
-        self.timing_np = np.empty((0,3))
+        self.xdata = np.array([0])
+        self.abs_timestamp = np.array([])
+        self.timing_np = np.empty((0, 3))
 
     @error_logger("AcqBegins")
     def acquisition_begins(self):
-        # todo: Disable config, formulae, and sampling rate after acq begins. Only allow name changes after acq begins.
-        # todo: regarding notification panel: save option pop up after acq stops
-        # todo: if the dropdown is possible on notification panel, create a clear notification panel option.
+        # todo: Disable config, formulae, and sampling rate after acq begins.
+        # Only allow name changes after acq begins.
+        # todo: regarding notification panel: save option pop up 
+        # after acq stops
+        # todo: if the dropdown is possible on notification panel,
+        # create a clear notification panel option.
         if self.acquisition_button.isChecked():
             try:
                 self.validate_fields()
@@ -509,34 +543,32 @@ class application(QMainWindow):
                 self.inform_user(str(e))
                 self.notify("Validation of input fields failed.")
                 self.acquisition_button.nextCheckState()
-                return 
-        
+                return
             self.run_counter = 0
-        
-            if hasattr(self,'NIDAQ_Device'):
+            if hasattr(self, 'NIDAQ_Device'):
                 self.NIDAQ_Device.aitask.stop()
                 self.NIDAQ_Device.aitask.close()
-                if hasattr(self.NIDAQ_Device,"aotask"):
+                if hasattr(self.NIDAQ_Device, "aotask"):
                     self.NIDAQ_Device.aotask.stop()
                     self.NIDAQ_Device.aotask.close()
                 del self.NIDAQ_Device
 
             try:
-                self.NIDAQ_Device = CreateDAQTask(self,"NI Task")
+                self.NIDAQ_Device = CreateDAQTask(self, "NI Task")
                 self.NIDAQ_Device.CreateFromConfig()
 
                 if self.NIDAQ_Device.ai_counter > 0:
                     sample_rate = int(self.settings["Sampling Rate"])
-                    self.NIDAQ_Device.StartAIContinuousTask(sample_rate, sample_rate)
+                    self.NIDAQ_Device.StartAIContinuousTask(sample_rate, sample_rate)  # noqa: E501
                 if self.NIDAQ_Device.ao_counter > 0:
                     AO_initials = [0 for i in self.NIDAQ_Device.ao_counter]
-                    self.NIDAQ_Device.StartAOContinuousTask(AO_initials = AO_initials)
+                    self.NIDAQ_Device.StartAOContinuousTask(AO_initials=AO_initials)  # noqa: E501
             except Exception:
-                ################ todo: Parse NI errors properly.. sampling rate? device name? config file error?
+                # todo: Parse NI errors properly.. sampling rate? device name? config file error? # noqa: E501
                 self.acquisition_button.nextCheckState()
                 type, value, tb = sys.exc_info()
-                print(type,value,traceback.print_tb(tb))
-                self.inform_user("Terminating acquisition due to DAQ Connection Errors\n " +str(type) + str(value))
+                print(type, value, traceback.print_tb(tb))
+                self.inform_user("Terminating acquisition due to DAQ Connection Errors\n " + str(type) + str(value))  # noqa: E501
                 return
             
             self.initiate_dataArrays()
@@ -558,25 +590,14 @@ class application(QMainWindow):
     def save_data_thread(self):
         time_data = np.array(self.xdata_new)
         abs_time = np.array(self.abs_timestamp)
-        time_data = time_data[np.newaxis,:]
-        abs_time = abs_time[np.newaxis,:]
-        if len(self.ydata_new.shape)==1: # If a single channel, a list is returned by nidaqmx
-            self.ydata_new = self.ydata_new[np.newaxis,:]
+        time_data = time_data[np.newaxis, :]
+        abs_time = abs_time[np.newaxis, :]
+        if len(self.ydata_new.shape) == 1:
+            # If a single channel, a list is returned by nidaqmx
+            self.ydata_new = self.ydata_new[np.newaxis, :]
         temp_data = np.append(time_data, np.array(self.ydata_new), axis=0)
         temp_data = np.append(abs_time, temp_data, axis=0)
-
-        if self.run_counter ==0:
-            self.notify(str(self.labels_to_save))
-        pl_cols = np.insert(self.labels_to_save, 0, "Time")
-        pl_cols = np.insert(pl_cols, 0, "AbsoluteTime")
-        pl_list = pl_cols.tolist()
-        pl_schema_dict = {}
-        for col in pl_list:
-            if 'AbsoluteTime' not in col:
-                pl_schema_dict[col] = pl.Float32
-            else:
-                pl_schema_dict[col] = pl.String
-        self.save_dataframe = pl.DataFrame(schema = pl_schema_dict, data = temp_data,orient = 'col')
+        self.save_dataframe = pl.DataFrame(schema=self.pl_schema_dict, data=temp_data, orient='col')  # noqa: E501
         self.parquet_file = self.common_path + ".parquet"
 
         try:
@@ -592,11 +613,6 @@ class application(QMainWindow):
             pass
         return
 
-    def sleep_thread(self):
-        time.sleep(5)
-        print('slept for 5 s')
-        return
-    
     def runpyDAQ(self):
         '''
         Method that runs the Data acquisition system
@@ -610,7 +626,7 @@ class application(QMainWindow):
         self.ActualSamplingRate = self.NIDAQ_Device.aitask.timing.samp_clk_rate
         samplesAvailable = self.NIDAQ_Device.aitask._in_stream.avail_samp_per_chan
 
-        if(samplesAvailable >= no_samples):
+        if (samplesAvailable >= no_samples):
             try:
                 t_bef_read = time.time() 
                 parallels_bef = time.time()
@@ -620,7 +636,7 @@ class application(QMainWindow):
                     par_ai = time.time()
                     self.ydata_new = aithread.result()
                     self.ydata_new = np.array(self.ydata_new)
-                    if self.NIDAQ_Device.ao_counter> 0:
+                    if self.NIDAQ_Device.ao_counter > 0:
                         AO_outputs = [0 for i in range(self.NIDAQ_Device.ao_counter)]
                         # AO_outputs will need user iniput. either on/off, or a float value input 
                         aothread = executor.submit(self.threadaotask, AO_initials =  AO_outputs)
@@ -633,40 +649,43 @@ class application(QMainWindow):
                     # par_ali = time.time()
                 t_aft_read = time.time()
                 t_now = datetime.now()
-                
                 # t_now_str = t_now.strftime(self.dt_format)
 
                 if (t_aft_read-t_bef_read)>1/self.ActualSamplingRate:# Read time exceeds prescribed 1/(sampling frequency)
-                    self.notify("WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.")
-                                
-                if len(self.ydata.shape)==1:
-                    self.ydata = np.append(self.ydata,self.ydata_new,axis=0)
+                    self.notify("Data Loss WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.")
+
+                if len(self.ydata.shape) == 1:
+                    self.ydata = np.append(self.ydata, self.ydata_new, axis=0)
                 else:
-                    self.ydata = np.append(self.ydata,self.ydata_new,axis=1)
+                    self.ydata = np.append(self.ydata, self.ydata_new, axis=1)
                 # print(self.ydata)
-                t_diff = no_samples/self.ActualSamplingRate#self.task.sampleRate
-                tdiff_array = np.linspace(1/self.ActualSamplingRate,t_diff,no_samples)
-                if self.xdata[-1]==0:
-                    self.xdata_new = np.linspace(self.xdata[-1],self.xdata[-1]+t_diff,no_samples,endpoint=False)
+                t_diff = no_samples/self.ActualSamplingRate  # self.task.sampleRate
+                tdiff_array = np.linspace(1/self.ActualSamplingRate, t_diff, no_samples)
+                if self.xdata[-1] == 0:
+                    self.xdata_new = np.linspace(self.xdata[-1], self.xdata[-1] + t_diff, no_samples, endpoint=False)
                     if len(self.ydata.shape) ==1 or len(self.ydata.shape) ==2 and len(self.xdata_new)==1:
                         self.xdata_new = [no_samples/self.ActualSamplingRate]
                     # elif len(self.ydata.shape) ==2 and len(self.xdata_new)==1:
                     #     self.xdata_new = [no_samples/self.ActualSamplingRate] # np.append(self.xdata,self.task.numberOfSamples/self.ActualSamplingRate)
-                    self.xdata=self.xdata_new
+                    self.xdata = self.xdata_new
                     self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]
                     # self.MFC1Vals["Time"] = self.xdata[-1]
                     # self.MFC2Vals["Time"] = self.xdata[-1]
                 else:
-                    self.xdata_new = np.linspace(self.xdata[-1]+1/self.ActualSamplingRate,self.xdata[-1]+t_diff,no_samples)
+                    self.xdata_new = np.linspace(self.xdata[-1]+1/self.ActualSamplingRate, self.xdata[-1]+t_diff, no_samples)
                     self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]
-                    self.xdata = np.append(self.xdata,self.xdata_new)
+                    self.xdata = np.append(self.xdata, self.xdata_new)
                     # self.MFC1Vals["Time"] = self.xdata[-1]+t_diff
                     # self.MFC2Vals["Time"] = self.xdata[-1]+t_diff
 
                 if self.save_bool:
-                    # self.save_data_thread()
-                    self.save_thread = threading.Thread(target = self.save_data_thread)
-                    self.save_thread.start()
+                    with concurrent.futures.ThreadPoolExecutor() as save_executor:
+                        save_executor.submit(self.save_data_thread)
+                t_aft_save = time.time()
+                if (t_aft_save - t_bef_read) > 1/self.ActualSamplingRate:
+                    # Time between read and save time exceeds 
+                    # prescribed 1/(sampling frequency)
+                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.")
                 
                 #Plots
                 if hasattr(self, "data_vis_tab"):
@@ -674,7 +693,7 @@ class application(QMainWindow):
                         self.data_vis_tab.set_labels(self.config_file)
                     self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])
 
-                if (self.xdata[-1]%5)<=1:
+                if (self.xdata[-1]%5)<=1/self.ActualSamplingRate:
                     text_update = "Last time entry:" +str(round(self.xdata[-1],2)) +", Total samples/chan:" +str(self.NIDAQ_Device.aitask.in_stream.total_samp_per_chan_acquired)+',\n Actual sampling rate:'+str(round(self.NIDAQ_Device.aitask.timing.samp_clk_rate,2))
                     self.notify(text_update)
             except:
@@ -716,41 +735,50 @@ class application(QMainWindow):
             self.notify("Previous text cleared. This will  be done for each saving operation.")
             self.notify("Saving Data in " + self.parquet_file)
 
+            pl_cols = self.labels_to_save
+            pl_cols.insert(0, "Time")
+            pl_cols.insert(0, "AbsoluteTime")
+            self.pl_schema_dict = {}
+            for col in pl_cols:
+                if 'AbsoluteTime' not in col:
+                    self.pl_schema_dict[col] = pl.Float32
+                else:
+                    self.pl_schema_dict[col] = pl.String
+
             if self.dashboard:
-                firepydaq_logger.info("Dash app Process initiated after saving initiations")
+                firepydaq_logger.info("Dash app Process initiated after saving initiations")  # noqa: E501
                 self.notify("Launching Dashboard on https://127.0.0.1:1222")
                 mp.freeze_support()
-                self.dash_thread = mp.Process(target = create_dash_app, kwargs = {"jsonpath": self.json_file})
+                self.dash_thread = mp.Process(target=create_dash_app, kwargs={"jsonpath": self.json_file})
                 self.dash_thread.start()
         else:
             self.save_button.setText("Save")
             self.notify("Saving Stopped")
-            if hasattr(self,"dash_thread"):
+            if hasattr(self, "dash_thread"):
                 self.dash_thread.terminate()
             self.save_bool = False
 
     def safe_exit(self):
-        if hasattr(self,'NIDAQ_Device'):
-                self.NIDAQ_Device.aitask.stop()
-                self.NIDAQ_Device.aitask.close()
-                if hasattr(self.NIDAQ_Device,"aotask"):
-                    self.NIDAQ_Device.aotask.stop()
-                    self.NIDAQ_Device.aotask.close()
-                del self.NIDAQ_Device
+        if hasattr(self, 'NIDAQ_Device'):
+            self.NIDAQ_Device.aitask.stop()
+            self.NIDAQ_Device.aitask.close()
+            if hasattr(self.NIDAQ_Device, "aotask"):
+                self.NIDAQ_Device.aotask.stop()
+                self.NIDAQ_Device.aotask.close()
+            del self.NIDAQ_Device
         self.close()
 
     def closeEvent(self, *args, **kwargs):
         self.running = False
         time.sleep(1)
         if hasattr(self, "dash_thread"):
-                self.dash_thread.terminate()
-        if hasattr(self,'NIDAQ_Device'):
-            if hasattr(self.NIDAQ_Device,'aitask'):
+            self.dash_thread.terminate()
+        if hasattr(self, 'NIDAQ_Device'):
+            if hasattr(self.NIDAQ_Device, 'aitask'):
                 self.NIDAQ_Device.aitask.stop()
                 self.NIDAQ_Device.aitask.close()
-                if hasattr(self.NIDAQ_Device,"aotask"):
+                if hasattr(self.NIDAQ_Device, "aotask"):
                     self.NIDAQ_Device.aotask.stop()
                     self.NIDAQ_Device.aotask.close()
                 del self.NIDAQ_Device
         super(QMainWindow, self).closeEvent(*args, **kwargs)
-        
