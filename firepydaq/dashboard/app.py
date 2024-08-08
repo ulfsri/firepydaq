@@ -2,7 +2,7 @@
 General imports 
 """
 import dash                                 
-from dash import dcc, html, Input, Output, Dash, ctx, ALL
+from dash import dcc, html, Input, Output, Dash, ctx, ALL, clientside_callback
 import dash_daq as daq
 import plotly.graph_objects as go
 import json
@@ -56,12 +56,33 @@ def create_dash_app(**kwargs):
                             'width': '50vw'
                         })]))
 
+        home_screen_info = html.Div(id = "info_container", className = "info-container")
+        home_screen_widgets = []
         #Add Home Screen to help users navigate
+        for item in processed_obj.pathdict.keys():
+            if item == "datapath":
+                home_div = html.Div("Parquet File: " + processed_obj.pathdict[item], id = "data-path", className = "sub-info")
+                post_processed_file = processed_obj.pathdict[item].split(".parquet")[0] + "_PostProcessed.parquet"
+            if item == "configpath":
+                home_div = html.Div("Configuration File: " + processed_obj.pathdict[item], id = "conf-path", className = "sub-info")
+            if item == "formulaepath":
+                home_div =  html.Div("Formulae File: " + processed_obj.pathdict[item], id = "form-path", className = "sub-info")
+            home_screen_widgets.append(home_div)
+            home_screen_widgets.append(html.Br(className = "info-br"))
+
+        home_div =  html.Div("Post Processed File: " + post_processed_file, id = "post-path", className = "sub-info")
+        home_screen_widgets.append(home_div)
+        home_screen_widgets.append(html.Br(className = "info-br"))
+        home_screen_info.children = home_screen_widgets
+        print(home_screen_info.children)
+
         plot_divs.append(html.Div(id = {'type': 'plot-layout', 'index' : 'Home'},
             className = 'sub-layout-', style = {'display':'block'}, 
             children = [html.H1("Welcome to your experiment dashboard.", id = {'type': 'header', 'index' : 'home'}), 
-                        html.P("Please select a quantity to learn more about it.", id = {'type': 'paragraph', 'index' : 'home'})]))
-        
+                        html.P("Files path of the experiment under visualization:", id = {'type': 'paragraph', 'index' : 'home'}),
+                        home_screen_info]))
+
+
         return html.Div(id = 'central-layout', className = "main-layout", children = plot_divs)
 
     """
@@ -89,8 +110,11 @@ def create_dash_app(**kwargs):
         header = html.Div(id = 'titlebar-head', className = 'titlebar-tool', children = "FIREpydaq Dashboard")
         children_div.append(header)
         header = html.Div(id = 'titlebar-func', className = 'titlebar-tool', children = [
-            daq.ToggleSwitch(id = 'display-switch', className = 'titlebar-btn')
-                          
+            html.Div(id = 'titlebar-display-container', className = 'titlebar-cont', children = [
+            html.Img(id = "light", src = "/assets/icons8-sun-24.png"),
+            daq.BooleanSwitch( id = 'display-switch', className = 'titlebar-btn'),
+            html.Img(id = "dark", src = "/assets/icons8-moon-24.png")
+            ])           
         ])
         children_div.append(header)
         return html.Div(id = 'titlebar', className = 'titlebar', children = children_div)
@@ -113,12 +137,47 @@ def create_dash_app(**kwargs):
         title_bar = make_title()
 
         return title_bar, sidebar, main_layout, dcc.Interval(id = "refresh", 
-            interval = 1 * 3000, n_intervals = 0)
+            interval = 1 * 3000, n_intervals = 0), html.Div(id = 'para', style = {'display': 'none'})
 
     """
     Application Layout helper function called to serve layout
     """
     app.layout = serve_layout
+
+    app.clientside_callback(
+        """
+        function(data) {
+            if (data) {
+                document.documentElement.style.setProperty("--main-color", "#2b2b2c");
+                document.documentElement.style.setProperty("--bg", "#181818");
+                document.documentElement.style.setProperty("--highlight", "#167fca");
+                document.documentElement.style.setProperty("--hover", "#605F5F");
+                document.documentElement.style.setProperty("--txt", "#E5E4E2");
+            } else {
+                document.documentElement.style.setProperty("--main-color", "white");
+                document.documentElement.style.setProperty("--bg", "#f0f0f0");
+                document.documentElement.style.setProperty("--highlight", "#167fca");
+                document.documentElement.style.setProperty("--hover", "#c3c3c3");
+                document.documentElement.style.setProperty("--txt", "black");
+                return "#f0f0f0"
+            }
+            return "#167fca"
+        }
+        """,
+        Output('display-switch', 'color'),
+        Input('display-switch', 'on')
+    )
+
+    @app.callback(
+            Output('light', 'src'),
+            Output('dark', 'src'),
+            Input('display-switch', 'on')
+    )
+    def switch_pictures(value):
+        if value:
+            return "/assets/icons8-sun-24 (1).png", "/assets/icons8-moon-24 (1).png"
+        return "/assets/icons8-sun-24.png", "/assets/icons8-moon-24.png"
+
 
     """
     Callback to navigate and render images on click
@@ -216,7 +275,6 @@ def create_dash_app(**kwargs):
                                 y = processed_data[label], name = label
                                 ), row = df["Position"][i], col = 1
                         )  
-                        print("here")
                         graph.update_yaxes(title_text = df["Processed_Unit"][i],row = df["Position"][i])
 
                     #Store new layout
