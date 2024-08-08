@@ -230,6 +230,7 @@ def create_dash_app(**kwargs):
         #Hold graphs and plot layouts intermediately 
         updates = {}
         processed_obj = PostProcessData(**kwargs)
+        
         #Obtain and load live data
         processed_obj.ScaleData()
         processed_obj.UpdateData()

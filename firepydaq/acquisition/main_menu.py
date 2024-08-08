@@ -149,10 +149,10 @@ class MyMenu(QMenuBar):
     
     def switch_mode(self, str):
         if str == "Light":
-            f = open("styles_light.css", "r")
+            f = open(self.parent.style_light, "r")
             self.parent.curr_mode = "Light"
         else:
-            f = open("styles_dark.css", "r")
+            f = open(self.parent.style_dark, "r")
             self.parent.curr_mode = "Dark"
         
         style_str = f.read()
@@ -200,7 +200,8 @@ class MyMenu(QMenuBar):
 
     def add_laser(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add Laser", self.parent.curr_mode)
+            dlg_dev_name = DeviceNameDialog("Add Laser")
+            self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -214,7 +215,8 @@ class MyMenu(QMenuBar):
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
             
         elif len(self.parent.lasers) < 6:
-            dlg_dev_name = DeviceNameDialog("Add Laser", self.parent.curr_mode)
+            dlg_dev_name = DeviceNameDialog("Add Laser")
+            self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
@@ -236,7 +238,8 @@ class MyMenu(QMenuBar):
             self.parent.inform_user("No MFM to remove.")
             return
 
-        dlg_del_name = RemoveDeviceDialog(self.parent.mfms, self.parent.curr_mode)
+        dlg_del_name = RemoveDeviceDialog(self.parent.mfms)
+        self.style_popup(dlg_del_name)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -253,7 +256,8 @@ class MyMenu(QMenuBar):
     
     def add_mfm(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add MFM", self.parent.curr_mode)
+            dlg_dev_name = DeviceNameDialog("Add MFM")
+            self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -267,7 +271,8 @@ class MyMenu(QMenuBar):
                 self.parent.mfms[dev_name] = self.parent.device_arr[dev_name]
 
         elif len(self.parent.mfms) < 4:
-            dlg_dev_name = DeviceNameDialog("Add MFM", self.parent.curr_mode)
+            dlg_dev_name = DeviceNameDialog("Add MFM")
+            self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
@@ -286,7 +291,8 @@ class MyMenu(QMenuBar):
 
     def add_mfc(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add MFC", self.parent.curr_mode)
+            dlg_dev_name = DeviceNameDialog("Add MFC")
+            self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -300,7 +306,8 @@ class MyMenu(QMenuBar):
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
 
         elif len(self.parent.mfcs) < 4:
-            dlg_dev_name = DeviceNameDialog("Add MFC", self.parent.curr_mode)
+            dlg_dev_name = DeviceNameDialog("Add MFC")
+            self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
@@ -323,7 +330,8 @@ class MyMenu(QMenuBar):
             self.parent.inform_user("No laser to remove.")
             return
 
-        dlg_del_name = RemoveDeviceDialog(self.parent.lasers, self.parent.curr_mode)
+        dlg_del_name = RemoveDeviceDialog(self.parent.lasers)
+        self.style_popup(dlg_del_name)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -344,7 +352,8 @@ class MyMenu(QMenuBar):
             self.parent.inform_user("No MFC to remove.")
             return
 
-        dlg_del_name = RemoveDeviceDialog(self.parent.mfcs, self.parent.curr_mode)
+        dlg_del_name = RemoveDeviceDialog(self.parent.mfcs)
+        self.style_popup(dlg_del_name)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -358,6 +367,20 @@ class MyMenu(QMenuBar):
                 self.parent.device_tab_widget.deleteLater()
         else:
                 print("No MFC Removed.")
+    
+
+    def style_popup(self, dlg):
+        if self.parent.curr_mode == "Light":
+            f = open(self.parent.popup_light)
+            str = f.read()
+            dlg.setStyleSheet(str)
+            f.close()
+        else:
+            f = open(self.parent.popup_dark)
+            str = f.read()
+            dlg.setStyleSheet(str)
+            f.close()
+        return
 
     @error_logger("SaveSettings")
     def save_settings_to_json(self):
@@ -367,7 +390,9 @@ class MyMenu(QMenuBar):
             self.parent.inform_user(str(e))
             return
         
-        dlg_save_json = SaveSettingsDialog("Save settings to .json", self.parent.curr_mode)
+        dlg_save_json = SaveSettingsDialog("Save settings to .json")
+        self.style_popup(dlg_save_json)
+
         if dlg_save_json.exec() == QDialog.Accepted:
             file_json = dlg_save_json.file_path + ".json"
             file_name = dlg_save_json.file_name
@@ -385,7 +410,8 @@ class MyMenu(QMenuBar):
                 return
 
     def load_json_settings(self):
-        dlg_load = LoadSettingsDialog(self.parent.curr_mode)
+        dlg_load = LoadSettingsDialog()
+        self.style_popup(dlg_load)
         if dlg_load.exec() == QDialog.Accepted:
             settings_file = open(dlg_load.file_name)
             data = json.load(settings_file)
