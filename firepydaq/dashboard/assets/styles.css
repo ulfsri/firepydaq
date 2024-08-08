@@ -1,12 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 
+:root {
+    --main-color: white;
+    --highlight: #167fca;
+    --bg: #f0f0f0;
+    --hover: #c3c3c3;
+    --s1: rgba(22, 31, 39, 0.42);
+    --s2: rgba(19, 26, 32, 0.08);
+    --txt: black;
+}
+
+
+
 body {
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: var(--bg);
+    color: var(--txt)
 }
 
 .titlebar {
@@ -17,7 +30,7 @@ body {
     top: 0px;
     margin-right: 0px;
     margin-left: 0px;
-    background-color: white;
+    background-color: var(--main-color);
     height: 10vh;
     width: 100vw;
     display: flex;
@@ -25,8 +38,9 @@ body {
     justify-content: flex-start;
     align-items: center;
     box-shadow:
-    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
-    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px; 
+    var(--s1) 0px 60px 123px -25px,
+    var(--s2) 0px 35px 75px -35px; 
+    color: var(--txt);
 }
 
 #titlebar-head {
@@ -39,6 +53,39 @@ body {
     font: Inter;
     font-weight: 800;
     text-align: center;
+    color: var(--txt);
+}
+
+.titlebar .titlebar-tool {
+    margin-right: 0vw;
+    margin-top: 0vw;
+    padding: 2vw;
+    width: 60vw;
+    height: inherit;
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-end; 
+}
+
+#titlebar-display-container {
+    margin-right: 0vw;
+    display: flex;
+    height: inherit;
+    width: 60vw;
+}
+
+#display-switch {
+    width: 4.5vw;
+}
+
+#dark {
+    height: 3vh;
+    width: 3vh;
+}
+
+#light {
+    height: 3vh;
+    width: 3vh;
 }
 
 .main-layout {
@@ -53,8 +100,8 @@ body {
     margin-right: 0vw;
     text-align: center;
     font-family: Inter;
-
     font-size: 1vw;
+    color: var(--txt);
 }
 
 
@@ -66,16 +113,17 @@ body {
     width: 15vw;
     float: left;
     height: 60vh;
-    background-color: white;
+    background-color: var(--main-color);
     padding: 1vw;
     border-radius: 3vw;
     position: relative;
     box-shadow:
-    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
-    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px; 
+    var(--s1) 0px 60px 123px -25px,
+    var(--s2) 0px 35px 75px -35px; 
     text-align: center;
     font-size: 1vw;
     justify-content: center;
+    color: var(--txt);
 }
 
 .sidebar .button {
@@ -86,31 +134,63 @@ body {
     font: Inter;
     font-weight: 600;
     justify-content: center;
-    border: white;
+    border: var(--main-color);
     width: 10vw;
     border-radius: 1vw;
     overflow: hidden;
-    background-color: white;
+    background-color: var(--main-color);
+    color: var(--txt);
 }
 
 .sub-layout {
     height: 35vw;
     width: 50vw;
     box-shadow:
-    rgba(22, 31, 39, 0.42) 0px 60px 123px -25px,
-    rgba(19, 26, 32, 0.08) 0px 35px 75px -35px;
+    var(--s1) 0px 60px 123px -25px,
+    var(--s2) 0px 35px 75px -35px;
+    color: var(--txt);
 } 
 
 .sub-layout- {
     height: 35vw;
     width: 50vw;
+    color: var(--txt);
+    justify-content: center;
+}
+
+.sub-layout- .info-container {
+    padding-left: 10vw;
+    padding-right: 10vw;
+    width: 30vw;
+    height: 40vw;
+    font-size: 0.75vw;
+}
+
+.sub-layout- .info-container .sub-info{ 
+    height: auto;
+    box-sizing: border-box;
+    padding: 1vw;
+    border-radius: 2vw;
+    border-color: var(--highlight);
+    background-color: var(--highlight);
+    color: azure;
+    overflow-wrap: break-word;
+    justify-content: center;
+    
+}
+
+.sub-layout- .info-container .br{
+    height: 1vh;
+    
 }
 
 .sidebar .button:hover {
-    background-color: #c3c3c3;
+    background-color: var(--hover);
+    color: var(--txt);
 }
 
 .sidebar .button:focus{
-    color: white;
-    background-color:#167fca;
+    color: var(--main-color);
+    background-color: var(--highlight);
+    color: var(--txt);
 }
