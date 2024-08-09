@@ -42,7 +42,7 @@ def test_click_acq_unfilled(qtbot):
             assert message_box.text() == "Unfilled fields encountered"
             message_box.close()
     
-    QTimer.singleShot(2, dialog_creation) 
+    QTimer.singleShot(5, dialog_creation) 
     qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton) 
     while message_box is None and time.time() - start_time < time_out:
         continue
@@ -77,7 +77,7 @@ def test_acq_value_err(qtbot):
             assert message_box.text() == "Invalid Sampling Rate"
             message_box.close()
     
-    QTimer.singleShot(2, dialog_creation) 
+    QTimer.singleShot(3, dialog_creation) 
     qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton) 
     while message_box is None and time.time() - start_time < time_out:
         continue
@@ -124,7 +124,7 @@ def test_acq_name_err(qtbot):
             assert message_box.text() == "Names can only be alphanumeric or contain spaces."
             message_box.close()
     
-    QTimer.singleShot(2, dialog_creation) 
+    QTimer.singleShot(5, dialog_creation) 
     qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton) 
     while message_box is None and time.time() - start_time < time_out:
         continue
@@ -171,7 +171,7 @@ def test_acq_expname_err(qtbot):
             assert message_box.text() == "Names can only be alphanumeric or contain spaces."
             message_box.close()
     
-    QTimer.singleShot(2, dialog_creation) 
+    QTimer.singleShot(3, dialog_creation) 
     qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton) 
     while message_box is None and time.time() - start_time < time_out:
         continue
@@ -201,7 +201,7 @@ def test_save_enabled(qtbot, monkeypatch):
 
     try:
         acq_calls = []
-        monkeypatch.setattr(CreateDAQTask , name= "__init__", value = my_init())
+        monkeypatch.setattr(CreateDAQTask , name = "__init__", value = my_init())
         print(acq_calls)
         qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton)   
         print("here")

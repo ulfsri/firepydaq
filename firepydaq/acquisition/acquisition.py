@@ -258,7 +258,7 @@ class application(QMainWindow):
         self.notif_text_slot.setText(self.StagNotifTxt)
 
     def set_test_file(self):
-        dlg_save_file = SaveSettingsDialog("Select File to Save Data", self.curr_mode)
+        dlg_save_file = SaveSettingsDialog("Select File to Save Data")
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
@@ -532,7 +532,7 @@ class application(QMainWindow):
         self.abs_timestamp = np.array([])
         self.timing_np = np.empty((0, 3))
 
-    @error_logger("AcqBegins")
+    # @error_logger("AcqBegins")
     def acquisition_begins(self):
         # todo: Disable config, formulae, and sampling rate after acq begins.
         # Only allow name changes after acq begins.

@@ -17,9 +17,6 @@ import webbrowser
 import logging
 from contextlib import redirect_stdout
 
-
-
-
 def create_dash_app(**kwargs):
     """
     Imports Post Processing file and data
@@ -355,6 +352,5 @@ Runs app on Server
 """
 if __name__ == "__main__":
     app = create_dash_app()
-    app.run_server(port=1222, debug = True)
-
+    app.run_server(port = 1222, debug = True)
 
