@@ -10,6 +10,17 @@ colors = {
     'text': '#111111'
 }
 
+Formulae_dict = {"sqrt": "np.sqrt",
+                    "pi": "np.pi",
+                    "mean": "np.mean",
+                    "max": "max",
+                    "abs": "np.abs"}
+""" dict:
+    A dictionary of functions that maps user-inputted functions in the formulae file to equivalent numpy functions.
+    For example, `exp` used in a formulae file is converted into `np.exp` while executing the formulae
+    This formulae_dict is defined in DAQUtils.py
+"""
+
 class check_Arroyo():
     
     def __init__(self):

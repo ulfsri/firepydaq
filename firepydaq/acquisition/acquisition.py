@@ -29,7 +29,7 @@ import re
 import os
 
 from .exception_list import UnfilledFieldError
-from ..api.CreateNIDAQTask import CreateDAQTask
+from ..api.EchoNIDAQTask import CreateDAQTask
 
 from ..utilities.PostProcessing import PostProcessData
 
@@ -284,13 +284,13 @@ class application(QMainWindow):
             self.formulae_file_edit.setText(self.formulae_file)
         return  
 
-    def set_config_file(self): 
+    def set_config_file(self):
         dlg = QFileDialog(self, 'Select a File', None, "CSV files (*.csv)")
         f = ""
         if dlg.exec():
             filenames = dlg.selectedFiles()
             f = open(filenames[0], 'r')
-        if not isinstance(f, str):         
+        if not isinstance(f, str):  
             self.config_file = f.name
             self.config_file_edit.setText(self.config_file)
         return
@@ -331,23 +331,23 @@ class application(QMainWindow):
             or self.sample_rate_input.text().strip() == ""):
             raise UnfilledFieldError("Unfilled fields encountered.")
         return True
-    
+
     def validate_df(self, letter, path):
         try:
             df = pl.read_csv(path)
             cols = []
-        except:
+        except Exception:
             return False
         if letter == "f":
             cols = ["Label", "RHS", "Chart", "Legend", "Layout", "Position", "Processed_Unit"]
         if letter == "c":
             cols = ["", "Panel", "Device", "Channel", "ScaleMax", "ScaleMin", "Label", "TCType",
-            "Type", "Chart", "AIRangeMin", "AIRangeMax", "Layout", "Position", "Processed_Unit", "Legend"]
+                    "Type", "Chart", "AIRangeMin", "AIRangeMax", "Layout", "Position", "Processed_Unit", "Legend"]
         cols.sort()
         df_cols = [i.strip() for i in df.columns]
         df_cols.sort()
         col_intersect = list(set(cols) & set(df_cols))
-        print(col_intersect, " \n", cols, "\n", df_cols)
+        # print(col_intersect, " \n", cols, "\n", df_cols)
         if letter == "f":
             if cols == df_cols:
                 return True
@@ -532,7 +532,7 @@ class application(QMainWindow):
         self.abs_timestamp = np.array([])
         self.timing_np = np.empty((0, 3))
 
-    @error_logger("AcqBegins")
+    # @error_logger("AcqBegins")
     def acquisition_begins(self):
         # todo: Disable config, formulae, and sampling rate after acq begins.
         # Only allow name changes after acq begins.
@@ -559,7 +559,7 @@ class application(QMainWindow):
 
             try:
                 self.NIDAQ_Device = CreateDAQTask(self, "NI Task")
-                self.NIDAQ_Device.CreateFromConfig()
+                self.NIDAQ_Device.CreateFromConfig(self.settings["Config File"])
 
                 if self.NIDAQ_Device.ai_counter > 0:
                     sample_rate = int(self.settings["Sampling Rate"])
@@ -574,7 +574,7 @@ class application(QMainWindow):
                 print(type, value, traceback.print_tb(tb))
                 self.inform_user("Terminating acquisition due to DAQ Connection Errors\n " + str(type) + str(value))  # noqa: E501
                 return
-            
+
             self.initiate_dataArrays()
             self.ContinueAcquisition = True
             self.save_button.setEnabled(True)
