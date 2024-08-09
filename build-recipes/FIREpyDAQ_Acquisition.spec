@@ -2,7 +2,7 @@
 from PyInstaller.utils.hooks import copy_metadata
 
 datas = []
-datas += copy_metadata('fsripydaq', recursive = True)
+datas += copy_metadata('firepydaq', recursive = True)
 
 a = Analysis(
     ['FIREpyDAQ_Acquisition.py'],

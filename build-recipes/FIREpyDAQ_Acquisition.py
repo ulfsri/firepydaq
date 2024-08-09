@@ -2,7 +2,7 @@
 if __name__ == '__main__':
     import multiprocessing as mp
     mp.freeze_support()
-    from firepydaq.acquisition.acquisitionNoDash import application
+    from firepydaq.acquisition.acquisition import application
     from PySide6.QtWidgets import QApplication
     import sys
 

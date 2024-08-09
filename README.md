@@ -25,14 +25,17 @@ This interface can be used for three types of devices simultaneously,
 `firepydaq` can be used to compile PyQT based user interface.
 
 ```python
-from firepydaq.acquisition import acquisition
-import sys
-from PySide6.QTWidgets import QApplication
+# On Windows: Protect your script from importing child processes 
+# if dashboard process is spawned. 
+if __name__ == "__main__":
+	from firepydaq.acquisition import acquisition
+	import sys
+	from PySide6.QTWidgets import QApplication
 
-app = QApplication(sys.argv)
-main_app = application()
-main_app.show()
-sys.exit(app.exec())
+	app = QApplication(sys.argv)
+	main_app = application()
+	main_app.show()
+	sys.exit(app.exec())
 ```
 
 ## Installation

@@ -5,57 +5,56 @@ import numpy as np
 # Maybe check transition to Polars
 
 class CreateDAQTask:
-    def __init__(self,parent,name):
+    def __init__(self, parent, name):
         """
-        Initiate a DAQ task. 
+        Initiate a DAQ task.
 
         AI: Temp, V, Current
         AO : Only Voltage
         """
         self.parent = parent
-        self.name=name
+        self.name = name
 
-    def CreateFromConfig(self):
-        self.initialize_config(self.parent.settings["Config File"])
+    def CreateFromConfig(self, cpath):
+        self.initialize_config(cpath)
         if self.ailabel_map:
             self.aitask = nidaqmx.Task(new_task_name=self.name+"_AI")
         if self.aolabel_map:
             self.aotask = nidaqmx.Task(new_task_name=self.name+'_AO')
 
         for n in self.ChanConfig.index:
-            devname = self.ChanConfig.loc[n,'Device'].strip()
-            aichan = self.ChanConfig.loc[n,'Channel'].strip()
-            measurement = self.ChanConfig.loc[n,'Type'].strip()
-            if "ai" in aichan.lower(): # add AI tasks
-                self.addAITask(devname,aichan,measurement)
-            elif 'ao' in aichan.lower() and self.inputSettingsFrame.GasStr.get()=='HCN': # Add AO tasks
-                self.addAOTask(devname,aichan,measurement)
+            devname = self.ChanConfig.loc[n, 'Device'].strip()
+            aichan = self.ChanConfig.loc[n, 'Channel'].strip()
+            measurement = self.ChanConfig.loc[n, 'Type'].strip()
+            if self.ai_counter > 0:  # add AI tasks
+                self.addAITask(devname, aichan, measurement)
+            elif self.ao_counter > 0:  # Add AO tasks
+                self.addAOTask(devname, aichan, measurement)
 
-    def initialize_config(self,filepath):
-        # f = open(filepath)
-        self.ChanConfig =  pd.read_csv(filepath)# json.load(f)
-        # f.close()
+    def initialize_config(self, filepath):
+        self.ChanConfig = pd.read_csv(filepath)
         self.Fig_titles = self.ChanConfig["Label"]
-        self.ailabel_map={}
+        self.ailabel_map = {}
         self.aolabel_map = {}
         self.ao_inputs = False
-        self.ai_counter=0
+        self.ai_counter = 0
         self.ao_counter = 0
-        for n,i in enumerate(self.ChanConfig["Label"]):
+        for n, i in enumerate(self.ChanConfig["Label"]):
             if 'ai' in self.ChanConfig.Channel[n]:
                 self.ailabel_map[i] = self.ai_counter
-                self.ai_counter+=1
+                self.ai_counter += 1
             elif 'ao' in self.ChanConfig.Channel[n]:
                 self.ao_inputs = True
                 self.aolabel_map[i] = self.ao_counter
-                self.ao_counter+=1
-        print('AI Labels: '+ str(list(self.ailabel_map.keys())),'AO Labels: '+ str(list(self.aolabel_map.keys())))
+                self.ao_counter += 1
+        print('AI Labels: ' + str(list(self.ailabel_map.keys())), 'AO Labels: ' + str(list(self.aolabel_map.keys())))
 
-    def addAITask(self,daqname,aichan,measurement):
+    def addAITask(self, daqname, aichan, measurement):
         """
             Add continous sampling channels to the created task
         """
-        ## Needs to have a functionality to add other type of Thermocouple. Perhaps from config file?
+        # Needs to have a functionality to add other type of Thermocouple.
+        # Perhaps from config file?
         PhysChannelName = daqname+'/'+aichan
         print(PhysChannelName)
         if measurement == "Thermocouple":
