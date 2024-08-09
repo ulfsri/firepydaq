@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
 
 env:
   PYINSTALLER_COMPILE_BOOTLOADER: 1
