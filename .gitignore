@@ -27,6 +27,7 @@ Experiment/
 Calibration/
 
 *.log
+*.html
 
 
 # Compiled source #
