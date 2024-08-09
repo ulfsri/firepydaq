@@ -24,7 +24,9 @@ def create_dash_app(**kwargs):
     Imports Post Processing file and data
     """
 
-    processed_obj = PostProcessData(**kwargs)
+    if len(kwargs) > 0:
+        processed_obj = PostProcessData(**kwargs)
+    
     app = Dash(__name__, suppress_callback_exceptions=True)
 
     # log = logging.getLogger('werkzeug')
@@ -137,7 +139,8 @@ def create_dash_app(**kwargs):
     def serve_layout():
 
         #Obtain and read files  
-        final_df = processed_obj.All_chart_info.sort("Chart")
+        if processed_obj in locals():
+            final_df = processed_obj.All_chart_info.sort("Chart")
 
         #Creates buttons
         buttons_list = np.unique(final_df.select("Chart").to_numpy().flatten()) 
@@ -347,6 +350,8 @@ def create_dash_app(**kwargs):
         #     with redirect_stdout(f):
         Timer(1, open_browser).start()
         app.run_server(port=1222)
+
+    
 
 """
 Runs app on Server
