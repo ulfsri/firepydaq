@@ -9,6 +9,7 @@ import json
 from plotly.subplots import make_subplots
 import numpy as np
 import os
+import time
 from datetime import datetime
 from ..utilities.PostProcessing import PostProcessData
 from threading import Timer
@@ -208,7 +209,8 @@ def create_dash_app(**kwargs):
                 graph = plot[0].get('props', {}).get('figure')
                 fig = go.Figure(graph)
                 dir = processed_obj.pathdict["datapath"].split(".parquet")[0] 
-                print(dir + "_" + datetime.now.strftime("%Y%m%d_%H%M%S"))
+                now = datetime.now()
+                print(dir + "_" + now.strftime("%Y%m%d_%H%M%S"))
                 fig.write_html(dir + "_" + plot_name + ".html")
 
         return {'display': 'none'}
