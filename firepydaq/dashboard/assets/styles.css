@@ -35,6 +35,7 @@ body {
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     box-shadow:
@@ -43,7 +44,7 @@ body {
     color: var(--txt);
 }
 
-#titlebar-head {
+.titlebar .titlebar-head {
     box-sizing: border-box;
     padding: 1vw;
     width: 40vw;
@@ -54,24 +55,29 @@ body {
     font-weight: 800;
     text-align: center;
     color: var(--txt);
+
 }
 
 .titlebar .titlebar-tool {
+    box-sizing: border-box;
     margin-right: 0vw;
     margin-top: 0vw;
-    padding: 2vw;
+    padding: 1vw;
     width: 60vw;
     height: inherit;
-    display: flex; 
+    display: flex;
+    justify-content: flex-end;
     align-items: center; 
-    justify-content: flex-end; 
 }
 
 #titlebar-display-container {
-    margin-right: 0vw;
+    float: right;
+    box-sizing: border-box;
+    padding: 1vw;
     display: flex;
     height: inherit;
-    width: 60vw;
+    width: auto;
+    align-items: center;
 }
 
 #display-switch {
@@ -87,6 +93,31 @@ body {
     height: 3vh;
     width: 3vh;
 }
+
+#play {
+    height: 3vh;
+    width: 3vh;
+}
+
+.titlebar-btn {
+    margin-right: 1vw;
+    background: transparent;
+    border: transparent;
+    border-radius: 3vw;
+
+}
+
+.titlebar-btn:hover{
+    border-radius: 0.3vw;
+    background: var(--hover);
+
+}
+
+#snap {
+    height: 3vh;
+    width: 3vh;
+}
+
 
 .main-layout {
     padding-left: 15vw;
@@ -107,12 +138,12 @@ body {
 
 .sidebar {
     font-family: Inter;
-    margin-top: 10vw;
+    margin-top: 8vw;
     margin-bottom: 10vw;
     margin-left: 2vw;
     width: 15vw;
     float: left;
-    height: 60vh;
+    height: 65vh;
     background-color: var(--main-color);
     padding: 1vw;
     border-radius: 3vw;

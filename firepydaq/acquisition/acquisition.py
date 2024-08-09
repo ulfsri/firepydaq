@@ -15,7 +15,7 @@ import threading
 from .device import alicat_mfc
 import json
 from .display_data_tab import data_vis
-from ..dashboard.app import create_dash_app
+from ..dashboard.app_v1 import create_dash_app
 import time
 import concurrent.futures
 import multiprocessing as mp
