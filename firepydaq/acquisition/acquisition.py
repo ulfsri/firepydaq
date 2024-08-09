@@ -258,7 +258,7 @@ class application(QMainWindow):
         self.notif_text_slot.setText(self.StagNotifTxt)
 
     def set_test_file(self):
-        dlg_save_file = SaveSettingsDialog("Select File to Save Data", self.curr_mode)
+        dlg_save_file = SaveSettingsDialog("Select File to Save Data")
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
