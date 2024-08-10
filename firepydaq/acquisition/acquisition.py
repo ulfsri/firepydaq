@@ -39,10 +39,26 @@ from ..utilities.ErrorUtils import error_logger, firepydaq_logger
 #All commented out code is to be removed later
 
 class application(QMainWindow):
+    """
+    The main acquisition GUI that can be compiled
+    """
 
     def __init__(self):
          
         super().__init__()
+
+        self.MakeMainWindow()
+        self.InitialiseTabs()
+        self.InitVars()
+
+    def MakeMainWindow(self):
+        """Creates Main window and adds menu options
+
+        - Fixed Geometry: 900 x 600
+        - Import theme styles from css assets
+        - Initiate light theme for the Window and add logo
+        """
+
         # Set window properties
         self.setGeometry(0, 0, 900, 600)
         self.setFixedSize(900, 600)
@@ -50,34 +66,6 @@ class application(QMainWindow):
         self.menu = MyMenu(self)
         self.setMenuBar(self.menu)
 
-        self.setWindowIcon(QIcon('assets/fsri-logo.ico'))
-        
-        # Create main widget
-        self.main_widget = QWidget()
-        self.main_widget.setObjectName("MainWidget")
-        self.main_layout = QVBoxLayout(self.main_widget)
-        self.setCentralWidget(self.main_widget)
-        self.initialise_tabs()
-
-        self.main_layout.setStretch(0, 2.5)
-        self.main_layout.setStretch(1, 1.5)
-
-        # array holding all device objects 
-        self.device_arr = {}
-        self.settings = {}
-        self.lasers = {}
-        self.mfms = {}
-        self.curr_mode = "Light"
-        self.mfcs = {}
-        self.running = True
-        self.labels_to_save = []
-        self.acquiring_data = False 
-        self.display = False
-        self.tab = False
-        self.dashboard = False
-        self.re_strAllowable = r'^[A-Za-z0-9_]+$'
-        self.dt_format = "%Y-%m-%d %H:%M:%S:%f"
-        self.fext = '.parquet'
         self.assets_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + os.path.sep + "assets"
         self.style_light = self.assets_folder + os.path.sep + "styles_light.css"
         self.style_dark = self.assets_folder + os.path.sep + "styles_dark.css"
@@ -88,9 +76,84 @@ class application(QMainWindow):
         self.setStyleSheet(str)
         f.close()
 
-    def initialise_tabs(self):
+        ico_path = self.assets_folder + os.path.sep + "fsri-logo.ico"
+        self.setWindowIcon(QIcon(ico_path))
+        
+        # Create main widget
+        self.main_widget = QWidget()
+        self.main_widget.setObjectName("MainWidget")
+        self.main_layout = QVBoxLayout(self.main_widget)
+        self.setCentralWidget(self.main_widget)
+        
+        self.main_layout.setStretch(0, 2.5)
+        self.main_layout.setStretch(1, 1.5)
+
+    def InitVars(self):
+        """Method that initiates various
+        variables for later use.
+
+        - Empty dicts: 
+            - device_arr 
+                Keeps a log of all Devices added by the user
+            - settings
+                Stores settings used for NI DAQ
+            - lasers
+                Stores info of Thorlabs CLD101X devices added by the user.
+                Maximum 4 allowed.
+            - mfms
+                Stores info of all Alicat Mass Flow Meters added by the user.
+                Maximum 4 allowed.
+            - mfcs
+                Stores info of Alicat Mass Flow Controllers added by the user.
+                Maximum 4 allowed.
+        - Empty lists: 
+            - labels_to_save
+                Stores Labels to save, corresponding to the `Label` in NI config file, 
+                during acquisition
+        - Booleans: 
+            - running = `True`
+                If GUI is compiled. Default: True
+            - acquiring_data = `False`
+                Boolean which is `True` when acquisition is running
+            - display = `False`
+                Plots or Dashboard
+            - dashboard = `False`
+                If dashboard display is selected. Default: `False`
+            - tab = `False`
+                If Tabular plot display is selected. Default: `False`
+        - Others: 
+            - re_StrAllowable = r'^[A-Za-z0-9_]+$' 
+                regex format for allowable strings for some input fields.
+                Alphanumeric with underscores, no spaces allowed.
+            - dt_format = "%Y-%m-%d %H:%M:%S:%f" 
+                Format for how Absolute time is saved during acquisition
+            - fext = ".parquet" 
+                File format for collected NI data
+            - curr_mode = "Light" 
+                GUI mode/Theme
         """
-        :meta-private:
+        # array holding all device objects 
+        self.device_arr = {}
+        self.settings = {}
+        self.lasers = {}
+        self.mfms = {}
+        self.mfcs = {}
+
+        self.labels_to_save = []
+
+        self.running = True
+        self.acquiring_data = False 
+        self.display = False
+        self.dashboard = False
+        self.tab = False
+
+        self.re_strAllowable = r'^[A-Za-z0-9_]+$'
+        self.dt_format = "%Y-%m-%d %H:%M:%S:%f"
+        self.fext = '.parquet'
+        self.curr_mode = "Light"
+
+    def InitialiseTabs(self):
+        """Initiates tabs based on `input_content`
         """
         self.input_tab_widget = QTabWidget()
         self.input_tab_content = self.input_content()
@@ -98,6 +161,55 @@ class application(QMainWindow):
         self.main_layout.addWidget(self.input_tab_widget)
 
     def input_content(self):
+        """Creates input content for NI device by default
+        
+        Generated content
+        ------------
+        - name_input: QLineEdit
+            Name for Operator
+            `re_StrAllowable` pattern is checked in `set_up()`
+        - test_input: QLineEdit
+            Name of the test
+            Either a path selected using the `test_btn` button
+            or a string that matches `re_StrAllowable` pattern
+        - test_btn: QPushButton
+            Connects to `set_test_file`
+        - exp_input: QLineEdit
+            Name of the experiment
+            `re_StrAllowable` pattern is checked in `set_up()`
+        - test_type_input: QComboBox
+            Either "Experiment" or "Calibration"
+        - sample_rate_input: QLineEdit
+            Sampling rate for NI device (Hz)
+            Will only accept floats
+        - config_file_edit: QLineEdit
+            Select .csv NI Config File. 
+            The `config_input` button can be used to select a file.
+        - config_input: QPushButton
+            Connects to `set_config_file()`
+        - formulae_file_edit: QLineEdit
+            Select an optional .csv formulae file
+            to post-process data when dashboard display is selected.
+
+            A corresponding button can be used to select a file.
+        - formulae_input: QPushButton
+            Connects to `set_formulae_file`
+        - acquisition_button: QPushButton
+            Connects to `acquisition_begins()`
+        - save_button: QPushButton
+            Connects to `save_data()`
+        - notif_text_slot: QLineEdit
+            Notification panel.
+            Default text: "Welcome User!".
+            Provides notification of errors/warnings/operations.
+
+            Will be cleared after each `save_button` click
+        - notif_txt_edit: QLineEdit
+            A 25 (width) x 190 (height) for writing observations.
+        - notif_log_btn: QPushButton
+            Button Text: "Log Obs."
+            Connects to `log_Obs()`
+        """
         # Input Settings Layout
         self.input_settings_widget = QWidget()
         self.main_input_layout = QHBoxLayout(self.input_tab_widget)
@@ -150,7 +262,7 @@ class application(QMainWindow):
         self.input_layout.addWidget(self.test_type_input, 3, 1)
 
         # Sampling Rate
-        self.sample_rate_label = QLabel("Enter Sampling Rate:")
+        self.sample_rate_label = QLabel("Enter Sampling Rate (Hz):")
         self.sample_rate_label.setToolTip("Will only accept floats")
         self.sample_rate_label.setToolTipDuration(500)
         self.sample_rate_label.setMaximumWidth(200)
@@ -225,15 +337,15 @@ class application(QMainWindow):
         self.notifications_layout.addWidget(self.notif_bar)
 
         self.notif_save_layout = QHBoxLayout()
-        self.notif_save_edit = QLineEdit()
-        self.notif_save_btn = QPushButton("Log Obs.")
-        self.notif_save_btn.clicked.connect(self.log_Obs)
-        self.notif_save_btn.setMaximumWidth(60)
-        self.notif_save_btn.setMaximumHeight(25)
-        self.notif_save_edit.setMaximumWidth(190)
-        self.notif_save_edit.setMaximumHeight(25)
-        self.notif_save_layout.addWidget(self.notif_save_edit)
-        self.notif_save_layout.addWidget(self.notif_save_btn)
+        self.notif_txt_edit = QLineEdit()
+        self.notif_log_btn = QPushButton("Log Obs.")
+        self.notif_log_btn.clicked.connect(self.log_Obs)
+        self.notif_log_btn.setMaximumWidth(60)
+        self.notif_log_btn.setMaximumHeight(25)
+        self.notif_txt_edit.setMaximumWidth(190)
+        self.notif_txt_edit.setMaximumHeight(25)
+        self.notif_save_layout.addWidget(self.notif_txt_edit)
+        self.notif_save_layout.addWidget(self.notif_log_btn)
         self.notifications_layout.addLayout(self.notif_save_layout)
         
         self.main_input_layout.addLayout(self.input_layout)
@@ -245,19 +357,47 @@ class application(QMainWindow):
         return self.input_settings_widget
     
     def log_Obs(self):
-        self.notify(self.notif_save_edit.text())
-        self.notif_save_edit.clear()
+        """Calls `notify` and clears the `notif_txt_edit`
+        """
+        self.notify(self.notif_txt_edit.text())
+        self.notif_txt_edit.clear()
     
     def notify(self, str):
-        line = self.notif_text_slot.text()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+        """Method that logs observations written in `notif_txt_edit`
+        and appends to the notification panel (`notif_text_slot`)
+
+        Any observations written here will be added
+        to the notification panel and a time stamp (format HH:MM:SS)
+        at which the "Log Obs." is clicked, will be
+        appended to the written text.
+        
+        Arguments
+        _________
+            str: str
+                Any string written in `notif_txt_edit`
+
+        Example
+        _______
+            
+            If written observation is "Ignition observed"
+
+            Notification text update will be,
+                `[13:23:56] Ignition Observed`
+        """
+        line = self.notif_text_slot.text()
         str_time = time.strftime("%X")
         new_txt = line + "\n" + "[" + str_time + "]: " + str
         self.notif_text_slot.setText(new_txt)
     
     def clear_notification_panel(self):
+        """ Method that clears the notification panel text
+        """
         self.notif_text_slot.setText(self.StagNotifTxt)
 
     def set_test_file(self):
+        """ Method that opens a `SaveSettingsDialog`
+        and asks for filename and folder to save the file in.
+        """
         dlg_save_file = SaveSettingsDialog("Select File to Save Data")
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
@@ -274,6 +414,9 @@ class application(QMainWindow):
         return
     
     def set_formulae_file(self):
+        """ Method that opens a `QFileDialog` to open a
+        .csv formulae file
+        """
         dlg = QFileDialog(self, 'Select a File', None, "CSV files (*.csv)")
         f = ""
         if dlg.exec():
@@ -285,6 +428,9 @@ class application(QMainWindow):
         return  
 
     def set_config_file(self):
+        """ Method that opens a `QFileDialog` to open a
+        .csv NI config file
+        """
         dlg = QFileDialog(self, 'Select a File', None, "CSV files (*.csv)")
         f = ""
         if dlg.exec():
@@ -296,6 +442,10 @@ class application(QMainWindow):
         return
     
     def dev_arr_to_dict(self):
+        """ Method to store all user-added devices
+        in one dictionary to allow saving a global
+        configuration for the GUI.
+        """
         dict_dev = {}
         if self.lasers:
             dict_dev["Lasers"] = {}
@@ -315,6 +465,18 @@ class application(QMainWindow):
         return dict_dev
     
     def is_valid_path(self, path):
+        """ Method that checks if the input path
+        is a valid path
+
+        Parameters
+        ----------
+            path: str
+                Path to check for validity
+
+        Returns
+        -------
+            The return value. True for valid file path. False otherwise.
+        """
         try:
             if os.path.isabs(path):
                 if os.path.normpath(path):
@@ -333,6 +495,22 @@ class application(QMainWindow):
         return True
 
     def validate_df(self, letter, path):
+        """Method to check if the config or formulae file path
+        provided contains valid columns
+
+        Parameters
+        ----------
+            letter: str
+                Indicating either config ("c") or formulae ("f") file path
+            path: str
+                path to the indicated file
+        Returns
+        ------
+            The return value.
+
+            True if columns in the file match with columns for each file.
+            See details for "Config File Example" or "Formulae File Example".
+        """
         try:
             df = pl.read_csv(path)
             cols = []
@@ -364,6 +542,8 @@ class application(QMainWindow):
         return False
 
     def set_up(self):
+        """Method to 
+        """
         self._all_fields_filled()
 
         # Allow only alphunumeric string with underscores in names
@@ -403,6 +583,9 @@ class application(QMainWindow):
             self.settings["Devices"] = self.dev_arr_to_dict()
 
     def Create_SavePath(self):
+        """
+        :meta private:
+        """
         inp_text = self.test_input.text()
         fname = inp_text.split(self.fext)[0]
         fpath = inp_text + self.fext
@@ -457,6 +640,9 @@ class application(QMainWindow):
         self.test_input.setText(test_name)
 
     def settings_to_json(self):
+        """
+        :meta private:
+        """
         self._all_fields_filled()
         self.settings["Experiment Type"] = self.test_type_input.currentText()
         try:
@@ -493,6 +679,9 @@ class application(QMainWindow):
         firepydaq_logger.info(__name__ + ": Config texts updated.")
     
     def inform_user(self, err_txt):
+        """
+        :meta private:
+        """
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Error Encountered")
         self.msg.setText(err_txt)
@@ -507,6 +696,9 @@ class application(QMainWindow):
         self.msg.exec()
 
     def validate_fields(self):
+        """
+        :meta private:
+        """
         self.set_up()
         if self.display and self.tab and hasattr(self, "data_vis_tab"):
             self.data_vis_tab.set_labels(self.config_file)
@@ -519,7 +711,9 @@ class application(QMainWindow):
         CheckPP.UpdateData(dump_output=False)
 
     def initiate_dataArrays(self):
-        
+        """
+        :meta private:
+        """
         if self.NIDAQ_Device.ai_counter > 0:
             if len(self.NIDAQ_Device.ailabel_map) == 1:
                 self.ydata = np.empty(0)
@@ -534,6 +728,9 @@ class application(QMainWindow):
 
     # @error_logger("AcqBegins")
     def acquisition_begins(self):
+        """
+        :meta private:
+        """
         # todo: Disable config, formulae, and sampling rate after acq begins.
         # Only allow name changes after acq begins.
         # todo: regarding notification panel: save option pop up 
@@ -592,6 +789,9 @@ class application(QMainWindow):
             self.acquisition_button.setText("Start Acquisition")
     
     def save_data_thread(self):
+        """
+        :meta private:
+        """
         time_data = np.array(self.xdata_new)
         abs_time = np.array(self.abs_timestamp)
         time_data = time_data[np.newaxis, :]
@@ -620,7 +820,8 @@ class application(QMainWindow):
     def runpyDAQ(self):
         '''
         Method that runs the Data acquisition system
-        
+        :meta private
+
         '''
         # Will only work for AI. Add functionality for AO only 
         # if self.save_button.isChecked(): 
@@ -716,6 +917,9 @@ class application(QMainWindow):
 
     @error_logger("SaveData")
     def save_data(self):
+        """
+        :meta private:
+        """
         if self.save_button.isChecked():
             self.save_button.setText("Stop")
             self.save_bool = True
@@ -763,6 +967,9 @@ class application(QMainWindow):
             self.save_bool = False
 
     def safe_exit(self):
+        """
+        :meta private:
+        """
         if hasattr(self, 'NIDAQ_Device'):
             self.NIDAQ_Device.aitask.stop()
             self.NIDAQ_Device.aitask.close()
@@ -773,6 +980,15 @@ class application(QMainWindow):
         self.close()
 
     def closeEvent(self, *args, **kwargs):
+        """Method that gracefully closes the GUI
+
+        In the following order:
+        - Terminates the dash thread if it is running
+        - Closes AITask
+        - Closes AOTask
+        - Closes Connection to Other devices
+        - Closes the GUI.
+        """
         self.running = False
         time.sleep(1)
         if hasattr(self, "dash_thread"):
