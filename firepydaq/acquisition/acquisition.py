@@ -509,7 +509,9 @@ class application(QMainWindow):
             The return value.
 
             True if columns in the file match with columns for each file.
-            See details for "Config File Example" or "Formulae File Example".
+            See details in "Config File Example"
+            and "Formulae File Example" for required and
+            necessary columns, and how they are used.
         """
         try:
             df = pl.read_csv(path)
@@ -542,7 +544,19 @@ class application(QMainWindow):
         return False
 
     def set_up(self):
-        """Method to 
+        """Method to check NI DAQ setup
+        as defined by the user in input settings.
+
+        - First, a check involves if all fields are filled. 
+        Only Formulae file is optional.
+
+        - Input fields and files selected 
+        are checked as per requirements
+        indicated in `input_content()`.
+        
+        - Paths to save all data and NI DAQ settings
+        are created via calling
+        the method `Create_SavePath()`.
         """
         self._all_fields_filled()
 
@@ -583,8 +597,46 @@ class application(QMainWindow):
             self.settings["Devices"] = self.dev_arr_to_dict()
 
     def Create_SavePath(self):
-        """
-        :meta private:
+        """Method to create paths to
+        save all data, NI settings,
+        depending on the test name (`inp_text`).
+
+        - If the user has selected a file to save using
+        the `test_btn` generated in `input_content(),
+        the filename is checked in the path provided.
+        If a filename of that name already exists,
+        the filename is appended with `_XX` number,
+        that increments by 1 for every repeated
+        filename.
+            Example: If the filename is `Exp1` in
+            directory  `C:/Users/XXX/Tests/`,
+            and file by that name exits, the data
+            will be saved in the following format.
+            `C:/Users/XXX/Tests/Exp1_01`.
+            Extensions `.parquet` for NI data,
+            `.json` for NI data info, `.csv`
+            for Alicat devices will be added to `Exp1_01`.
+
+        - If the user types just a text in `inp_text`,
+        a directory and file path to save all data
+        is generated in the directory where
+        this application is compiled.
+            Example: If the `inp_text` is "Test1",
+            Experiment type is "Experiment",
+            User name is "User",
+            Project name is "Project",
+            the save path for NI data will be the following.
+
+            "./Experiment/YYYYProject/YYYYMMDD_HHMMSS_User_Project_Test1.parquet".
+
+            `Experiment` directory will be created
+            in the current working directory.
+            `YYYYProject` directory will be
+            created inside `Experiment`.
+
+            The YYYY, MM, DD, HH, MM, SS indicate
+            the year, month, date, hour, minute, and seconds
+            respectively when the `save_button` is clicked.
         """
         inp_text = self.test_input.text()
         fname = inp_text.split(self.fext)[0]
@@ -640,8 +692,11 @@ class application(QMainWindow):
         self.test_input.setText(test_name)
 
     def settings_to_json(self):
-        """
-        :meta private:
+        """Method to save all NI input fields
+        and devices added by the user is saved in a
+        .json file in a location of user's choice.
+
+        These settings can be loaded later.
         """
         self._all_fields_filled()
         self.settings["Experiment Type"] = self.test_type_input.currentText()
@@ -679,14 +734,14 @@ class application(QMainWindow):
         firepydaq_logger.info(__name__ + ": Config texts updated.")
     
     def inform_user(self, err_txt):
-        """
-        :meta private:
+        """Method to inform important
+        operations, errors, and warnings
+        to the user using a pop-up QMessageBox.
         """
         self.msg = QMessageBox()
         self.msg.setWindowTitle("Error Encountered")
         self.msg.setText(err_txt)
         if self.curr_mode == "Dark":
-            print("here")
             f = open(self.popup_dark, "r")
         else:
             f = open(self.popup_light, "r")
@@ -696,8 +751,20 @@ class application(QMainWindow):
         self.msg.exec()
 
     def validate_fields(self):
-        """
-        :meta private:
+        """Method to validate if the config
+        and the formulae file path would be used
+        without errors during post processing.
+
+        This is done by creating a random data DataFrame.
+        The DataFrame columns correspond to the `Label` column
+        in the config file.
+        The values corresponding to each `Label` is
+        populated with a random integer between 0 and 10.
+        
+        The random data DataFrame, config file path, and formulae path
+        are supplied to PostProcessData for checking if 
+        the random DataFrame (simulating collected data)
+        can be scaled and post processed without any errors.
         """
         self.set_up()
         if self.display and self.tab and hasattr(self, "data_vis_tab"):
@@ -711,8 +778,29 @@ class application(QMainWindow):
         CheckPP.UpdateData(dump_output=False)
 
     def initiate_dataArrays(self):
-        """
-        :meta private:
+        """A method to initiate empty numpy data array for
+        storing NI data during acquisition.
+
+        If the number of Analog Inputs (AI)
+        in the config file is 1,
+        an empty `ydata` numpy array of shape (1,) is created.
+
+        If the number of AIs are greater than one (example 4),
+        an empty `ydata` numpy array of shape (4,) is created
+
+        If there are both AIs and Analog Outputs (AO)
+        in the config file, empty `ydata` array with
+        shape equal to total AI (say 3) and AOs (say 1),
+        (4,) is created.
+        
+        An empty `xdata` array of shape (1,)
+        for storing relative times
+        is created with a single element `0`.
+
+        An empty 1D numpy array of name `abs_timestamp`
+        is created to store corresponding
+        absolute times during acquisition.
+
         """
         if self.NIDAQ_Device.ai_counter > 0:
             if len(self.NIDAQ_Device.ailabel_map) == 1:
@@ -728,8 +816,19 @@ class application(QMainWindow):
 
     # @error_logger("AcqBegins")
     def acquisition_begins(self):
-        """
-        :meta private:
+        """Method to begin acquisition for all devices.
+        
+        The following methods are called in order.
+        1. `validate_fields()`.
+        2. `CreateDAQTask()` in `api` module to create
+        AI and AO continuous tasks. (See `api` module for details)
+        3. `initiate_dataArrays()`
+
+        Once these run without any issues, the `save_button`
+        is enabled, `ContinueAcquisition` boolean is set to True,
+
+
+
         """
         # todo: Disable config, formulae, and sampling rate after acq begins.
         # Only allow name changes after acq begins.
@@ -789,8 +888,8 @@ class application(QMainWindow):
             self.acquisition_button.setText("Start Acquisition")
     
     def save_data_thread(self):
-        """
-        :meta private:
+        """Method that saves acquired NI data in a
+        `.parquet` file in path created as per `CreateSavePath()`.
         """
         time_data = np.array(self.xdata_new)
         abs_time = np.array(self.abs_timestamp)
@@ -818,9 +917,8 @@ class application(QMainWindow):
         return
 
     def runpyDAQ(self):
-        '''
-        Method that runs the Data acquisition system
-        :meta private
+        '''Method that continuously runs the Data acquisition system
+        until "Stop Acquisition" is clicked.
 
         '''
         # Will only work for AI. Add functionality for AO only 
@@ -917,8 +1015,7 @@ class application(QMainWindow):
 
     @error_logger("SaveData")
     def save_data(self):
-        """
-        :meta private:
+        """Method that initiates data arrays
         """
         if self.save_button.isChecked():
             self.save_button.setText("Stop")
@@ -967,8 +1064,7 @@ class application(QMainWindow):
             self.save_bool = False
 
     def safe_exit(self):
-        """
-        :meta private:
+        """Method that stops and closes NI AI and AO tasks.
         """
         if hasattr(self, 'NIDAQ_Device'):
             self.NIDAQ_Device.aitask.stop()
