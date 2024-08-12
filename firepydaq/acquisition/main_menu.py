@@ -52,7 +52,7 @@ class MyMenu(QMenuBar):
         self.add_devices_menu = self.addMenu("Add Devices")
 
         # Add Lasers and MFC's
-        self.add_laser_action = QAction("Add Laser", self)
+        self.add_laser_action = QAction("Add ThorlabsCLD101X", self)
         self.add_laser_action.triggered.connect(self.add_laser)
         self.add_devices_menu.addAction(self.add_laser_action)
         self.add_laser_action.setShortcut("Shift+Alt+L")
@@ -71,7 +71,7 @@ class MyMenu(QMenuBar):
         self.remove_devices_menu = self.addMenu("Remove Devices")
 
         # Remove Lasers and MFC's
-        self.rem_laser_action = QAction("Remove Laser", self)
+        self.rem_laser_action = QAction("Remove ThorlabsCLD101X", self)
         self.rem_laser_action.triggered.connect(self.remove_laser)
         self.remove_devices_menu.addAction(self.rem_laser_action)
         self.rem_laser_action.setShortcut("Ctrl+Shift+L")
@@ -200,7 +200,7 @@ class MyMenu(QMenuBar):
 
     def add_laser(self):
         if not self.parent.device_arr:
-            dlg_dev_name = DeviceNameDialog("Add Laser")
+            dlg_dev_name = DeviceNameDialog("Add ThorlabsCLD101X")
             self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
@@ -209,13 +209,13 @@ class MyMenu(QMenuBar):
                     return
                 self.parent.device_tab_widget = QTabWidget()
                 self.parent.main_layout.addWidget(self.parent.device_tab_widget)
-                self.parent.main_layout.setStretch(0, 2.5)
+                self.parent.main_layout.setStretch(0, 2)
                 self.parent.main_layout.setStretch(1, 1.5)
                 self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
             
         elif len(self.parent.lasers) < 6:
-            dlg_dev_name = DeviceNameDialog("Add Laser")
+            dlg_dev_name = DeviceNameDialog("Add ThorlabsCLD101X")
             self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
@@ -228,9 +228,9 @@ class MyMenu(QMenuBar):
                 self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
             else:
-                print("No Laser added.")
+                print("No ThorlabsCLD101X added.")
         else:
-            self.parent.inform_user("Maximum 6 Lasers can be added.")
+            self.parent.inform_user("Maximum 6 ThorlabsCLD101X devices can be added.")
             return
     
     def remove_mfm(self):
@@ -265,7 +265,7 @@ class MyMenu(QMenuBar):
                     return
                 self.parent.device_tab_widget = QTabWidget()
                 self.parent.main_layout.addWidget(self.parent.device_tab_widget)
-                self.parent.main_layout.setStretch(0, 2.5)
+                self.parent.main_layout.setStretch(0, 2)
                 self.parent.main_layout.setStretch(1, 1.5)
                 self.parent.device_arr[dev_name] = mfm(self.parent, dev_name)
                 self.parent.mfms[dev_name] = self.parent.device_arr[dev_name]
@@ -300,7 +300,7 @@ class MyMenu(QMenuBar):
                     return
                 self.parent.device_tab_widget = QTabWidget()
                 self.parent.main_layout.addWidget(self.parent.device_tab_widget)
-                self.parent.main_layout.setStretch(0, 2.5)
+                self.parent.main_layout.setStretch(0, 2)
                 self.parent.main_layout.setStretch(1, 1.5)
                 self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
@@ -344,7 +344,7 @@ class MyMenu(QMenuBar):
                 self.parent.main_layout.removeWidget(self.parent.device_tab_widget)
                 self.parent.device_tab_widget.deleteLater()
         else:
-                print("No Laser Removed.")
+                print("No ThorlabsCLD101X laser Removed.")
 
     def remove_mfc(self):
 
@@ -438,7 +438,7 @@ class MyMenu(QMenuBar):
             dev_dict = data["Devices"]
             self.parent.device_tab_widget = QTabWidget()
             self.parent.main_layout.addWidget(self.parent.device_tab_widget)
-            self.parent.main_layout.setStretch(0, 2.5)
+            self.parent.main_layout.setStretch(0, 2)
             self.parent.main_layout.setStretch(1, 1.5)
             if "Lasers" in dev_dict:
                 laser_dict = dev_dict["Lasers"]
