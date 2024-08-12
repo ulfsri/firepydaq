@@ -36,6 +36,7 @@ class thorlabs_laser(QWidget):
 
         self.p_input = QLineEdit()
         self.p_input.setMaximumWidth(200)
+        self.p_input.setPlaceholderText("0")
         self.p = self.p_input.text() 
         self.device_layout.addWidget(self.p_input, 1, 1)
         
@@ -45,6 +46,7 @@ class thorlabs_laser(QWidget):
         self.i_label.setMaximumWidth(200)
 
         self.i_input = QLineEdit()
+        self.i_input.setPlaceholderText("0")
         self.i_input.setMaximumWidth(200)
         self.i = self.i_input.text() 
         self.device_layout.addWidget(self.i_input, 2, 1)
@@ -55,6 +57,7 @@ class thorlabs_laser(QWidget):
         self.d_label.setMaximumWidth(200)
 
         self.d_input = QLineEdit()
+        self.d_input.setPlaceholderText("0")
         self.d_input.setMaximumWidth(200)
         self.d = self.d_input.text() 
         self.device_layout.addWidget(self.d_input, 3, 1)
@@ -68,6 +71,7 @@ class thorlabs_laser(QWidget):
         self.tec_input = QLineEdit()
         self.tec_input.setMaximumWidth(150)
         self.tec = self.tec_input.text()
+        self.tec_input.setPlaceholderText("0\u2103")
         self.tec_button = QPushButton("Set")
         self.tec_button.clicked.connect(self.set_tec)
         self.tec_button.setEnabled(False)
@@ -83,6 +87,7 @@ class thorlabs_laser(QWidget):
 
         self.laser_layout = QHBoxLayout()
         self.laser_input = QLineEdit()
+        self.laser_input.setPlaceholderText("0mA")
         self.laser_input.setMaximumWidth(150)
         self.laser_rate = self.laser_input.text()
         self.laser_button = QPushButton("Set")
