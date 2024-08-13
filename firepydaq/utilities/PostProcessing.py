@@ -131,6 +131,7 @@ class PostProcessData():
         if len(paths[0]) == 3:
             formulae_path = paths[0][2]
             df_formulae = pl.read_csv(formulae_path)
+            df_formulae.columns = [i.strip() for i in df_formulae.columns]
             dfpath_dict['formulaepath'] = formulae_path
             dfdata_dict['formulae'] = df_formulae
 
@@ -193,6 +194,7 @@ class PostProcessData():
             All_chart_info = config_info
         All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("Intermediate"))
         All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("Constant"))
+        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("None"))
         All_chart_info = All_chart_info
         All_chart_info.rename(str.strip).columns
         All_chart_info = All_chart_info.with_columns(pl.col(pl.String).str.strip_chars())
@@ -246,19 +248,21 @@ class PostProcessData():
         '''
         self.df_processed = pl.DataFrame()
         for col in self.data_dict['data'].columns:
+            crow_df = self.data_dict['config'].filter(pl.col("Label") == col)
             if ("AbsoluteTime" not in col) and ("Absolute_Time" not in col):  # Checking for either these two strings in the data df. Absolute_Time will be backward compatible for data collected so far
                 self.data_dict['data'] = self.data_dict['data'].cast({col: pl.Float32})
             if "Time" in col:
                 self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
+            elif "None" in crow_df.select("Chart").item().strip() == "None":
+                continue
             elif not self.data_dict['config'].filter(pl.col("Type") == "Thermocouple").filter(pl.col("Label") == col).is_empty():
                 self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
             else:
                 try:
-                    local_scales = self.data_dict['config'].filter(pl.col("Label") == col)
-                    min_AI = np.float32(local_scales.select("AIRangeMin").item())
-                    max_AI = np.float32(local_scales.select("AIRangeMax").item())
-                    min_Scale = np.float32(local_scales.select("ScaleMin").item())
-                    max_Scale = np.float32(local_scales.select("ScaleMax").item())
+                    min_AI = np.float32(crow_df.select("AIRangeMin").item())
+                    max_AI = np.float32(crow_df.select("AIRangeMax").item())
+                    min_Scale = np.float32(crow_df.select("ScaleMin").item())
+                    max_Scale = np.float32(crow_df.select("ScaleMax").item())
                     unit_per_V = (max_Scale - min_Scale)/(max_AI - min_AI)
                     self.df_processed = self.df_processed.with_columns((pl.Series((self.data_dict['data'].select(pl.col(col))-min_AI)*unit_per_V+min_Scale)).alias(col))
                 except ValueError:
@@ -365,7 +369,10 @@ class PostProcessData():
             if not skip_processing:
                 try:
                     exec('setattr(self,lhs,eval(rhs))')
-                    if isinstance(getattr(self, lhs), np.ndarray) and ((row["Chart"] != "Intermediate") and (row["Chart"] != "Constant")):
+                    if (isinstance(getattr(self, lhs), np.ndarray) and
+                            (row["Chart"].strip() != "Intermediate") and
+                            (row["Chart"].strip() != "Constant") and
+                            (row["Chart"].strip() != "None")):
                         self.df_processed = self.df_processed.with_columns(pl.Series(getattr(self,lhs)).alias(lhs))
                 except Exception:
                     the_type, the_value, _ = sys.exc_info()
