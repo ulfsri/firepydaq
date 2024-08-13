@@ -1,5 +1,5 @@
 import sys
-from .app_v1 import create_dash_app
+from .app import create_dash_app
 from PySide6.QtWidgets import (QLineEdit, QWidget, QVBoxLayout, QPushButton, QLabel, 
     QHBoxLayout, QGridLayout, QMainWindow, QMenuBar, QTabWidget, QFileDialog, QApplication)
 from PySide6.QtGui import QAction, QActionGroup
