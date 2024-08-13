@@ -146,18 +146,19 @@ QPushButton:disabled
     color: rgb(23, 22, 22);
 }
 
+
 QScrollBar:horizontal
 {
     height: 15px;
     margin: 3px 15px 3px 15px;
-    border: 1px transparent #2A2929;
+    border: 1px transparent #d4d4d4;
     border-radius: 4px;
-    background-color: #2A2929;
+    background-color: #d4d4d4;
 }
 
 QScrollBar::handle:horizontal
 {
-    background-color: #605F5F;
+    background-color: #e8e5e5;
     min-width: 5px;
     border-radius: 4px;
 }
@@ -214,16 +215,16 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 
 QScrollBar:vertical
 {
-    background-color: #2A2929;
+    background-color: #d4d4d4;
     width: 15px;
     margin: 15px 3px 15px 3px;
-    border: 1px transparent #2A2929;
+    border: 1px transparent #d4d4d4;
     border-radius: 4px;
 }
 
 QScrollBar::handle:vertical
 {
-    background-color: #605F5F;
+    background-color: #e8e5e5;
     min-height: 5px;
     border-radius: 4px;
 }

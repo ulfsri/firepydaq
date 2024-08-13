@@ -64,8 +64,8 @@ class application(QMainWindow):
         """
 
         # Set window properties
-        self.setGeometry(0, 0, 900, 600)
-        self.setFixedSize(900, 600)
+        self.setGeometry(0, 0, 900, 650)
+        self.setFixedSize(900, 650)
         self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)") 
         self.menu = MyMenu(self)
         self.setMenuBar(self.menu)
@@ -240,6 +240,7 @@ class application(QMainWindow):
         self.test_btn = QPushButton("Select")
         self.test_btn.clicked.connect(self.set_test_file)
         self.test_input.setMaximumWidth(150)
+        self.test_input.setPlaceholderText("Your Test's name")
         self.test_btn.setMaximumWidth(50)
         self.test_layout.addWidget(self.test_input)
         self.test_layout.addWidget(self.test_btn)
@@ -251,7 +252,7 @@ class application(QMainWindow):
         self.input_layout.addWidget(self.exp_label, 1, 0)
 
         self.exp_input = QLineEdit()
-        self.exp_input.setPlaceholderText("Enter your Project's name")
+        self.exp_input.setPlaceholderText("Your Project's name")
         self.exp_input.setMaximumWidth(200)
         self.input_layout.addWidget(self.exp_input, 1, 1)
 
@@ -292,6 +293,7 @@ class application(QMainWindow):
         self.config_input.clicked.connect(self.set_config_file)
         self.config_input.setMaximumWidth(50)
         self.config_file_edit.setMaximumWidth(150)
+        self.config_file_edit.setPlaceholderText("Your Config file")
         self.config_file_layout.addWidget(self.config_file_edit)
         self.config_file_layout.addWidget(self.config_input)
         self.input_layout.addLayout(self.config_file_layout, 5, 1)
@@ -307,6 +309,7 @@ class application(QMainWindow):
         self.formulae_input.clicked.connect(self.set_formulae_file)
         self.formulae_input.setMaximumWidth(50)
         self.formulae_file_edit.setMaximumWidth(150)
+        self.formulae_file_edit.setPlaceholderText("Your Formula file")
         self.formulae_file_layout.addWidget(self.formulae_file_edit)
         self.formulae_file_layout.addWidget(self.formulae_input)
         self.input_layout.addLayout(self.formulae_file_layout, 6, 1)
@@ -404,6 +407,7 @@ class application(QMainWindow):
         and asks for filename and folder to save the file in.
         """
         dlg_save_file = SaveSettingsDialog("Select File to Save Data")
+        self.menu.style_popup(dlg_save_file)
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
