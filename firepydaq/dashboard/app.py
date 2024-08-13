@@ -58,14 +58,14 @@ def create_dash_app(**kwargs):
         home_screen_info = html.Div(id = "info_container", className = "info-container")
         home_screen_widgets = []
         #Add Home Screen to help users navigate
-        for item in processed_obj.pathdict.keys():
+        for item in processed_obj.path_dict.keys():
             if item == "datapath":
-                home_div = html.Div("Parquet File: " + processed_obj.pathdict[item], id = "data-path", className = "sub-info")
-                post_processed_file = processed_obj.pathdict[item].split(".parquet")[0] + "_PostProcessed.parquet"
+                home_div = html.Div("Parquet File: " + processed_obj.path_dict[item], id = "data-path", className = "sub-info")
+                post_processed_file = processed_obj.path_dict[item].split(".parquet")[0] + "_PostProcessed.parquet"
             if item == "configpath":
-                home_div = html.Div("Configuration File: " + processed_obj.pathdict[item], id = "conf-path", className = "sub-info")
+                home_div = html.Div("Configuration File: " + processed_obj.path_dict[item], id = "conf-path", className = "sub-info")
             if item == "formulaepath":
-                home_div =  html.Div("Formulae File: " + processed_obj.pathdict[item], id = "form-path", className = "sub-info")
+                home_div =  html.Div("Formulae File: " + processed_obj.path_dict[item], id = "form-path", className = "sub-info")
             home_screen_widgets.append(home_div)
             home_screen_widgets.append(html.Br(className = "info-br"))
 
@@ -205,7 +205,7 @@ def create_dash_app(**kwargs):
                 plot_name = plot[0].get('props', {}).get('id').get('index')
                 graph = plot[0].get('props', {}).get('figure')
                 fig = go.Figure(graph)
-                dir = processed_obj.pathdict["datapath"].split(".parquet")[0] 
+                dir = processed_obj.path_dict["datapath"].split(".parquet")[0] 
                 now = datetime.now()
                 print(dir + "_" + now.strftime("%Y%m%d_%H%M%S"))
                 fig.write_html(dir + "_" + plot_name + ".html")

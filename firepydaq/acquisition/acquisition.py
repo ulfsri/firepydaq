@@ -27,6 +27,7 @@ import pyarrow.parquet as pq
 import glob
 import re
 import os
+from .NIAOtab import NIAOtab
 
 from .exception_list import UnfilledFieldError
 from ..api.EchoNIDAQTask import CreateDAQTask
@@ -37,6 +38,9 @@ from ..utilities.PostProcessing import PostProcessData
 from ..utilities.ErrorUtils import error_logger, firepydaq_logger
 
 #All commented out code is to be removed later
+import ctypes
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ulfsri.firepydaq.010')
+
 
 class application(QMainWindow):
     """
@@ -76,7 +80,8 @@ class application(QMainWindow):
         self.setStyleSheet(str)
         f.close()
 
-        ico_path = self.assets_folder + os.path.sep + "fsri-logo.ico"
+        ico_path = self.assets_folder + os.path.sep + "FIREpyDAQLight1.png"  # "FIREpyDAQDark.png"  # "fsri-logo.ico"
+        print(ico_path)
         self.setWindowIcon(QIcon(ico_path))
         
         # Create main widget
@@ -272,7 +277,7 @@ class application(QMainWindow):
         self.sample_rate_input.setMaximumWidth(200)
         self.sample_rate_input.setPlaceholderText("10")
         reg_ex_1 = QRegularExpression("[0-9]+.?[0-9]{,2}")  # double
-        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1)) 
+        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1))
         # .setValidator(QRegExpValidator(reg_ex_1))
         self.input_layout.addWidget(self.sample_rate_input, 4, 1)
 
@@ -849,6 +854,7 @@ class application(QMainWindow):
                 self.NIDAQ_Device.aitask.stop()
                 self.NIDAQ_Device.aitask.close()
                 if hasattr(self.NIDAQ_Device, "aotask"):
+                    self.input_tab_widget.removeTab(1)
                     self.NIDAQ_Device.aotask.stop()
                     self.NIDAQ_Device.aotask.close()
                 del self.NIDAQ_Device
@@ -861,7 +867,8 @@ class application(QMainWindow):
                     sample_rate = int(self.settings["Sampling Rate"])
                     self.NIDAQ_Device.StartAIContinuousTask(sample_rate, sample_rate)  # noqa: E501
                 if self.NIDAQ_Device.ao_counter > 0:
-                    AO_initials = [0 for i in self.NIDAQ_Device.ao_counter]
+                    self.niaotab = NIAOtab(self, self.NIDAQ_Device.aolabel_map)
+                    AO_initials = np.array([0 for i in self.NIDAQ_Device.aolabel_map.keys()], dtype=np.float64)
                     self.NIDAQ_Device.StartAOContinuousTask(AO_initials=AO_initials)  # noqa: E501
             except Exception:
                 # todo: Parse NI errors properly.. sampling rate? device name? config file error? # noqa: E501
