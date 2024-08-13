@@ -37,8 +37,8 @@ This interface can be used for three types of devices simultaneously,
 # On Windows: Protect your script from importing child processes 
 if __name__ == "__main__":
 	import multiprocessing as mp
-    mp.freeze_support()
-    from firepydaq.acquisition.acquisition import application
+	mp.freeze_support()
+	from firepydaq.acquisition.acquisition import application
 	import sys
 	from PySide6.QTWidgets import QApplication
 
