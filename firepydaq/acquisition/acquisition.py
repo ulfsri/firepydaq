@@ -15,7 +15,7 @@ import threading
 from .device import alicat_mfc
 import json
 from .display_data_tab import data_vis
-from ..dashboard.app_v1 import create_dash_app
+from ..dashboard.app import create_dash_app
 import time
 import concurrent.futures
 import multiprocessing as mp
@@ -33,11 +33,9 @@ from .exception_list import UnfilledFieldError
 from ..api.EchoNIDAQTask import CreateDAQTask
 
 from ..utilities.PostProcessing import PostProcessData
-
-#Logger
 from ..utilities.ErrorUtils import error_logger, firepydaq_logger
 
-#All commented out code is to be removed later
+# To make the application icon in the tab appear as the selected icon
 import ctypes
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ulfsri.firepydaq.010')
 
@@ -80,7 +78,7 @@ class application(QMainWindow):
         self.setStyleSheet(str)
         f.close()
 
-        ico_path = self.assets_folder + os.path.sep + "FIREpyDAQLight1.png"  # "FIREpyDAQDark.png"  # "fsri-logo.ico"
+        ico_path = self.assets_folder + os.path.sep + "FIREpyDAQDark.png"
         print(ico_path)
         self.setWindowIcon(QIcon(ico_path))
         
