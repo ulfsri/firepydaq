@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="firepydaq/assets/FIREpyDAQDark.png" alt= “FIREpyDAQ” width="50%" height="50%">
+  <img src="firepydaq/assets/FIREpyDAQDark.png" alt= “FIREpyDAQ” width="30%" height="30%">
 </p> 
 
 [![Pytest Checks](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
