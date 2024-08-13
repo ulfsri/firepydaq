@@ -196,7 +196,7 @@ class MyMenu(QMenuBar):
         webbrowser.open("https://doc.qt.io/qtforpython-6/") #to do replace
     
     def report_issue(self):
-        webbrowser.open("https://github.com/ulfsri") #to do replace
+        webbrowser.open("https://github.com/ulfsri/firepydaq/issues/") #to do replace
 
     def add_laser(self):
         if not self.parent.device_arr:
