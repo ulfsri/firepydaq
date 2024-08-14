@@ -19,7 +19,7 @@ class data_vis(QWidget):
     """
     def __init__(self, parent):
         super().__init__()
-        self._makeinit(self, parent)
+        self._makeinit(parent)
 
     def _makeinit(self, parent):
         self.ydata = []

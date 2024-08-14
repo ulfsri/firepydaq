@@ -695,8 +695,11 @@ class application(QMainWindow):
                 now = datetime.now()
                 self.save_dir = (cwd + os.sep +
                                  self.settings["Experiment Type"] +
-                                 os.sep + now.strftime("%Y%m%d_%H%M%S") +
-                                 "_" + self.settings["Name"] + "_" +
+                                 os.sep)
+                if not os.path.exists(self.save_dir):
+                    os.mkdir(self.save_dir)
+                self.save_dir = (self.save_dir + now.strftime("%Y%m%d_%H%M%S")
+                                 + "_" + self.settings["Name"] + "_" +
                                  self.settings["Experiment Name"] + "_")
                 test_name = fname
             else:
@@ -1019,8 +1022,9 @@ class application(QMainWindow):
                 if hasattr(self, "data_vis_tab"):
                     if not hasattr(self.data_vis_tab, "dev_edit"):
                         self.data_vis_tab.set_labels(self.config_file)
-                    raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])  # noqa: E501
-                    raw_dpthread.start()
+                    self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])  # noqa: E501
+                    # raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])  # noqa: E501
+                    # raw_dpthread.start()
 
                 if (self.xdata[-1] % 5) <= 1/self.ActualSamplingRate:
                     text_update = ("Last time entry:" +

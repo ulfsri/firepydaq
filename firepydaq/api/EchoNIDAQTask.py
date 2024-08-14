@@ -27,7 +27,7 @@ class CreateDAQTask:
             self.aitask = nidaqmx.Task(new_task_name=self.name+"_AI")
         if self.aolabel_map:
             self.aotask = nidaqmx.Task(new_task_name=self.name+'_AO')
-
+        self.ChanConfig = self.ChanConfig.astype(str)
         for n in self.ChanConfig.index:
             devname = self.ChanConfig.loc[n, 'Device'].strip()
             aichan = self.ChanConfig.loc[n, 'Channel'].strip()
