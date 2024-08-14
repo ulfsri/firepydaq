@@ -71,9 +71,10 @@ Suggested procedure is given below. Note: Pull request into the `main` branch wi
 - Fork this repository.
 - Create a `your_feature` branch from the `dev` branch. 
 - Clone your repository on your machine.
-- Install poetry using `pipx` as recommended, and `make` (optional). 
+- Install poetry using `pipx` as recommended or using `pip`, and `make` (optional). 
 - If you install and configure `make` - run `make build`, which will initiate the commands `poetry build`, `poetry lock`, and `poetry install` in succession. This will create a virtual environment for testing your developments.
-- Alternatively, you can even run individual poetry commands to install the package on a virtual environment for local development.
+- Alternatively (without `make`), you can run individual `poetry` commands to install the package on a virtual environment (ideal) for local development.
+- Make your edits, and send a PR following the template. 
 
 ## License
 
