@@ -1,7 +1,18 @@
 from PySide6.QtWidgets import (QWidget, QGridLayout, QLabel,
                                QLineEdit, QComboBox, QHBoxLayout,
                                QPushButton)
+from PySide6.QtGui import QRegularExpressionValidator
+from PySide6.QtCore import QRegularExpression
+
 from ..utilities.DAQUtils import COMports, AlicatGases
+
+# APIs
+from ..api.EchoAlicat import EchoController
+from ..api.EchoThorLabsCLD101X import EchoThor
+
+# Communication related
+import asyncio
+import time
 
 
 class thorlabs_laser(QWidget):
@@ -9,13 +20,18 @@ class thorlabs_laser(QWidget):
 
     Attributes
     ----------
+        reg_ex_1: QRegularExpression
+            Only accept float values
         type: str
             Value is "laser"
         parent: Object
             Defines parent class
         settings: dict
             Stores settings for the controller
+
     """
+    reg_ex_1 = QRegularExpression(r"[0-9]*\.[0-9]{0,4}")  # double
+
     def __init__(self, parent, str_name):
         super().__init__()
         self._makelaser(parent, str_name)
@@ -27,7 +43,7 @@ class thorlabs_laser(QWidget):
         self.settings = {}
         self.content = self.create_thorlabs_laser_content()
         self.parent.device_tab_widget.addTab(self.content, self.dev_id)
-    
+
     def create_thorlabs_laser_content(self):
         """Method that creates laser controller contents
 
@@ -43,6 +59,9 @@ class thorlabs_laser(QWidget):
             of the PID controller for ThorlabsCLD101X
         - d_input: QLineEdit
             Value for derivative component
+            of the PID controller for ThorlabsCLD101X
+        - osc_input: QLineEdit
+            Value for Oscillation period in seconds
             of the PID controller for ThorlabsCLD101X
         - tec_input: QLineEdit
             Value in Celsius that will be used
@@ -63,7 +82,7 @@ class thorlabs_laser(QWidget):
         self.device_widget = QWidget()
         self.device_layout = QGridLayout()
 
-        # Adds COMPORT input field 
+        # Adds COMPORT input field
         self.comport_label = QLabel("Select COMPORT:")
         self.comport_label.setMaximumWidth(200)
         self.device_layout.addWidget(self.comport_label, 0, 0)
@@ -82,8 +101,8 @@ class thorlabs_laser(QWidget):
 
         self.p_input = QLineEdit()
         self.p_input.setMaximumWidth(200)
-        self.p_input.setPlaceholderText("0")
-        self.p = self.p_input.text()
+        self.p_input.setPlaceholderText("8.0")
+        self.p_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))  # noqa: E501
         self.device_layout.addWidget(self.p_input, 1, 1)
 
         # Adds I input field
@@ -92,9 +111,9 @@ class thorlabs_laser(QWidget):
         self.i_label.setMaximumWidth(200)
 
         self.i_input = QLineEdit()
-        self.i_input.setPlaceholderText("0")
+        self.i_input.setPlaceholderText("3.7")
         self.i_input.setMaximumWidth(200)
-        self.i = self.i_input.text()
+        self.i_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))
         self.device_layout.addWidget(self.i_input, 2, 1)
 
         # Adds D input field
@@ -103,38 +122,51 @@ class thorlabs_laser(QWidget):
         self.d_label.setMaximumWidth(200)
 
         self.d_input = QLineEdit()
-        self.d_input.setPlaceholderText("0")
+        self.d_input.setPlaceholderText("3.2")
+        self.d_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))
         self.d_input.setMaximumWidth(200)
-        self.d = self.d_input.text()
         self.device_layout.addWidget(self.d_input, 3, 1)
+
+        # Adds Osc Period input field
+        self.osc_label = QLabel("Enter Osc period (s):")
+        self.device_layout.addWidget(self.osc_label, 4, 0)
+        self.osc_label.setMaximumWidth(200)
+
+        self.osc_input = QLineEdit()
+        self.osc_input.setPlaceholderText("2")
+        self.osc_input.setMaximumWidth(200)
+        self.osc_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))
+        self.device_layout.addWidget(self.osc_input, 4, 1)
 
         # Adds TEC rate
         self.tec_label = QLabel("Set TEC Temperature (C):")
         self.tec_label.setMaximumWidth(200)
-        self.device_layout.addWidget(self.tec_label, 4, 0)
+        self.device_layout.addWidget(self.tec_label, 5, 0)
 
         self.tec_layout = QHBoxLayout()
         self.tec_input = QLineEdit()
         self.tec_input.setMaximumWidth(150)
         self.tec = self.tec_input.text()
         self.tec_input.setPlaceholderText("25")
+        self.tec_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))
         self.tec_button = QPushButton("Set")
         self.tec_button.clicked.connect(self.set_tec)
         self.tec_button.setEnabled(False)
         self.tec_button.setMaximumWidth(50)
         self.tec_layout.addWidget(self.tec_input)
         self.tec_layout.addWidget(self.tec_button)
-        self.device_layout.addLayout(self.tec_layout, 4, 1)
+        self.device_layout.addLayout(self.tec_layout, 5, 1)
 
         # Adds Laser rate
         self.laser_label = QLabel("Set Laser Output (mA):")
         self.laser_label.setMaximumWidth(200)
-        self.device_layout.addWidget(self.laser_label, 5, 0)
+        self.device_layout.addWidget(self.laser_label, 6, 0)
 
         self.laser_layout = QHBoxLayout()
         self.laser_input = QLineEdit()
         self.laser_input.setPlaceholderText("0")
         self.laser_input.setMaximumWidth(150)
+        self.laser_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))  # noqa E501
         self.laser_rate = self.laser_input.text()
         self.laser_button = QPushButton("Set")
         self.laser_button.clicked.connect(self.set_laser)
@@ -142,19 +174,25 @@ class thorlabs_laser(QWidget):
         self.laser_button.setMaximumWidth(50)
         self.laser_layout.addWidget(self.laser_input)
         self.laser_layout.addWidget(self.laser_button)
-        self.device_layout.addLayout(self.laser_layout, 5, 1)
+        self.device_layout.addLayout(self.laser_layout, 6, 1)
 
         self.pid_btn = QPushButton("Set PID values")
         self.pid_btn.setMaximumWidth(200)
         self.pid_btn.clicked.connect(self.set_pid)
         self.pid_btn.setEnabled(False)
-        self.device_layout.addWidget(self.pid_btn, 6, 0)
+        self.device_layout.addWidget(self.pid_btn, 7, 0)
+
+        self.laser_switch = QPushButton("Start laser")
+        self.laser_switch.setMaximumWidth(200)
+        self.laser_switch.clicked.connect(self.start_laser)
+        self.laser_switch.setEnabled(False)
+        self.device_layout.addWidget(self.laser_switch, 7, 1)
 
         self.establish_connection_btn = QPushButton("Establish Connection")
         self.establish_connection_btn.setMaximumWidth(200)
-        self.establish_connection_btn.clicked.connect(self.establish_connection)
+        self.establish_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
         self.establish_connection_btn.setCheckable(True)
-        self.device_layout.addWidget(self.establish_connection_btn, 6, 1)
+        self.device_layout.addWidget(self.establish_connection_btn, 7, 2)
 
         self.device_widget.setLayout(self.device_layout)
 
@@ -165,35 +203,65 @@ class thorlabs_laser(QWidget):
         for the connected ThorlabsCLD101X device
         to `laser_input` mA.
         """
-        print("set laser")
+        self.thor.UpdateLaserCurrent(float(self.laser_input.text()))
+        notif_txt = self.dev_id + " laser set to " + self.laser_input.text() + " mA"  # noqa E501
+        self.parent.notify(notif_txt)
+        return
 
     def set_tec(self):
         """Method that sets TEC temperature
         for the connected ThorlabsCLD101X device
         to `tec_input` C.
         """
-        print("set tec")
+        self.thor.SetTECTemp(self.tec_input.text())
+        self.laser_switch.setEnabled(True)
+        self.parent.notify(self.dev_id + " TEC set to " + self.tec_input.text() +" C")  # noqa E501
+        return
+
+    def start_laser(self):
+        """Method to start the laser connected to the Thoelabs CLD101X device"""
+        self.thor.SwitchLaser(Switch=True)
         self.laser_button.setEnabled(True)
+        self.thor.StartTEC(Switch=True)
+        self.parent.notify(self.dev_id + " laser on")
+        return
 
     def set_pid(self):
         """Method that sets the P, I, and D
         component of the connected ThorlabCLD101X.
         """
-        print("pid set")
+        Prop = float(self.p_input.text())
+        Intgrl = float(self.i_input.text())
+        Derivative = float(self.d_input.text())
+        Osc = float(self.osc_input.text())
+        self.thor.set_TECPID(Prop, Intgrl, Derivative, Osc)
+        self.parent.notify("P,I,D, Osc period for " + self.dev_id + "set to " + str(Prop) + str(Intgrl) + str(Derivative) + str(Osc) + " s, respectively")  # noqa #E501
 
     def establish_connection(self):
         """Method that connects to the
         ThorlabsCLD101X connected at selected
-        `comport_input`
+        `comport_input`.
+        The P, I, D, and osc input labels will be
+        updated with the present values on the controller.
         """
         if self.establish_connection_btn.isChecked():
-            self.establish_connection_btn.setText("Establish Connection")
+            self.thor = EchoThor()
+            self.thor.set_connection(self.comport_input.currentText())
+            PID_set = self.thor.read_TECPID()
+            self.p_input.setText(PID_set["P"])
+            self.i_input.setText(PID_set["I"])
+            self.d_input.setText(PID_set["D"])
+            self.osc_input.setText(PID_set["O"])
+            self.parent.notify(self.dev_id + " succesfully connected. Present PID values updatesd.")  # noqa #E501
+            self.establish_connection_btn.setText("Stop Connection")
             self.tec_button.setEnabled(True)
             self.pid_btn.setEnabled(True)
         else:
-            self.establish_connection_btn.setText("Stop Connection")
+            self.establish_connection_btn.setText("Establish Connection")
+            self.thor.close()
             self.tec_button.setEnabled(False)
             self.laser_button.setEnabled(False)
+            self.laser_switch.setEnabled(False)
             self.pid_btn.setEnabled(False)
 
     def load_device_data(self, p, i, d, comport, tec, laser_rate):
@@ -249,6 +317,7 @@ class alicat_mfc(QWidget):
         settings: dict
             Stores settings for the controller
     """
+    reg_ex_1 = QRegularExpression(r"[0-9]*\.[0-9]{0,4}")  # double
 
     def __init__(self, parent, tabs, str_name):
         super().__init__()
@@ -305,8 +374,8 @@ class alicat_mfc(QWidget):
         self.device_layout.addWidget(self.gas_label, 1, 0)
         self.gas_label.setMaximumWidth(200)
         self.gas_input = QComboBox()
-        for _, gas_text in AlicatGases.items():
-            self.gas_input.addItem(gas_text)
+        for _, gas in AlicatGases.items():
+            self.gas_input.addItem(gas)
         self.gas = self.gas_input.currentText()
         self.gas_input.setMaximumWidth(200)
         self.device_layout.addWidget(self.gas_input, 1, 1)
@@ -317,6 +386,7 @@ class alicat_mfc(QWidget):
         self.device_layout.addWidget(self.dil_rate_label, 2, 0)
         self.dil_rate_input = QLineEdit()
         self.dil_rate_input.setText("0")
+        self.dil_rate_input.setValidator(QRegularExpressionValidator(self.reg_ex_1))  # noqa E501
         self.dil_rate_input.setMaximumWidth(200)
         self.dil_rate = self.dil_rate_input.text()
         self.device_layout.addWidget(self.dil_rate_input, 2, 1)
@@ -347,15 +417,22 @@ class alicat_mfc(QWidget):
         """Method that sets the flow rate of the Alicat MFC
         to the value input `dil_rate_input`.
         """
-        # todo: Set flowrate to input text value
-        print("set")
+        new_flow = float(self.dil_rate_input.text())
+        self.loop.run_until_complete(self.MFC.set_MFC_val(flow_rate=new_flow))
+        self.parent.notify(str(self.dev_id) + " flow set to " + str(new_flow))
 
     def stop_flow_rate(self):
         """Method that sets the flow-rate of the Alicat MFC
         to zero
         """
-        # todo: Set flow rate to zero
-        print("set")
+        self.loop.run_until_complete(self.MFC.set_MFC_val(flow_rate=0))
+        self.parent.notify(str(self.dev_id) + " flow set to zero")
+        self.dil_rate_input.setText('0.0')
+        return
+
+    def GetMFCFlow(self):
+        MFC_Vals = self.loop.run_until_complete(self.MFC.get_MFC_val())
+        return MFC_Vals
 
     def establish_connection(self):
         """Method that establishes connection with
@@ -364,11 +441,24 @@ class alicat_mfc(QWidget):
         """
         if self.connection_btn.isChecked():
             # todo: Establish communication
+            self.MFC = EchoController()
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+            com = self.comport_input.currentText()
+            gas = self.gas_input.currentText()
+            gas = [gastxt for gastxt, gasunicode in AlicatGases.items() if bytes(gasunicode, "utf-8") == bytes(gas, "utf-8")][0]
+            time.sleep(0.1)
+            self.loop.run_until_complete(self.MFC.set_params(com, gas=gas))
+            self.parent.notify(self.dev_id + " connected successfully")
+
             self.connection_btn.setText("Stop Connection")
             self.set_flow_btn.setEnabled(True)
             self.stop_flow_btn.setEnabled(True)
         else:
+            self.loop.run_until_complete(self.MFC.end_connection())
+            self.parent.notify("Connection to " + self.dev_id + " ended successfully")  # noqa E501
             self.connection_btn.setText("Establish Connection")
+
             self.set_flow_btn.setEnabled(False)
             self.stop_flow_btn.setEnabled(False)
 
