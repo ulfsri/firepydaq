@@ -1,3 +1,4 @@
+
 schema = {
             "$schema": "http://json-schema.org/draft-04/schema#",
             "type": "object",
@@ -84,3 +85,5 @@ schema = {
         },
       "required": ["Name", "Experiment Name", "Test Name", "Sampling Rate", "Formulae File", "Experiment Type", "Config File"],
     }
+"""Schema for FIREpyDAQ configuration file
+"""
