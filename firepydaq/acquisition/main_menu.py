@@ -68,12 +68,12 @@ class MyMenu(QMenuBar):
         self.add_mfm_action = QAction("Add MFM", self)
         self.add_mfm_action.triggered.connect(self.add_mfm)
         self.add_devices_menu.addAction(self.add_mfm_action)
-        self.add_mfm_action.setShortcut("Shift+Alt+L")
+        self.add_mfm_action.setShortcut("Shift+Alt+M")
 
         self.add_mfc_action = QAction("Add MFC", self)
         self.add_mfc_action.triggered.connect(self.add_mfc)
         self.add_devices_menu.addAction(self.add_mfc_action)
-        self.add_mfc_action.setShortcut("Shift+Alt+M")
+        self.add_mfc_action.setShortcut("Shift+Alt+C")
 
         # Remove Devices Menu Button
         self.remove_devices_menu = self.addMenu("Remove Devices")

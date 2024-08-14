@@ -284,7 +284,7 @@ class application(QMainWindow):
         self.sample_rate_input = QLineEdit()
         self.sample_rate_input.setMaximumWidth(200)
         self.sample_rate_input.setPlaceholderText("10")
-        reg_ex_1 = QRegularExpression("[0-9]+.?[0-9]{,2}")  # double
+        reg_ex_1 = QRegularExpression(r"[0-9]*\.[0-9]{0,4}")  # double
         self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1))  # noqa: E501
         # .setValidator(QRegExpValidator(reg_ex_1))
         self.input_layout.addWidget(self.sample_rate_input, 4, 1)
