@@ -5,6 +5,11 @@ import serial
 
 COMports = [tuple(p)[0] for p in list(COMPortChecker.comports())]
 
+AlicatGases = {
+                'N2': u'N\u2082',
+                'C3H8': u'C\u2083H\u2088',
+                'Air': u'Air'
+        }
 colors = {
     'background': '#111111',
     'text': '#111111'
