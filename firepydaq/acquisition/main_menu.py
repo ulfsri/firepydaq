@@ -17,13 +17,21 @@ from .device import thorlabs_laser
 
 from ..utilities.ErrorUtils import error_logger
 
+
 class MyMenu(QMenuBar):
+    """Creates menu bar for the application
 
+    Attributes
+    ----------
+        parent: object
+            Parent class
+    """
     def __init__(self, parent):
-
         super(MyMenu, self).__init__()
-        self.parent = parent
+        self._makemenu(parent)
 
+    def _makemenu(self, parent):
+        self.parent = parent
         # File Menu Button
         self.file_menu = self.addMenu("File")
         self.smell = "Bar"
@@ -94,22 +102,22 @@ class MyMenu(QMenuBar):
         # Display Data Menu Button
         self.display_data_menu = self.addMenu("Display Data")
         self.display_data_type_menu = self.display_data_menu.addMenu("Display")
-        self.display_type = QActionGroup(self, exclusive = True)
+        self.display_type = QActionGroup(self, exclusive=True)
 
-        self.no_display = QAction("No Display (Default)", self, checkable = True)
+        self.no_display = QAction("No Display (Default)", self, checkable=True)
         self.no_display.triggered.connect(self.do_not_display)
         self.no_display.setChecked(True)
         self.display_data_menu.addAction(self.no_display)
 
-        self.dash_display = QAction("Display in a Dashboard", self, checkable = True)
+        self.dash_display = QAction("Display in a Dashboard", self, checkable=True)
         self.dash_display.triggered.connect(self.display_dashboard)
         self.display_data_type_menu.addAction(self.dash_display)
 
-        self.tab_display = QAction("Display in a Tab", self , checkable = True)
+        self.tab_display = QAction("Display in a Tab", self, checkable=True)
         self.tab_display.triggered.connect(self.display_tab)
         self.display_data_type_menu.addAction(self.tab_display)
 
-        self.all_display = QAction("Display All", self , checkable = True)
+        self.all_display = QAction("Display All", self, checkable=True)
         self.all_display.triggered.connect(self.display_all)
         self.display_data_type_menu.addAction(self.all_display)
 
@@ -118,7 +126,7 @@ class MyMenu(QMenuBar):
         self.display_type.addAction(self.dash_display)
         self.display_type.addAction(self.no_display)
 
-        #Mode
+        # Mode
         self.mode_menu = self.addMenu("&Mode")
 
         # Design Mode Switch
@@ -130,7 +138,7 @@ class MyMenu(QMenuBar):
         self.light_mode.triggered.connect(lambda: self.switch_mode("Light"))
         self.mode_menu.addAction(self.light_mode)
 
-        #Help
+        # Help
         self.help_menu = self.addMenu("&Help")
 
         # Add Documentation and Reporting Features 
@@ -143,10 +151,10 @@ class MyMenu(QMenuBar):
         self.help_menu.addAction(self.report_issues)
 
     def save_notifs(self):
-        f = open("myfile. txt", "w") 
+        f = open("myfile. txt", "w")
         f.write(self.parent.notif_text_slot.text())
         self.parent.notify("File Saved")
-    
+
     def switch_mode(self, str):
         if str == "Light":
             f = open(self.parent.style_light, "r")
@@ -154,11 +162,10 @@ class MyMenu(QMenuBar):
         else:
             f = open(self.parent.style_dark, "r")
             self.parent.curr_mode = "Dark"
-        
+
         style_str = f.read()
         self.parent.setStyleSheet(style_str)
         f.close()
-
 
     def display_all(self):
         self.parent.display = True
@@ -189,14 +196,12 @@ class MyMenu(QMenuBar):
         self.parent.dashboard = False
         if not hasattr(self.parent, "data_vis_tab"):
             self.parent.data_vis_tab = data_vis(self.parent)
-    def print(self):
-        print("hi")
 
     def take_to_docs(self):
-        webbrowser.open("https://doc.qt.io/qtforpython-6/") #to do replace
-    
+        webbrowser.open("https://doc.qt.io/qtforpython-6/")  # todo replace
+
     def report_issue(self):
-        webbrowser.open("https://github.com/ulfsri/firepydaq/issues/") #to do replace
+        webbrowser.open("https://github.com/ulfsri/firepydaq/issues/")  # todo replace
 
     def add_laser(self):
         if not self.parent.device_arr:

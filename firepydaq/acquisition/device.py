@@ -5,8 +5,7 @@ from ..utilities.DAQUtils import COMports, AlicatGases
 
 
 class thorlabs_laser(QWidget):
-    """Object that stores user-added
-    ThorlabsCLD101X Controller information
+    """User-added ThorlabsCLD101X Controller
 
     Attributes
     ----------
@@ -237,8 +236,7 @@ class thorlabs_laser(QWidget):
 
 
 class alicat_mfc(QWidget):
-    """Object that stores user-added
-    Alicat Mass Flow Controller information
+    """User-added Alicat Mass Flow Controller
 
     Attributes
     ----------
@@ -254,9 +252,9 @@ class alicat_mfc(QWidget):
 
     def __init__(self, parent, tabs, str_name):
         super().__init__()
-        self._makeinit()
+        self._makemfc(parent, tabs, str_name)
 
-    def _makeinit(self, parent, tabs, str_name):
+    def _makemfc(self, parent, tabs, str_name):
         self.type = "mfc"
         self.dev_id = str_name
         self.parent = parent
@@ -421,8 +419,7 @@ class alicat_mfc(QWidget):
 
 
 class mfm(QWidget):
-    """Object that stores an added
-    Alicat Mass Flow Meter device.
+    """User-added Alicat Mass Flow Meter device.
 
     Attributes
     ----------
@@ -437,9 +434,9 @@ class mfm(QWidget):
     """
     def __init__(self, parent, str_name):
         super().__init__()
-        self._makeinit(parent, str_name)
+        self._makemfm(parent, str_name)
 
-    def _makeinit(self, parent, str_name):
+    def _makemfm(self, parent, str_name):
         self.type = "mfm"
         self.dev_id = str_name
         self.parent = parent
@@ -546,4 +543,3 @@ class mfm(QWidget):
         self.settings["COMPORT"] = self.comport_input.currentText()
         self.settings["Gas"] = self.gas_input.currentText()
         return self.settings
-
