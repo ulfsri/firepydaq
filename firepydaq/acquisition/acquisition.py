@@ -79,7 +79,6 @@ class application(QMainWindow):
         f.close()
 
         ico_path = self.assets_folder + os.path.sep + "FIREpyDAQDark.png"
-        print(ico_path)
         self.setWindowIcon(QIcon(ico_path))
         
         # Create main widget
@@ -921,7 +920,7 @@ class application(QMainWindow):
                 new_df = self.save_dataframe
 
             new_df.write_parquet(self.parquet_file)
-        except:
+        except Exception:
             pass
         return
 
@@ -998,12 +997,13 @@ class application(QMainWindow):
                     # Time between read and save time exceeds 
                     # prescribed 1/(sampling frequency)
                     self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.")
-                
-                #Plots
+
+                # Plots
                 if hasattr(self, "data_vis_tab"):
                     if not hasattr(self.data_vis_tab, "dev_edit"):
                         self.data_vis_tab.set_labels(self.config_file)
-                    self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])
+                    raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])
+                    raw_dpthread.start()
 
                 if (self.xdata[-1]%5)<=1/self.ActualSamplingRate:
                     text_update = "Last time entry:" +str(round(self.xdata[-1],2)) +", Total samples/chan:" +str(self.NIDAQ_Device.aitask.in_stream.total_samp_per_chan_acquired)+',\n Actual sampling rate:'+str(round(self.NIDAQ_Device.aitask.timing.samp_clk_rate,2))

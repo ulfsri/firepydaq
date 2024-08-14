@@ -32,9 +32,21 @@ This interface can be used for three types of devices simultaneously,
 `firepydaq` can be used to compile PyQT based user interface.
 
 ```python
+# On Windows: Protect your script from importing child processes
 # Required if you need dashboard access.
 # Dashboard is spawned as a separate process. 
+if __name__ == "__main__":
+    from firepydaq.FIREpyDAQ_Acquisition import FIREpyDAQ_Acquisition
+    FIREpyDAQ_Acquisition()
+
+```
+
+Alternatively, you can run the following.
+ 
+```python
 # On Windows: Protect your script from importing child processes 
+# Required if you need dashboard access.
+# Dashboard is spawned as a separate process. 
 if __name__ == "__main__":
 	import multiprocessing as mp
 	mp.freeze_support()
@@ -48,18 +60,20 @@ if __name__ == "__main__":
 	sys.exit(app.exec())
 ```
 
-## For development
-
-- Fork and Clone this repository
-- Install poetry using `pipx` as recommended, and `make` (optional). 
-- If you install and configure `make` - run `make build`, which will initiate the commands `poetry build`, `poetry lock`, and `poetry install` in succession. This will create a virtual environment for testing your developments.
-- Alternatively, you can even run individual poetry commands to install the package on a virtual environment for local development.
-
 ## Contributing
 
 Interested in contributing? Check out the [contributing guidelines](docs/contributing.md). 
 Please note that this project is released with a Code of Conduct. 
 By contributing to this project, you agree to abide by its terms.
+
+Suggested procedure is given below. Note: Pull request into the `main` branch will not be accepted.
+
+- Fork this repository.
+- Create a `your_feature` branch from the `dev` branch. 
+- Clone your repository on your machine.
+- Install poetry using `pipx` as recommended, and `make` (optional). 
+- If you install and configure `make` - run `make build`, which will initiate the commands `poetry build`, `poetry lock`, and `poetry install` in succession. This will create a virtual environment for testing your developments.
+- Alternatively, you can even run individual poetry commands to install the package on a virtual environment for local development.
 
 ## License
 
