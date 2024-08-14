@@ -1,43 +1,49 @@
-"""
-General imports 
-"""
 import sys
 # PyQT Related
 from PySide6.QtCore import QTimer, QRegularExpression
 from PySide6.QtGui import QIcon, Qt, QRegularExpressionValidator
 from PySide6.QtWidgets import (
-    QDialog, QMainWindow, QWidget, QVBoxLayout, 
-    QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit, 
+    QDialog, QMainWindow, QWidget, QVBoxLayout,
+    QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit,
     QComboBox, QPushButton, QMessageBox, QFileDialog, QScrollArea)
 from .save_setting_to_json_dialog import SaveSettingsDialog
+from .exception_list import UnfilledFieldError
 from .main_menu import MyMenu
-import threading
-from .device import alicat_mfc
 import json
-from .display_data_tab import data_vis
+
+# Dashboard
 from ..dashboard.app import create_dash_app
+from ..utilities.PostProcessing import PostProcessData
+
 import time
+from datetime import datetime, timedelta
+
+# Threading and multiprocesses
+import threading
 import concurrent.futures
 import multiprocessing as mp
-from datetime import datetime, timedelta
+
+# Data related
 import polars as pl
 import numpy as np
-import traceback
 import pyarrow.parquet as pq
+
+# String/Files validations
 import glob
 import re
 import os
-from .NIAOtab import NIAOtab
 
-from .exception_list import UnfilledFieldError
+# NI related
+from .NIAOtab import NIAOtab
 from ..api.EchoNIDAQTask import CreateDAQTask
 
-from ..utilities.PostProcessing import PostProcessData
+# Error handling
+import traceback
 from ..utilities.ErrorUtils import error_logger, firepydaq_logger
 
 # To make the application icon in the tab appear as the selected icon
 import ctypes
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ulfsri.firepydaq.010')
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ulfsri.firepydaq.010')  # noqa: E501
 
 
 class application(QMainWindow):
@@ -46,7 +52,7 @@ class application(QMainWindow):
     """
 
     def __init__(self):
-         
+
         super().__init__()
 
         self.MakeMainWindow()
@@ -64,29 +70,32 @@ class application(QMainWindow):
         # Set window properties
         self.setGeometry(0, 0, 900, 650)
         self.setFixedSize(900, 650)
-        self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)") 
+        self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)")  # noqa: E501
         self.menu = MyMenu(self)
         self.setMenuBar(self.menu)
 
-        self.assets_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + os.path.sep + "assets"
-        self.style_light = self.assets_folder + os.path.sep + "styles_light.css"
+        self.assets_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + os.path.sep + "assets"  # noqa: E501
+        self.style_light = self.assets_folder + os.path.sep + "styles_light.css"  # noqa: E501
         self.style_dark = self.assets_folder + os.path.sep + "styles_dark.css"
         self.popup_light = self.assets_folder + os.path.sep + "popup_light.css"
         self.popup_dark = self.assets_folder + os.path.sep + "popup_dark.css"
-        f = open(self.style_light)
-        str = f.read()
-        self.setStyleSheet(str)
-        f.close()
+        try:
+            f = open(self.style_light)
+            str = f.read()
+            self.setStyleSheet(str)
+            f.close()
+        except Exception:
+            self.notify("Error loading stylesheets")
 
         ico_path = self.assets_folder + os.path.sep + "FIREpyDAQDark.png"
         self.setWindowIcon(QIcon(ico_path))
-        
+
         # Create main widget
         self.main_widget = QWidget()
         self.main_widget.setObjectName("MainWidget")
         self.main_layout = QVBoxLayout(self.main_widget)
         self.setCentralWidget(self.main_widget)
-        
+
         self.main_layout.setStretch(0, 2.5)
         self.main_layout.setStretch(1, 1.5)
 
@@ -94,8 +103,8 @@ class application(QMainWindow):
         """Method that initiates various
         variables for later use.
 
-        - Empty dicts: 
-            - device_arr 
+        - Empty dicts:
+            - device_arr
                 Keeps a log of all Devices added by the user
             - settings
                 Stores settings used for NI DAQ
@@ -108,11 +117,12 @@ class application(QMainWindow):
             - mfcs
                 Stores info of Alicat Mass Flow Controllers added by the user.
                 Maximum 4 allowed.
-        - Empty lists: 
+        - Empty lists:
             - labels_to_save
-                Stores Labels to save, corresponding to the `Label` in NI config file, 
+                Stores Labels to save, corresponding to the
+                `Label` in NI config file,
                 during acquisition
-        - Booleans: 
+        - Booleans:
             - running = `True`
                 If GUI is compiled. Default: True
             - acquiring_data = `False`
@@ -123,18 +133,18 @@ class application(QMainWindow):
                 If dashboard display is selected. Default: `False`
             - tab = `False`
                 If Tabular plot display is selected. Default: `False`
-        - Others: 
-            - re_StrAllowable = r'^[A-Za-z0-9_]+$' 
+        - Others:
+            - re_StrAllowable = r'^[A-Za-z0-9_]+$'
                 regex format for allowable strings for some input fields.
                 Alphanumeric with underscores, no spaces allowed.
-            - dt_format = "%Y-%m-%d %H:%M:%S:%f" 
+            - dt_format = "%Y-%m-%d %H:%M:%S:%f"
                 Format for how Absolute time is saved during acquisition
-            - fext = ".parquet" 
+            - fext = ".parquet"
                 File format for collected NI data
-            - curr_mode = "Light" 
+            - curr_mode = "Light"
                 GUI mode/Theme
         """
-        # array holding all device objects 
+        # array holding all device objects
         self.device_arr = {}
         self.settings = {}
         self.lasers = {}
@@ -144,7 +154,7 @@ class application(QMainWindow):
         self.labels_to_save = []
 
         self.running = True
-        self.acquiring_data = False 
+        self.acquiring_data = False
         self.display = False
         self.dashboard = False
         self.tab = False
@@ -164,7 +174,7 @@ class application(QMainWindow):
 
     def input_content(self):
         """Creates input content for NI device by default
-        
+
         Generated content
         ------------
         - name_input: QLineEdit
@@ -185,7 +195,7 @@ class application(QMainWindow):
             Sampling rate for NI device (Hz)
             Will only accept floats
         - config_file_edit: QLineEdit
-            Select .csv NI Config File. 
+            Select .csv NI Config File.
             The `config_input` button can be used to select a file.
         - config_input: QPushButton
             Connects to `set_config_file()`
@@ -270,12 +280,12 @@ class application(QMainWindow):
         self.sample_rate_label.setToolTipDuration(500)
         self.sample_rate_label.setMaximumWidth(200)
         self.input_layout.addWidget(self.sample_rate_label, 4, 0)
-    
+
         self.sample_rate_input = QLineEdit()
         self.sample_rate_input.setMaximumWidth(200)
         self.sample_rate_input.setPlaceholderText("10")
         reg_ex_1 = QRegularExpression("[0-9]+.?[0-9]{,2}")  # double
-        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1))
+        self.sample_rate_input.setValidator(QRegularExpressionValidator(reg_ex_1))  # noqa: E501
         # .setValidator(QRegExpValidator(reg_ex_1))
         self.input_layout.addWidget(self.sample_rate_input, 4, 1)
 
@@ -310,7 +320,7 @@ class application(QMainWindow):
         self.formulae_file_layout.addWidget(self.formulae_file_edit)
         self.formulae_file_layout.addWidget(self.formulae_input)
         self.input_layout.addLayout(self.formulae_file_layout, 6, 1)
-        
+
         # Buttons to begin DAQ
         self.acquisition_button = QPushButton("Start Acquisition")
         self.input_layout.addWidget(self.acquisition_button, 7, 0)
@@ -352,7 +362,7 @@ class application(QMainWindow):
         self.notif_save_layout.addWidget(self.notif_txt_edit)
         self.notif_save_layout.addWidget(self.notif_log_btn)
         self.notifications_layout.addLayout(self.notif_save_layout)
-        
+
         self.main_input_layout.addLayout(self.input_layout)
         self.main_input_layout.addLayout(self.notifications_layout)
         self.data_visualizer_layout = QHBoxLayout()
@@ -360,13 +370,13 @@ class application(QMainWindow):
         self.input_settings_widget.setLayout(self.main_input_layout)
 
         return self.input_settings_widget
-    
+
     def log_Obs(self):
         """Calls `notify` and clears the `notif_txt_edit`
         """
         self.notify(self.notif_txt_edit.text())
         self.notif_txt_edit.clear()
-    
+
     def notify(self, str):
         """Method that logs observations written in `notif_txt_edit`
         and appends to the notification panel (`notif_text_slot`)
@@ -375,7 +385,7 @@ class application(QMainWindow):
         to the notification panel and a time stamp (format HH:MM:SS)
         at which the "Log Obs." is clicked, will be
         appended to the written text.
-        
+
         Arguments
         _________
             str: str
@@ -383,7 +393,6 @@ class application(QMainWindow):
 
         Example
         _______
-            
             If written observation is "Ignition observed"
 
             Notification text update will be,
@@ -393,7 +402,7 @@ class application(QMainWindow):
         str_time = time.strftime("%X")
         new_txt = line + "\n" + "[" + str_time + "]: " + str
         self.notif_text_slot.setText(new_txt)
-    
+
     def clear_notification_panel(self):
         """ Method that clears the notification panel text
         """
@@ -418,7 +427,7 @@ class application(QMainWindow):
                     self.json_file = file_json
                     self.test_input.setText(self.parquet_file)
         return
-    
+
     def set_formulae_file(self):
         """ Method that opens a `QFileDialog` to open a
         .csv formulae file
@@ -431,7 +440,7 @@ class application(QMainWindow):
         if not isinstance(f, str):
             self.formulae_file = f.name
             self.formulae_file_edit.setText(self.formulae_file)
-        return  
+        return
 
     def set_config_file(self):
         """ Method that opens a `QFileDialog` to open a
@@ -442,11 +451,11 @@ class application(QMainWindow):
         if dlg.exec():
             filenames = dlg.selectedFiles()
             f = open(filenames[0], 'r')
-        if not isinstance(f, str):  
+        if not isinstance(f, str):
             self.config_file = f.name
             self.config_file_edit.setText(self.config_file)
         return
-    
+
     def dev_arr_to_dict(self):
         """ Method to store all user-added devices
         in one dictionary to allow saving a global
@@ -469,7 +478,7 @@ class application(QMainWindow):
                 mfm_item = self.mfms[mfm]
                 dict_dev["MFMs"][mfm] = mfm_item.settings_to_dict()
         return dict_dev
-    
+
     def is_valid_path(self, path):
         """ Method that checks if the input path
         is a valid path
@@ -490,13 +499,13 @@ class application(QMainWindow):
             return False
         except (TypeError, ValueError):
             return False
-    
+
     def _all_fields_filled(self):
         if (self.name_input.text().strip() == ""
-            or self.exp_input.text().strip() == ""
-            or self.test_input.text().strip() == ""
-            or self.config_file.strip() == ""
-            or self.sample_rate_input.text().strip() == ""):
+                or self.exp_input.text().strip() == ""
+                or self.test_input.text().strip() == ""
+                or self.config_file.strip() == ""
+                or self.sample_rate_input.text().strip() == ""):
             raise UnfilledFieldError("Unfilled fields encountered.")
         return True
 
@@ -525,10 +534,13 @@ class application(QMainWindow):
         except Exception:
             return False
         if letter == "f":
-            cols = ["Label", "RHS", "Chart", "Legend", "Layout", "Position", "Processed_Unit"]
+            cols = ["Label", "RHS", "Chart", "Legend",
+                    "Layout", "Position", "Processed_Unit"]
         if letter == "c":
-            cols = ["", "Panel", "Device", "Channel", "ScaleMax", "ScaleMin", "Label", "TCType",
-                    "Type", "Chart", "AIRangeMin", "AIRangeMax", "Layout", "Position", "Processed_Unit", "Legend"]
+            cols = ["", "Panel", "Device", "Channel",
+                    "ScaleMax", "ScaleMin", "Label", "TCType",
+                    "Type", "Chart", "AIRangeMin", "AIRangeMax",
+                    "Layout", "Position", "Processed_Unit", "Legend"]
         cols.sort()
         df_cols = [i.strip() for i in df.columns]
         df_cols.sort()
@@ -538,13 +550,13 @@ class application(QMainWindow):
             if cols == df_cols:
                 return True
         elif letter == "c":
-            if self.display:
+            if self.dashboard:
                 # todo: Add condition for when display is only tab
                 # or display is dashboard, or both
                 if len(col_intersect) == len(cols):
                     return True
             else:
-                if all(e in col_intersect for e in ["Device", "Channel", "Type", "TCType"]):
+                if all(e in col_intersect for e in ["Device", "Channel", "Type", "TCType"]):  # noqa: E501
                     # Allow running acquisition for a minimal config file
                     return True
         return False
@@ -553,13 +565,13 @@ class application(QMainWindow):
         """Method to check NI DAQ setup
         as defined by the user in input settings.
 
-        - First, a check involves if all fields are filled. 
+        - First, a check involves if all fields are filled.
         Only Formulae file is optional.
 
-        - Input fields and files selected 
+        - Input fields and files selected
         are checked as per requirements
         indicated in `input_content()`.
-        
+
         - Paths to save all data and NI DAQ settings
         are created via calling
         the method `Create_SavePath()`.
@@ -567,11 +579,11 @@ class application(QMainWindow):
         self._all_fields_filled()
 
         # Allow only alphunumeric string with underscores in names
-        if re.match(self.re_strAllowable, self.name_input.text()) and re.match(self.re_strAllowable, self.exp_input.text()):
+        if re.match(self.re_strAllowable, self.name_input.text()) and re.match(self.re_strAllowable, self.exp_input.text()):  # noqa: E501
             self.settings["Name"] = (self.name_input.text())
             self.settings["Experiment Name"] = self.exp_input.text()
         else:
-            raise ValueError("Names can only be alphanumeric or contain spaces.")
+            raise ValueError("Names can only be alphanumeric or contain spaces.")  # noqa: E501
 
         try:
             sampling_rate = float(self.sample_rate_input.text())
@@ -584,7 +596,7 @@ class application(QMainWindow):
         # Create save path
         self.Create_SavePath()
 
-        if self.formulae_file_edit.text().strip() == "" or self.validate_df("f", self.formulae_file_edit.text()):
+        if self.formulae_file_edit.text().strip() == "" or self.validate_df("f", self.formulae_file_edit.text()):  # noqa: E501
             self.settings["Formulae File"] = self.formulae_file_edit.text()
             self.formulae_file = self.formulae_file_edit.text()
         else:
@@ -593,7 +605,7 @@ class application(QMainWindow):
         if self.validate_df("c", self.config_file_edit.text()):
             self.settings["Config File"] = self.config_file_edit.text()
             self.config_df = pl.read_csv(self.config_file)
-            self.config_df.columns = [i.strip() for i in self.config_df.columns]
+            self.config_df.columns = [i.strip() for i in self.config_df.columns]  # noqa: E501
             self.labels_to_save = self.config_df.select("Label").to_series().to_list()  # noqa: E501
         else:
             self.inform_user("Config File does not meet requirements.")
@@ -647,28 +659,29 @@ class application(QMainWindow):
         inp_text = self.test_input.text()
         fname = inp_text.split(self.fext)[0]
         fpath = inp_text + self.fext
-        if self.is_valid_path(fpath):  # If the user selected a custom path to save the data
-            if os.path.isfile(fpath):  # If there is already a file by that name
+        if self.is_valid_path(fpath):
+            # If the user selected a custom path to save the data
+            if os.path.isfile(fpath):
+                # If there is already a file by that name
                 test_name = f"{fname}"
 
-                files = glob.glob(f"%s*%s" % (fname, self.fext))
-                print(files)
+                files = glob.glob(f"{fname}*{self.fext}")
                 if len(files) == 1:  # one previous file
                     # Checking if there is any appended number at the
                     # last 3 characters before extension
-                    fnumber = re.findall(r'\d+', files[0].split(self.fext)[0][-3:])
+                    fnumber = re.findall(r'\d+', files[0].split(self.fext)[0][-3:])  # noqa: E501
                     if not fnumber:
                         # If no number at the end of that file, append `_01`
                         test_name = f"{fname}_01"
                     else:
                         # If there is a number, get the number, increment by 1
-                        f_x = str(int(fnumber[0])+1).rjust(2,'0')
+                        f_x = str(int(fnumber[0])+1).rjust(2, '0')
                         test_name = f"{fname.split('_'+fnumber[0])[0]}_{f_x}"
                 else:
                     # If previous files exits, sort them, get the last one,
                     # and increment the number
                     files = [sorted(files)[-1]]
-                    fnumber = re.findall(r'\d+', files[0].split(self.fext)[0][-3:])
+                    fnumber = re.findall(r'\d+', files[0].split(self.fext)[0][-3:])  # noqa: E501
                     f_x = str(int(fnumber[0])+1).rjust(2, '0')
                     test_name = f"{fname.split('_'+fnumber[0])[0]}_{f_x}"
             else:
@@ -680,14 +693,18 @@ class application(QMainWindow):
             if re.match(self.re_strAllowable, fname):
                 cwd = os.getcwd()
                 now = datetime.now()
-                self.save_dir = cwd + os.sep + self.settings["Experiment Type"] + os.sep + now.strftime("%Y%m%d_%H%M%S") + "_" + self.settings["Name"] + "_" + self.settings["Experiment Name"] + "_"
+                self.save_dir = (cwd + os.sep +
+                                 self.settings["Experiment Type"] +
+                                 os.sep + now.strftime("%Y%m%d_%H%M%S") +
+                                 "_" + self.settings["Name"] + "_" +
+                                 self.settings["Experiment Name"] + "_")
                 test_name = fname
             else:
                 raise ValueError("""Check test name. It should be either a\
                                  valid path or a test name that can only\
                                  contain alphanumeric or\
                                  contain underscores (no spaces).""")
-        
+
         self.json_file = test_name + ".json"
         self.parquet_file = test_name + ".parquet"
         if self.is_valid_path(inp_text):
@@ -711,8 +728,8 @@ class application(QMainWindow):
         except ValueError as e:
             raise ValueError("Invalid Sampling Rate") from e
         self.settings["Sampling Rate"] = sampling_rate
-        if (all(c.isalnum() or c == "_" for c in self.name_input.text()) 
-            and all(c.isalnum() or c == "_" for c in self.exp_input.text())):
+        if (all(c.isalnum() or c == "_" for c in self.name_input.text()) and
+                all(c.isalnum() or c == "_" for c in self.exp_input.text())):
             self.settings["Name"] = (self.name_input.text())
             self.settings["Experiment Name"] = self.exp_input.text()
         self.settings["Test Name"] = self.test_input.text()
@@ -720,9 +737,9 @@ class application(QMainWindow):
         self.settings["Config File"] = self.config_file_edit.text()
         if self.device_arr:
             self.settings["Devices"] = self.dev_arr_to_dict()
-        json_string = json.dumps(self.settings, indent=4) 
+        json_string = json.dumps(self.settings, indent=4)
         return json_string
-    
+
     def _set_texts(self):
         # Is called when main menu .json file is loaded.
         # Called in repopulate_settings.
@@ -732,13 +749,13 @@ class application(QMainWindow):
         self.save_dir = os.path.dirname(self.settings["Test Name"])
         self.common_path = self.settings["Test Name"].split(".parquet")[0]
         self.sample_rate_input.setText(str(self.settings["Sampling Rate"]))
-        self.formulae_file = self.settings["Formulae File"] 
+        self.formulae_file = self.settings["Formulae File"]
         self.formulae_file_edit.setText(self.settings["Formulae File"])
         self.test_type_input.setCurrentText(self.settings["Experiment Type"])
         self.config_file = self.settings["Config File"]
         self.config_file_edit.setText(self.settings["Config File"])
         firepydaq_logger.info(__name__ + ": Config texts updated.")
-    
+
     def inform_user(self, err_txt):
         """Method to inform important
         operations, errors, and warnings
@@ -766,9 +783,9 @@ class application(QMainWindow):
         in the config file.
         The values corresponding to each `Label` is
         populated with a random integer between 0 and 10.
-        
+
         The random data DataFrame, config file path, and formulae path
-        are supplied to PostProcessData for checking if 
+        are supplied to PostProcessData for checking if
         the random DataFrame (simulating collected data)
         can be scaled and post processed without any errors.
         """
@@ -776,10 +793,10 @@ class application(QMainWindow):
         if self.display and self.tab and hasattr(self, "data_vis_tab"):
             self.data_vis_tab.set_labels(self.config_file)
         config_df = pl.read_csv(self.settings["Config File"])
-        random_input = np.array([np.random.randint(0, 10)*i for i in np.ones(config_df.select("Label").shape)])
-        random_dict = {i: random_input[n] for n, i in enumerate(self.labels_to_save)}
+        random_input = np.array([np.random.randint(0, 10)*i for i in np.ones(config_df.select("Label").shape)])  # noqa: E501
+        random_dict = {i: random_input[n] for n, i in enumerate(self.labels_to_save)}  # noqa: E501
         random_df = pl.DataFrame(data=random_dict)
-        CheckPP = PostProcessData(datapath=random_df, configpath=self.settings['Config File'], formulaepath=self.settings['Formulae File'])
+        CheckPP = PostProcessData(datapath=random_df, configpath=self.settings['Config File'], formulaepath=self.settings['Formulae File'])  # noqa: E501
         CheckPP.ScaleData()
         CheckPP.UpdateData(dump_output=False)
 
@@ -798,7 +815,7 @@ class application(QMainWindow):
         in the config file, empty `ydata` array with
         shape equal to total AI (say 3) and AOs (say 1),
         (4,) is created.
-        
+
         An empty `xdata` array of shape (1,)
         for storing relative times
         is created with a single element `0`.
@@ -806,16 +823,14 @@ class application(QMainWindow):
         An empty 1D numpy array of name `abs_timestamp`
         is created to store corresponding
         absolute times during acquisition.
-
         """
         if self.NIDAQ_Device.ai_counter > 0:
             if len(self.NIDAQ_Device.ailabel_map) == 1:
                 self.ydata = np.empty(0)
             else:
                 self.ydata = np.empty((len(self.NIDAQ_Device.ailabel_map), 0))
-        else: # Todo: check for bugs with AO module
-            self.ydata = np.empty((len(self.settings["Label"]),0))
-        
+        else:  # Todo: check for bugs with AO module
+            self.ydata = np.empty((len(self.settings["Label"]), 0))
         self.xdata = np.array([0])
         self.abs_timestamp = np.array([])
         self.timing_np = np.empty((0, 3))
@@ -823,7 +838,7 @@ class application(QMainWindow):
     # @error_logger("AcqBegins")
     def acquisition_begins(self):
         """Method to begin acquisition for all devices.
-        
+
         The following methods are called in order.
         1. `validate_fields()`.
         2. `CreateDAQTask()` in `api` module to create
@@ -838,7 +853,7 @@ class application(QMainWindow):
         """
         # todo: Disable config, formulae, and sampling rate after acq begins.
         # Only allow name changes after acq begins.
-        # todo: regarding notification panel: save option pop up 
+        # todo: regarding notification panel: save option pop up
         # after acq stops
         # todo: if the dropdown is possible on notification panel,
         # create a clear notification panel option.
@@ -862,14 +877,14 @@ class application(QMainWindow):
 
             try:
                 self.NIDAQ_Device = CreateDAQTask(self, "NI Task")
-                self.NIDAQ_Device.CreateFromConfig(self.settings["Config File"])
+                self.NIDAQ_Device.CreateFromConfig(self.settings["Config File"])  # noqa: E501
 
                 if self.NIDAQ_Device.ai_counter > 0:
                     sample_rate = int(self.settings["Sampling Rate"])
                     self.NIDAQ_Device.StartAIContinuousTask(sample_rate, sample_rate)  # noqa: E501
                 if self.NIDAQ_Device.ao_counter > 0:
                     self.niaotab = NIAOtab(self, self.NIDAQ_Device.aolabel_map)
-                    AO_initials = np.array([0 for i in self.NIDAQ_Device.aolabel_map.keys()], dtype=np.float64)
+                    AO_initials = np.array([0 for i in self.NIDAQ_Device.aolabel_map.keys()], dtype=np.float64)  # noqa: E501
                     self.NIDAQ_Device.StartAOContinuousTask(AO_initials=AO_initials)  # noqa: E501
             except Exception:
                 # todo: Parse NI errors properly.. sampling rate? device name? config file error? # noqa: E501
@@ -894,7 +909,7 @@ class application(QMainWindow):
             self.save_button.setEnabled(False)
             self.notify("Acquisition stopped.")
             self.acquisition_button.setText("Start Acquisition")
-    
+
     def save_data_thread(self):
         """Method that saves acquired NI data in a
         `.parquet` file in path created as per `CreateSavePath()`.
@@ -929,30 +944,33 @@ class application(QMainWindow):
         until "Stop Acquisition" is clicked.
 
         '''
-        # Will only work for AI. Add functionality for AO only 
-        # if self.save_button.isChecked(): 
+        # AO debug in process
+        # if self.save_button.isChecked():
         # # Condition for saving TDMS
         self.run_counter += 1
         no_samples = self.NIDAQ_Device.numberOfSamples
         self.ActualSamplingRate = self.NIDAQ_Device.aitask.timing.samp_clk_rate
-        samplesAvailable = self.NIDAQ_Device.aitask._in_stream.avail_samp_per_chan
+        samplesAvailable = self.NIDAQ_Device.aitask._in_stream.avail_samp_per_chan  # noqa: E501
 
         if (samplesAvailable >= no_samples):
             try:
-                t_bef_read = time.time() 
-                parallels_bef = time.time()
-                # Executor waits for the threads to complete their task. Pauses other buttons or creates delays.
-                with concurrent.futures.ThreadPoolExecutor() as executor: # threading input and output tasks. 
+                t_bef_read = time.time()
+                # parallels_bef = time.time()
+                # Executor waits for the threads to complete their task.
+                # Pauses other buttons or creates delays.
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    # Threading AI, AO , and Device tasks
                     aithread = executor.submit(self.NIDAQ_Device.threadaitask)
-                    par_ai = time.time()
+                    # par_ai = time.time()
                     self.ydata_new = aithread.result()
                     self.ydata_new = np.array(self.ydata_new)
                     if self.NIDAQ_Device.ao_counter > 0:
-                        AO_outputs = [0 for i in range(self.NIDAQ_Device.ao_counter)]
-                        # AO_outputs will need user iniput. either on/off, or a float value input 
-                        aothread = executor.submit(self.threadaotask, AO_initials =  AO_outputs)
+                        AO_outputs = [0 for i in range(self.NIDAQ_Device.ao_counter)]  # noqa: E501
+                        # AO_outputs will need user iniput.
+                        # Currently only float values are accepted.
+                        aothread = executor.submit(self.threadaotask, AO_initials=AO_outputs)  # noqa: E501
                         self.written_data = aothread.result()
-                    par_ao = time.time()
+                    # par_ao = time.time()
                     # print("Par AI-AO: " +str(par_ao - par_ai))
                     # alicatthread = executor.submit(self.threadalicat)
                     # self.ydata_new = aithread.result()
@@ -962,57 +980,61 @@ class application(QMainWindow):
                 t_now = datetime.now()
                 # t_now_str = t_now.strftime(self.dt_format)
 
-                if (t_aft_read-t_bef_read)>1/self.ActualSamplingRate:# Read time exceeds prescribed 1/(sampling frequency)
-                    self.notify("Data Loss WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.")
+                if (t_aft_read-t_bef_read) > 1/self.ActualSamplingRate:
+                    # Read time exceeds prescribed 1/(sampling frequency)
+                    self.notify("Data Loss WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.")  # noqa: E501
 
                 if len(self.ydata.shape) == 1:
                     self.ydata = np.append(self.ydata, self.ydata_new, axis=0)
                 else:
                     self.ydata = np.append(self.ydata, self.ydata_new, axis=1)
                 # print(self.ydata)
-                t_diff = no_samples/self.ActualSamplingRate  # self.task.sampleRate
-                tdiff_array = np.linspace(1/self.ActualSamplingRate, t_diff, no_samples)
+                t_diff = no_samples/self.ActualSamplingRate
+                tdiff_array = np.linspace(1/self.ActualSamplingRate, t_diff, no_samples)  # noqa: E501
                 if self.xdata[-1] == 0:
-                    self.xdata_new = np.linspace(self.xdata[-1], self.xdata[-1] + t_diff, no_samples, endpoint=False)
-                    if len(self.ydata.shape) ==1 or len(self.ydata.shape) ==2 and len(self.xdata_new)==1:
+                    self.xdata_new = np.linspace(self.xdata[-1], self.xdata[-1] + t_diff, no_samples, endpoint=False)  # noqa: E501
+                    if len(self.ydata.shape) == 1 or len(self.ydata.shape) == 2 and len(self.xdata_new) == 1:  # noqa: E501
                         self.xdata_new = [no_samples/self.ActualSamplingRate]
-                    # elif len(self.ydata.shape) ==2 and len(self.xdata_new)==1:
-                    #     self.xdata_new = [no_samples/self.ActualSamplingRate] # np.append(self.xdata,self.task.numberOfSamples/self.ActualSamplingRate)
                     self.xdata = self.xdata_new
-                    self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]
+                    self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]  # noqa: E501
                     # self.MFC1Vals["Time"] = self.xdata[-1]
                     # self.MFC2Vals["Time"] = self.xdata[-1]
                 else:
-                    self.xdata_new = np.linspace(self.xdata[-1]+1/self.ActualSamplingRate, self.xdata[-1]+t_diff, no_samples)
-                    self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]
+                    self.xdata_new = np.linspace(self.xdata[-1]+1/self.ActualSamplingRate, self.xdata[-1]+t_diff, no_samples)  # noqa: E501
+                    self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]  # noqa: E501
                     self.xdata = np.append(self.xdata, self.xdata_new)
                     # self.MFC1Vals["Time"] = self.xdata[-1]+t_diff
                     # self.MFC2Vals["Time"] = self.xdata[-1]+t_diff
 
                 if self.save_bool:
-                    with concurrent.futures.ThreadPoolExecutor() as save_executor:
+                    with concurrent.futures.ThreadPoolExecutor() as save_executor:  # noqa: E501
                         save_executor.submit(self.save_data_thread)
                 t_aft_save = time.time()
                 if (t_aft_save - t_bef_read) > 1/self.ActualSamplingRate:
-                    # Time between read and save time exceeds 
+                    # Time between read and save time exceeds
                     # prescribed 1/(sampling frequency)
-                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.")
+                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.")  # noqa: E501
 
                 # Plots
                 if hasattr(self, "data_vis_tab"):
                     if not hasattr(self.data_vis_tab, "dev_edit"):
                         self.data_vis_tab.set_labels(self.config_file)
-                    raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])
+                    raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])  # noqa: E501
                     raw_dpthread.start()
 
-                if (self.xdata[-1]%5)<=1/self.ActualSamplingRate:
-                    text_update = "Last time entry:" +str(round(self.xdata[-1],2)) +", Total samples/chan:" +str(self.NIDAQ_Device.aitask.in_stream.total_samp_per_chan_acquired)+',\n Actual sampling rate:'+str(round(self.NIDAQ_Device.aitask.timing.samp_clk_rate,2))
+                if (self.xdata[-1] % 5) <= 1/self.ActualSamplingRate:
+                    text_update = ("Last time entry:" +
+                                   str(round(self.xdata[-1], 2)) +
+                                   ", Total samples/chan:" +
+                                   str(self.NIDAQ_Device.aitask.in_stream.total_samp_per_chan_acquired) +  # noqa: E501
+                                   ",\n Actual Hz:" +
+                                   str(round(self.NIDAQ_Device.aitask.timing.samp_clk_rate, 2)))  # noqa: E501
                     self.notify(text_update)
-            except:
+            except Exception:
                 the_type, the_value, the_traceback = sys.exc_info()
                 self.ContinueAcquisition = False
-                self.inform_user(str(the_type) + str(the_value) + str(traceback.print_tb(the_traceback)))
-    
+                self.inform_user(str(the_type) + str(the_value) + str(traceback.print_tb(the_traceback)))  # noqa: E501
+
         if self.ContinueAcquisition and self.running:
             QTimer.singleShot(10, self.runpyDAQ)
         else:
@@ -1032,7 +1054,7 @@ class application(QMainWindow):
             self.run_counter = 0
 
             # This will call Create_save path also based on updated fields.
-            self.set_up() 
+            self.set_up()
             if not self.is_valid_path(self.json_file):
                 self.json_file = self.save_dir+self.json_file
             with open(self.json_file, "x") as outfile:
@@ -1046,7 +1068,7 @@ class application(QMainWindow):
             firepydaq_logger.info("Saving initiated properly.")
             self.clear_notification_panel()
             self.save_begin_time = time.time()
-            self.notify("Previous text cleared. This will  be done for each saving operation.")
+            self.notify("Previous text cleared. This will  be done for each saving operation.")  # noqa: E501
             self.notify("Saving Data in " + self.parquet_file)
 
             pl_cols = self.labels_to_save
@@ -1063,7 +1085,7 @@ class application(QMainWindow):
                 firepydaq_logger.info("Dash app Process initiated after saving initiations")  # noqa: E501
                 self.notify("Launching Dashboard on https://127.0.0.1:1222")
                 mp.freeze_support()
-                self.dash_thread = mp.Process(target=create_dash_app, kwargs={"jsonpath": self.json_file})
+                self.dash_thread = mp.Process(target=create_dash_app, kwargs={"jsonpath": self.json_file})  # noqa: E501
                 self.dash_thread.start()
         else:
             self.save_button.setText("Save")
