@@ -2,10 +2,24 @@
   <img src="firepydaq/assets/FIREpyDAQDark.png" alt= “FIREpyDAQ” width="30%" height="30%">
 </p> 
 
+<div align="center">
+
+<!-- Releases -->
+![GitHub Release](https://img.shields.io/github/v/release/ulfsri/firepydaq?style=flat-square&labelColor=black&color=blue)
+![PyPI - Version](https://img.shields.io/pypi/v/firepydaq?style=flat-square&labelColor=black&color=blue)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/firepydaq?style=flat-square&labelColor=black&color=blue)
+![GitHub License](https://img.shields.io/github/license/ulfsri/firepydaq?style=flat-square&labelColor=black&color=blue)
+
+<!-- Workflows -->
 [![Pytest Checks](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
 [![Releases](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
-[![forks](https://img.shields.io/github/forks/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/network/members)
-[![stars](https://img.shields.io/github/stars/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/stargazers)
+
+<!-- Followers and usage -->
+[![forks](https://img.shields.io/github/forks/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/network/members?style=flat-square)
+[![stars](https://img.shields.io/github/stars/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/stargazers?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ulfsri/firepydaq?style=flat-square)
+
+</div>
 
 # firepydaq
 
@@ -86,3 +100,10 @@ of the GNU General Public license, v.3.0.
 Thanks to the following community guidelines which were immensely helpful while making this package.
 
 - <a href="https://py-pkgs.org/welcome" target="_blank">py-pkgs</a>
+- <a href="https://coderefinery.github.io/documentation/" target="_blank">Code refinery documentation</a>
+- <a href="https://www.sphinx-doc.org/en/master/usage/index.html" target="_blank">Sphinx documentation</a>
+- <a href="https://sphinx-autoapi.readthedocs.io/en/latest/" target="_blank">Sphinx AutoAPI documentation</a>
+- <a href="https://numpydoc.readthedocs.io/en/latest/format.html" target="_blank">Numpy docstrings style guide</a>
+
+
+
