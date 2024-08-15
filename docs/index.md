@@ -1,5 +1,4 @@
 # FIREpyDAQ
-
 ```{include} ../README.md
 ```
 
@@ -20,7 +19,7 @@ PostProcessExample.ipynb
 ```{toctree}
 :hidden:
 :maxdepth: 1
-:caption: FIREpyDAQ modules
+:caption: FIREpyDAQ Code
 
 autoapi/firepydaq/index
 autoapi/firepydaq/acquisition/index

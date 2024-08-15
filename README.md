@@ -2,10 +2,20 @@
   <img src="firepydaq/assets/FIREpyDAQDark.png" alt= “FIREpyDAQ” width="30%" height="30%">
 </p> 
 
+<!-- Releases -->
+![GitHub Release](https://img.shields.io/github/v/release/ulfsri/firepydaq?style=for-the-badge&labelColor=brown&color=green)
+![PyPI - Version](https://img.shields.io/pypi/v/firepydaq?style=for-the-badge&labelColor=brown&color=green)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/anyserial?style=for-the-badge&labelColor=black&color=blue)
+
+<!-- Workflows -->
 [![Pytest Checks](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
 [![Releases](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
+
+<!-- Followers and usage -->
 [![forks](https://img.shields.io/github/forks/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/network/members)
 [![stars](https://img.shields.io/github/stars/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/stargazers)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/ulfsri/firepydaq/dev)
+
 
 # firepydaq
 
@@ -86,3 +96,4 @@ of the GNU General Public license, v.3.0.
 Thanks to the following community guidelines which were immensely helpful while making this package.
 
 - <a href="https://py-pkgs.org/welcome" target="_blank">py-pkgs</a>
+- <a href="https://coderefinery.github.io/documentation/" target="_blank">Code refinery documentation</a>
