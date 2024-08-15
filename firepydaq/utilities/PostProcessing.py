@@ -249,7 +249,8 @@ class PostProcessData():
         self.df_processed = pl.DataFrame()
         for col in self.data_dict['data'].columns:
             crow_df = self.data_dict['config'].filter(pl.col("Label") == col)
-            if ("AbsoluteTime" not in col) and ("Absolute_Time" not in col):  # Checking for either these two strings in the data df. Absolute_Time will be backward compatible for data collected so far
+            if ("AbsoluteTime" not in col) and ("Absolute_Time" not in col):  
+            # Checking for either these two strings in the data df. 
                 self.data_dict['data'] = self.data_dict['data'].cast({col: pl.Float32})
             if "Time" in col:
                 self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
@@ -266,6 +267,7 @@ class PostProcessData():
                     unit_per_V = (max_Scale - min_Scale)/(max_AI - min_AI)
                     self.df_processed = self.df_processed.with_columns((pl.Series((self.data_dict['data'].select(pl.col(col))-min_AI)*unit_per_V+min_Scale)).alias(col))
                 except ValueError:
+                    # Is there is any ValueError, no scaling will be done to the data
                     self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
 
     def _CheckVarMacthes(self, var, rhs, replacement):

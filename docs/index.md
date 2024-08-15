@@ -6,11 +6,15 @@
 ```{toctree}
 :hidden:
 :maxdepth: 1
-:caption: Example files
+:caption: Usage Guide
 
+GeneralUsage.md
+DashboardUsage.md
+Devices.md
 ExampleConfig.ipynb
 ExampleFormulae.ipynb
 PostProcessExample.ipynb
+
 ```
 
 ```{toctree}
