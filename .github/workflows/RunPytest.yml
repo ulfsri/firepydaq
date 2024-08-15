@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.9']
+        python-version: ['3.9','3.12']
         os: [windows-latest]
     timeout-minutes: 30
     env:
@@ -24,14 +24,6 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    # - name: Setup xvfb (Linux)
-    #   if: runner.os == 'Linux'
-    #   run: |
-        # Stuff copied wildly from several stackoverflow posts
-        # sudo apt-get install -y xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 libxcb-shape0 libglib2.0-0 libgl1-mesa-dev
-        # sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
-        # start xvfb in the background
-        # sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
     - name: Install Python dependencies
       run: |
         # prerequisites
@@ -46,14 +38,10 @@ jobs:
     - name: Test with pytest
       run: |
         coverage run -m pytest -x tests
-    - name: Generate Coverage Report  
-      run: |
-        coverage report -m
+    # - name: Generate Coverage Report  
+    #   run: |
+    #     coverage report -m
     # Can be added later once the code and documentation is resolved. 
     # - name: Lint with flake8
     #   run: |
     #     flake8 --exclude _version.py .
-    # - name: Upload coverage to Codecov
-    #   uses: codecov/codecov-action@v3
-
-    
