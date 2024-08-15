@@ -80,7 +80,7 @@ jobs:
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release
     needs:
-    - publish-to-pypi
+    - publish-to-testpypi
     runs-on: windows-latest
 
     permissions:
