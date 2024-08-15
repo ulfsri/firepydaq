@@ -11,9 +11,8 @@
 ![GitHub License](https://img.shields.io/github/license/ulfsri/firepydaq?style=flat-square&labelColor=black&color=blue)
 
 <!-- Workflows -->
-[![Pytest dev](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=dev)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
-[![Pytest main](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
-[![Release flow](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
+[![Pytest](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
+[![Exe Release](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
 
 <!-- Followers and usage -->
 ![GitHub forks](https://img.shields.io/github/forks/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
