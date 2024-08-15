@@ -11,13 +11,15 @@
 ![GitHub License](https://img.shields.io/github/license/ulfsri/firepydaq?style=flat-square&labelColor=black&color=blue)
 
 <!-- Workflows -->
-[![Pytest Checks](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
-[![Releases](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
+[![Pytest dev](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=dev)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
+[![Pytest main](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
+[![Release flow](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
 
 <!-- Followers and usage -->
-[![forks](https://img.shields.io/github/forks/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/network/members?style=flat-square)
-[![stars](https://img.shields.io/github/stars/ulfsri/firepydaq?color=a26969)](https://github.com/ulfsri/firepydaq/stargazers?style=flat-square)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ulfsri/firepydaq?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
+![GitHub Repo stars](https://img.shields.io/github/stars/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
+![GitHub watchers](https://img.shields.io/github/watchers/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
 
 </div>
 
