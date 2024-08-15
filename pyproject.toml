@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "firepydaq"
-version = "0.1.0"
+version = "0.1.1"
 description = "A user-interface to read data during experiments"
 authors = ["Dushyant Chaudhari <dush.chaudhari@gmail.com>"]
 license = "GNU General Public v3"

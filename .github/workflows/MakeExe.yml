@@ -40,7 +40,6 @@ jobs:
       working-directory: ./build-recipes
       run: |
         pip install -r build_requirements.txt
-    #    pyinstaller -y --log-level=WARN FIREpyDAQ_NIConfigMaker.spec
         pyinstaller -y --log-level=WARN FIREpyDAQ_Acquisition.spec
     - name: Release Assets
       uses: softprops/action-gh-release@v2
