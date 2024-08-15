@@ -106,6 +106,7 @@ Thanks to the following community guidelines which were immensely helpful while 
 - <a href="https://www.sphinx-doc.org/en/master/usage/index.html" target="_blank">Sphinx documentation</a>
 - <a href="https://sphinx-autoapi.readthedocs.io/en/latest/" target="_blank">Sphinx AutoAPI documentation</a>
 - <a href="https://numpydoc.readthedocs.io/en/latest/format.html" target="_blank">Numpy docstrings style guide</a>
+- <a href="https://packaging.python.org/en/latest/" target="_blank">Python packaging guide</a>
 
-
+Additionally, support from ULFSRI for this project has been necessary to keep going.
 
