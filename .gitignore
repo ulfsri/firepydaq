@@ -30,6 +30,10 @@ Calibration/
 *.html
 *.txt
 
+# Paper #
+#########
+jats/
+Paper/*.pdf
 
 # Compiled source #
 ###################
@@ -57,3 +61,6 @@ DelcoHood_InstrumentationGuide.pdf
 *__latexindent_temp.tex
 *.bcf
 *.run.xml
+*.lua
+_markdown*/
+Guide/*.pdf

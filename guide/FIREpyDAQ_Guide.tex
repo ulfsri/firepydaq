@@ -1,10 +1,11 @@
+% !TEX options=--shell-escape
 \documentclass[12pt,oneside]{book}
 \input{commoncommands}
 
 % -----------------------------------------------
 % Set Report Title and Authors
 % -----------------------------------------------
-\newcommand{\vartitle}{FIREpyDAQ User's Guide}
+\newcommand{\vartitle}{FIREpyDAQ Guide}
 \newcommand{\vardate}{\today \\}
 \newcommand{\varauthors}{Dushyant M. Chaudhari\\
 						}
@@ -25,6 +26,8 @@
 
 \titleclass{\chapter}{straight}
 \titlespacing{\chapter}{0pt}{*4}{*1.5}
+
+\usepackage[smartEllipses]{markdown}
 
 \begin{document}
 \pagenumbering{gobble}
@@ -56,29 +59,37 @@
 
 This is a User Guide.
 
-\begin{enumerate}
-	\item Acquisition App (Chapter~\ref{chap:Acquisition})
-	\item Using NI independently in Python (Chapter~\ref{chap:NIAPI})
-	\item Using Alicat independently in Python (Chapter~(\ref{chap:AlicatAPI}))
-	\item Using ThorLabsCLD101X independently in Python (Chapter~\ref{chap:ThorLabsAPI})
-	\item Dashboard (Chapter~\ref{chap:dashboard})
-\end{enumerate}{}
+\markdownInput{../docs/GeneralUsage.md}
+
+\markdownInput{../docs/DashboardUsage.md}
+
+\markdownInput{../docs/Devices.md}
 
 
-\chapter{Acquisition Application}\label{chap:Acquisition}
-\lipsum[2]
 
-\chapter{Using NI independently in Python}\label{chap:NIAPI}
-\lipsum[1]
+% \begin{enumerate}
+% 	\item Acquisition App (Chapter~\ref{chap:Acquisition})
+% 	\item Using NI independently in Python (Chapter~\ref{chap:NIAPI})
+% 	\item Using Alicat independently in Python (Chapter~(\ref{chap:AlicatAPI}))
+% 	\item Using ThorLabsCLD101X independently in Python (Chapter~\ref{chap:ThorLabsAPI})
+% 	\item Dashboard (Chapter~\ref{chap:dashboard})
+% \end{enumerate}{}
 
-\chapter{Using Alicat independently in Python}\label{chap:AlicatAPI}
-\lipsum[1]
+
+% \chapter{Acquisition Application}\label{chap:Acquisition}
+% \lipsum[2]
+
+% \chapter{Using NI independently in Python}\label{chap:NIAPI}
+% \lipsum[1]
+
+% \chapter{Using Alicat independently in Python}\label{chap:AlicatAPI}
+% \lipsum[1]
 
 
-\chapter{Using ThorLabsCLD101X independently in Python}\label{chap:ThorLabsAPI}
-\lipsum[1]
+% \chapter{Using ThorLabsCLD101X independently in Python}\label{chap:ThorLabsAPI}
+% \lipsum[1]
 
-\chapter{Dashboard}\label{chap:dashboard}
-\lipsum[0]
+% \chapter{Dashboard}\label{chap:dashboard}
+% \lipsum[0]
 
 \end{document}

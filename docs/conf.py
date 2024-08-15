@@ -3,6 +3,7 @@ extensions = [
     "autoapi.extension",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    'sphinx.ext.autosectionlabel'
 ]
 autoapi_dirs = ["../firepydaq"]  # location to parse for API reference
 html_theme = "sphinx_rtd_theme"

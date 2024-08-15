@@ -10,16 +10,13 @@ AlicatGases = {
                 'C3H8': u'C\u2083H\u2088',
                 'Air': u'Air'
         }
-colors = {
-    'background': '#111111',
-    'text': '#111111'
-}
 
 Formulae_dict = {"sqrt": "np.sqrt",
                     "pi": "np.pi",
                     "mean": "np.mean",
                     "max": "max",
-                    "abs": "np.abs"}
+                    "abs": "np.abs",
+                    "exp": "np.exp"}
 """ dict:
     A dictionary of functions that maps user-inputted functions in the formulae file to equivalent numpy functions.
     For example, `exp` used in a formulae file is converted into `np.exp` while executing the formulae
