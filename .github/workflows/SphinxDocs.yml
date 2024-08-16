@@ -5,9 +5,14 @@ on: push
 jobs:
   build:
     if: ${{ contains(github.event.head_commit.message, 'update docs') }}
-    runs-on: ubuntu-latest
     permissions:
       contents: write
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12"]
+        os: [ubuntu-latest]
     steps:
     - name: Set env
       shell: bash
@@ -23,6 +28,7 @@ jobs:
         cd docs
         ls
         pip install -r requirements.txt
+        cd ..
     - name: Build HTML
       run: |
         cd ./docs
@@ -40,3 +46,5 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/_build/html
+        force_orphan: true
+        publish_branch: firepydaq-pages
