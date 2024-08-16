@@ -4,14 +4,14 @@ on: push
 
 jobs:
   build:
-    if: ${{ contains(github.event.head_commit.message, 'render docs') }}
+    if: ${{ contains(github.event.head_commit.message, 'update docs') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
     - uses: actions/checkout@v4
     - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
+      uses: ammaraskar/sphinx-action@0.4
       with:
         docs-folder: "docs/"
     - name: Upload artifacts
