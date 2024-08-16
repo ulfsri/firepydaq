@@ -656,6 +656,21 @@ files = [
 toml = ["tomli"]
 
 [[package]]
+name = "coverage-badge"
+version = "1.1.2"
+description = "Generate coverage badges for Coverage.py."
+optional = false
+python-versions = "*"
+files = [
+    {file = "coverage_badge-1.1.2-py2.py3-none-any.whl", hash = "sha256:d8413ce51c91043a1692b943616b450868cbeeb0ea6a0c54a32f8318c9c96ff7"},
+    {file = "coverage_badge-1.1.2.tar.gz", hash = "sha256:fe7ed58a3b72dad85a553b64a99e963dea3847dcd0b8ddd2b38a00333618642c"},
+]
+
+[package.dependencies]
+coverage = "*"
+setuptools = "*"
+
+[[package]]
 name = "cycler"
 version = "0.12.1"
 description = "Composable style cycles"
@@ -4208,4 +4223,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "17e84fce0c056cdafd4d5d84ed115790e623aa8d954ff6d757e0395ec614d144"
+content-hash = "96c5937af5e404ad0b5290e896b97de71b5c477f467e358d6ed6bb48e2a9af79"

@@ -219,7 +219,8 @@ class thorlabs_laser(QWidget):
         return
 
     def start_laser(self):
-        """Method to start the laser connected to the Thoelabs CLD101X device"""
+        """Method to start the laser
+        connected to the Thoelabs CLD101X device"""
         self.thor.SwitchLaser(Switch=True)
         self.laser_button.setEnabled(True)
         self.thor.StartTEC(Switch=True)
@@ -264,7 +265,7 @@ class thorlabs_laser(QWidget):
             self.laser_switch.setEnabled(False)
             self.pid_btn.setEnabled(False)
 
-    def load_device_data(self, p, i, d, comport, tec, laser_rate):
+    def load_device_data(self, p, i, d, o, comport, tec, laser_rate):
         """Method to load a previously saved laser device data
         """
         self.comport = comport
@@ -277,6 +278,8 @@ class thorlabs_laser(QWidget):
         self.tec_input.setText(self.tec)
         self.d = d
         self.d_input.setText(self.d)
+        self.o = o
+        self.osc_input.setText(self.o)
         self.laser_rate = laser_rate
         self.laser_input.setText(self.laser_rate)
 
@@ -294,6 +297,7 @@ class thorlabs_laser(QWidget):
             self.settings["P"] = float(self.p_input.text())
             self.settings["I"] = float(self.i_input.text())
             self.settings["D"] = float(self.d_input.text())
+            self.settings["O"] = float(self.osc_input.text())
             self.settings["Laser Rate"] = float(self.laser_input.text())
             self.settings["Tec Rate"] = float(self.tec_input.text())
             self.settings["Type"] = self.type
@@ -381,7 +385,7 @@ class alicat_mfc(QWidget):
         self.device_layout.addWidget(self.gas_input, 1, 1)
 
         # Adds dilution rate
-        self.dil_rate_label = QLabel("Enter gas flow rate \n(default Alicat, slpm/sccm):")
+        self.dil_rate_label = QLabel("Enter gas flow rate \n(default Alicat, slpm/sccm):")  # noqa E501
         self.dil_rate_label.setMaximumWidth(200)
         self.device_layout.addWidget(self.dil_rate_label, 2, 0)
         self.dil_rate_input = QLineEdit()
@@ -419,14 +423,14 @@ class alicat_mfc(QWidget):
         """
         new_flow = float(self.dil_rate_input.text())
         self.loop.run_until_complete(self.MFC.set_MFC_val(flow_rate=new_flow))
-        self.parent.notify(str(self.dev_id) + " flow set to " + str(new_flow))
+        self.parent.notify(str(self.dev_id) + " flow set to " + str(new_flow), "success") # noqa E501
 
     def stop_flow_rate(self):
         """Method that sets the flow-rate of the Alicat MFC
         to zero
         """
         self.loop.run_until_complete(self.MFC.set_MFC_val(flow_rate=0))
-        self.parent.notify(str(self.dev_id) + " flow set to zero")
+        self.parent.notify(str(self.dev_id) + " flow set to zero", "success")
         self.dil_rate_input.setText('0.0')
         return
 
@@ -440,23 +444,25 @@ class alicat_mfc(QWidget):
         and sets the gas type to gas_input.
         """
         if self.connection_btn.isChecked():
-            # todo: Establish communication
-            self.MFC = EchoController()
-            self.loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(self.loop)
-            com = self.comport_input.currentText()
-            gas = self.gas_input.currentText()
-            gas = [gastxt for gastxt, gasunicode in AlicatGases.items() if bytes(gasunicode, "utf-8") == bytes(gas, "utf-8")][0]
-            time.sleep(0.1)
-            self.loop.run_until_complete(self.MFC.set_params(com, gas=gas))
-            self.parent.notify(self.dev_id + " connected successfully")
+            try:
+                self.MFC = EchoController()
+                self.loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(self.loop)
+                com = self.comport_input.currentText()
+                gas = self.gas_input.currentText()
+                gas = [gastxt for gastxt, gasunicode in AlicatGases.items() if bytes(gasunicode, "utf-8") == bytes(gas, "utf-8")][0]  # noqa E501
+                time.sleep(0.1)
+                self.loop.run_until_complete(self.MFC.set_params(com, gas=gas))
+                self.parent.notify(self.dev_id + " connected successfully", "success")  # noqa E501
 
-            self.connection_btn.setText("Stop Connection")
-            self.set_flow_btn.setEnabled(True)
-            self.stop_flow_btn.setEnabled(True)
+                self.connection_btn.setText("Stop Connection")
+                self.set_flow_btn.setEnabled(True)
+                self.stop_flow_btn.setEnabled(True)
+            except Exception as e:
+                self.parent.notify(self.dev_id + " connection error" +str(e), "error")  # noqa E501
         else:
             self.loop.run_until_complete(self.MFC.end_connection())
-            self.parent.notify("Connection to " + self.dev_id + " ended successfully")  # noqa E501
+            self.parent.notify("Connection to " + self.dev_id + " ended successfully", "success")  # noqa E501
             self.connection_btn.setText("Establish Connection")
 
             self.set_flow_btn.setEnabled(False)
@@ -585,7 +591,7 @@ class mfm(QWidget):
         self.establish_connection_btn = QPushButton("Establish Connection")
         self.establish_connection_btn.setMaximumWidth(200)
         self.establish_connection_btn.setCheckable(True)
-        self.establish_connection_btn.clicked.connect(self.establish_connection)
+        self.establish_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
         self.device_layout.addWidget(self.establish_connection_btn, 3, 1)
         self.device_widget.setLayout(self.device_layout)
 
@@ -599,9 +605,11 @@ class mfm(QWidget):
         if self.establish_connection_btn.isChecked():
             self.establish_connection_btn.setText("Establish Connection")
             self.flow_rate_btn.setEnabled(True)
+            self.parent.notify(self.dev_id + " connected successfully", "success")  # noqa E501
         else:
             self.establish_connection_btn.setText("Stop Connection")
             self.flow_rate_btn.setEnabled(False)
+            self.parent.notify("Connection to " + self.dev_id + " ended successfully", "success")  # noqa E501
 
     def get_name(self):
         """Method to get device id for the MFM device

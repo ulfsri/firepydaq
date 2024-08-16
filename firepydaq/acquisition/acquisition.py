@@ -1,15 +1,16 @@
 import sys
 # PyQT Related
 from PySide6.QtCore import QTimer, QRegularExpression
-from PySide6.QtGui import QIcon, Qt, QRegularExpressionValidator
+from PySide6.QtGui import QIcon, Qt, QRegularExpressionValidator, QAction
 from PySide6.QtWidgets import (
-    QDialog, QMainWindow, QWidget, QVBoxLayout,
+    QDialog, QMainWindow, QWidget, QVBoxLayout, QMenu,
     QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit,
-    QComboBox, QPushButton, QMessageBox, QFileDialog, QScrollArea)
+    QComboBox, QPushButton, QMessageBox, QFileDialog)
 from .save_setting_to_json_dialog import SaveSettingsDialog
 from .exception_list import UnfilledFieldError
 from .main_menu import MyMenu
 import json
+from .NotificationPanel import NotificationPanel
 
 # Dashboard
 from ..dashboard.app import create_dash_app
@@ -87,7 +88,7 @@ class application(QMainWindow):
             self.setStyleSheet(str)
             f.close()
         except Exception:
-            self.notify("Error loading stylesheets")
+            self.notify("Error loading stylesheets", "error")
 
         ico_path = self.assets_folder + os.path.sep + "FIREpyDAQDark.png"
         self.setWindowIcon(QIcon(ico_path))
@@ -212,13 +213,13 @@ class application(QMainWindow):
             Connects to `acquisition_begins()`
         - save_button: QPushButton
             Connects to `save_data()`
-        - notif_text_slot: QLineEdit
+        - panel: QTextEdit
             Notification panel.
-            Default text: "Welcome User!".
+            Placeholder text: "Welcome User!".
             Provides notification of errors/warnings/operations.
 
             Will be cleared after each `save_button` click
-        - notif_txt_edit: QLineEdit
+        - log_obs_txt: QLineEdit
             A 25 (width) x 190 (height) for writing observations.
         - notif_log_btn: QPushButton
             Button Text: "Log Obs."
@@ -339,31 +340,45 @@ class application(QMainWindow):
         self.input_layout.addWidget(self.save_button, 7, 1)
         self.save_bool = False
 
+        # Initialize NotificationPanel
         self.notifications_layout = QVBoxLayout()
-        self.notif_bar = QScrollArea()
-        self.notif_bar.setWidgetResizable(True)
-        self.notif_bar.setMaximumHeight(375)
-        self.notif_bar.setFixedWidth(250)
-        self.notif_bar.setAlignment(Qt.AlignRight)
-        self.notif_bar.setAlignment(Qt.AlignTop)
-        self.StagNotifTxt = "Welcome User!"
-        self.notif_text_slot = QLabel(self.StagNotifTxt)
-        self.notif_text_slot.setAlignment(Qt.AlignTop)
-        self.notif_bar.setWidget(self.notif_text_slot)
-        self.notif_text_slot.setObjectName("NotifEdit")
-        self.notifications_layout.addWidget(self.notif_bar)
+        self.panel = NotificationPanel()
+        self.panel.setMaximumHeight(375)
+        self.panel.setFixedWidth(250)
+        self.panel.setAlignment(Qt.AlignRight)
+        self.panel.setAlignment(Qt.AlignTop)
+        self.notifications_layout.addWidget(self.panel)
 
-        self.notif_save_layout = QHBoxLayout()
-        self.notif_txt_edit = QLineEdit()
+        # Create input area
+        self.log_area = QHBoxLayout()
+        self.log_obs_txt = QLineEdit()
+        self.log_obs_txt.setPlaceholderText("Write observations here")
+        self.log_area.addWidget(self.log_obs_txt)
         self.notif_log_btn = QPushButton("Log Obs.")
         self.notif_log_btn.clicked.connect(self.log_Obs)
+        self.log_area.addWidget(self.notif_log_btn)
+        self.notifications_layout.addLayout(self.log_area)
         self.notif_log_btn.setMaximumWidth(60)
         self.notif_log_btn.setMaximumHeight(25)
-        self.notif_txt_edit.setMaximumWidth(190)
-        self.notif_txt_edit.setMaximumHeight(25)
-        self.notif_save_layout.addWidget(self.notif_txt_edit)
-        self.notif_save_layout.addWidget(self.notif_log_btn)
-        self.notifications_layout.addLayout(self.notif_save_layout)
+        self.log_obs_txt.setMaximumWidth(190)
+        self.log_obs_txt.setMaximumHeight(25)
+
+        self.notifmenu = QMenu()
+        clear_action = QAction("Clear", self)
+        clear_action.triggered.connect(self.panel.clear)
+        self.notifmenu.addAction(clear_action)
+
+        save_action = QAction("Save", self)
+        save_action.triggered.connect(self.save_notifs)
+        self.notifmenu.addAction(save_action)
+        # self.notifmenu.setObjectName("NotifMenu")
+
+        # Create dropdown menu for clear and save actions
+        self.dropdown_button = QPushButton("Options")
+        self.dropdown_button.setMaximumWidth(60)
+        self.dropdown_button.setMaximumHeight(24)
+        self.dropdown_button.setMenu(self.notifmenu)
+        self.notifications_layout.insertWidget(0, self.dropdown_button, alignment=Qt.AlignRight)  # noqa E501
 
         self.main_input_layout.addLayout(self.input_layout)
         self.main_input_layout.addLayout(self.notifications_layout)
@@ -373,23 +388,34 @@ class application(QMainWindow):
 
         return self.input_settings_widget
 
+    def save_notifs(self):
+        file_name, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt);;All Files (*)")  # noqa E501
+        if file_name:
+            with open(file_name, 'w') as file:
+                file.write(self.panel.toPlainText())
+
     def log_Obs(self):
         """Calls `notify` and clears the `notif_txt_edit`
         """
-        self.notify(self.notif_txt_edit.text())
-        self.notif_txt_edit.clear()
+        text = self.log_obs_txt.text()
+        if text:
+            self.notify(text, type="observation")
+            self.log_obs_txt.clear()
 
-    def notify(self, str):
-        """Method that logs observations written in `notif_txt_edit`
-        and appends to the notification panel (`notif_text_slot`)
+    def notify(self, text="", type="default"):
+        """Method that logs observations written in `log_obs_txt`
+        and adds to the top of the notification panel.
 
         Any observations written here will be added
-        to the notification panel and a time stamp (format HH:MM:SS)
-        at which the "Log Obs." is clicked, will be
+        to the notification panel, and a time stamp (format HH:MM:SS)
+        at which the "Log Obs." is clicked will be
         appended to the written text.
 
         Arguments
         _________
+            type: str
+                Type of event: is one of the folowing
+                    "event", "info", "warning", "error", "success", "default"
             str: str
                 Any string written in `notif_txt_edit`
 
@@ -400,15 +426,7 @@ class application(QMainWindow):
             Notification text update will be,
                 `[13:23:56] Ignition Observed`
         """
-        line = self.notif_text_slot.text()
-        str_time = time.strftime("%X")
-        new_txt = line + "\n" + "[" + str_time + "]: " + str
-        self.notif_text_slot.setText(new_txt)
-
-    def clear_notification_panel(self):
-        """ Method that clears the notification panel text
-        """
-        self.notif_text_slot.setText(self.StagNotifTxt)
+        self.panel.add_message(type, text)
 
     def set_test_file(self):
         """ Method that opens a `SaveSettingsDialog`
@@ -867,7 +885,7 @@ class application(QMainWindow):
                 self.validate_fields()
             except Exception as e:
                 self.inform_user(str(e))
-                self.notify("Validation of input fields failed.")
+                self.notify("Validation of input fields failed.", "error")
                 self.acquisition_button.nextCheckState()
                 return
             self.run_counter = 0
@@ -903,16 +921,16 @@ class application(QMainWindow):
             self.ContinueAcquisition = True
             self.save_button.setEnabled(True)
             self.acquisition_button.setText("Stop Acquisition")
-            self.notify("Validation complete. Acquisition begins.")
+            self.notify("Validation complete. Acquisition begins.", "info")
             self.runpyDAQ()
-            self.notify("Acquiring Data . . .")
+            self.notify("Acquiring Data . . .", "info")
         else:
             self.ContinueAcquisition = False
             time.sleep(1)
             self.save_bool = False
             self.run_counter = 0
             self.save_button.setEnabled(False)
-            self.notify("Acquisition stopped.")
+            self.notify("Acquisition stopped.", "info")
             self.acquisition_button.setText("Start Acquisition")
 
     def save_data_thread(self):
@@ -987,7 +1005,7 @@ class application(QMainWindow):
 
                 if (t_aft_read-t_bef_read) > 1/self.ActualSamplingRate:
                     # Read time exceeds prescribed 1/(sampling frequency)
-                    self.notify("Data Loss WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.")  # noqa: E501
+                    self.notify("Data Loss WARNING: Time to read exceeds number of samples per seconds prescribed for acquisition.", "warning")  # noqa: E501
 
                 if len(self.ydata.shape) == 1:
                     self.ydata = np.append(self.ydata, self.ydata_new, axis=0)
@@ -1018,7 +1036,7 @@ class application(QMainWindow):
                 if (t_aft_save - t_bef_read) > 1/self.ActualSamplingRate:
                     # Time between read and save time exceeds
                     # prescribed 1/(sampling frequency)
-                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.")  # noqa: E501
+                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.", "warning")  # noqa: E501
 
                 # Plots
                 if hasattr(self, "data_vis_tab"):
@@ -1048,7 +1066,7 @@ class application(QMainWindow):
             self.save_button.setEnabled(False)
             if hasattr(self, "dash_thread"):
                 self.dash_thread.terminate()
-                self.notify("Dashboard closed.")
+                self.notify("Dashboard closed.", "info")
 
     @error_logger("SaveData")
     def save_data(self):
@@ -1072,10 +1090,10 @@ class application(QMainWindow):
 
             self.initiate_dataArrays()
             firepydaq_logger.info("Saving initiated properly.")
-            self.clear_notification_panel()
+            self.panel.clear()
             self.save_begin_time = time.time()
-            self.notify("Previous text cleared. This will  be done for each saving operation.")  # noqa: E501
-            self.notify("Saving Data in " + self.parquet_file)
+            self.notify("Previous text cleared. This will  be done for each saving operation.", "info")  # noqa: E501
+            self.notify("Saving Data in " + self.parquet_file, "info")
 
             pl_cols = self.labels_to_save
             pl_cols.insert(0, "Time")
@@ -1089,13 +1107,13 @@ class application(QMainWindow):
 
             if self.dashboard:
                 firepydaq_logger.info("Dash app Process initiated after saving initiations")  # noqa: E501
-                self.notify("Launching Dashboard on https://127.0.0.1:1222")
+                self.notify("Launching Dashboard on https://127.0.0.1:1222", "info")  # noqa E501
                 mp.freeze_support()
                 self.dash_thread = mp.Process(target=create_dash_app, kwargs={"jsonpath": self.json_file})  # noqa: E501
                 self.dash_thread.start()
         else:
             self.save_button.setText("Save")
-            self.notify("Saving Stopped")
+            self.notify("Saving Stopped", "info")
             if hasattr(self, "dash_thread"):
                 self.dash_thread.terminate()
             self.save_bool = False

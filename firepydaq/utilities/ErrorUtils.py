@@ -7,10 +7,11 @@ import os
 import sys
 import traceback
 
-def setup_logger(name, logfile, formatter, stream_handler=False, level=logging.DEBUG):
+
+def setup_logger(name, logfile, formatter, stream_handler=False, level=logging.DEBUG):  # noqa E501
     """Logger file when acquisition is running"""
 
-    file_handler   = logging.FileHandler(logfile)
+    file_handler = logging.FileHandler(logfile)
     stdout_handler = logging.StreamHandler()
 
     file_handler.setFormatter(formatter)
@@ -26,6 +27,7 @@ def setup_logger(name, logfile, formatter, stream_handler=False, level=logging.D
 
     return logger
 
+
 # formatter
 formatter = logging.Formatter('%(asctime)s - %(levelname)s -> %(message)s\n')
 # Generate the log object
@@ -33,12 +35,15 @@ cwd = os.getcwd()
 fullLogPath = cwd+os.sep+'FirePyDAQLog.log'
 if os.path.exists(fullLogPath):
     os.remove(fullLogPath)
-firepydaq_logger = setup_logger('firepydaq_logger', fullLogPath , formatter)
+firepydaq_logger = setup_logger('firepydaq_logger', fullLogPath, formatter)
 
-### A function wrapper to catch errors, notify in a message box and save it in a log file
-def error_logger(error_func_info:str):
+
+# A function wrapper to catch errors,
+# notify in a message box and save it in a log file
+def error_logger(error_func_info: str):
     '''
-    Takes a str to indicate the location or the function where an error might occur
+    Takes a str to indicate the location or
+    the function where an error might occur.
     '''
     def decorated(f):
         @wraps(f)
@@ -48,7 +53,7 @@ def error_logger(error_func_info:str):
             except Exception:
                 print('error utils exception')
                 type, value, tb = sys.exc_info()
-                err_txt = 'In ' +error_func_info + ':' + str(type) + str(value) + str(traceback.print_tb(tb))
+                err_txt = 'In ' + error_func_info + ':' + str(type) + str(value) + str(traceback.print_tb(tb))  # noqa E501
                 err_msg = __name__ + err_txt
                 firepydaq_logger.error(err_msg)
 

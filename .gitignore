@@ -13,6 +13,9 @@ Thumbs.db
 
 **/__pycache__/
 
+# tests and coverage related
+.coverage
+
 # Sphinx documentation
 docs/_build/
 jupyter_execute/
@@ -21,12 +24,10 @@ jupyter_execute/
 ######################
 # parquet generated during testing
 *.parquet
-
 dist/
 build/
 Experiment/
 Calibration/
-
 *.log
 *.html
 *.txt
@@ -58,7 +59,6 @@ Paper/*.pdf
 *.out
 *.synctex.gz
 *.toc
-DelcoHood_InstrumentationGuide.pdf
 *__latexindent_temp.tex
 *.bcf
 *.run.xml

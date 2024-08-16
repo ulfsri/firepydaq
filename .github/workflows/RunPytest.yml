@@ -38,10 +38,10 @@ jobs:
         pip freeze
     - name: Test with pytest
       run: |
-        coverage run -m pytest -x tests
-    # - name: Generate Coverage Report  
-    #   run: |
-    #     coverage report -m
+        coverage run --source=firepydaq -m pytest -x tests
+    - name: Generate Coverage Report  
+      run: |
+        coverage report -m
     # Can be added later once the code and documentation is resolved. 
     # - name: Lint with flake8
     #   run: |

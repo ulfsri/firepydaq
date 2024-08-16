@@ -46,6 +46,9 @@ schema = {
                                             "D": {
                                                 "type": "number"
                                             },
+                                            "O": {
+                                                "type": "number"
+                                            },
                                             "Laser Rate": {
                                                 "type": "number"
                                             },
@@ -53,7 +56,7 @@ schema = {
                                                 "type": "number"
                                             }
                                         },
-                                    "required": ["COMPORT", "P", "I", "D", "Laser Rate", "Tec Rate"]
+                                    "required": ["COMPORT", "P", "I", "D", "O", "Laser Rate", "Tec Rate"]
                                     }
                                 }
                             },
