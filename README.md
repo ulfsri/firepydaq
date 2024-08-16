@@ -40,7 +40,7 @@ This interface can be used for three types of devices simultaneously,
 
 - NI hardware, which requires installation of <a href="https://www.ni.com/en/support/downloads/drivers/download.ni-daq-mx.html#532710" target="_blank">NI-DAQmx driver</a> from National Instruments.
 	- This has been built so far only for Analog Input and Output data.
-- Alicat Mass Flow Controllers and Mass Flow Meter, which is based via serial communication and python API available from <a href="https://github.com/numat/alicat" target="_blank">Alicat</a>.
+- Alicat Mass Flow Controllers and Mass Flow Meter, which is based via serial communication and python API available from <a href="https://github.com/numat/alicat" target="_blank">Numat</a>.
 - Thorlabs CLD101X, which is based on serial communication
 
 ## Usage
@@ -108,5 +108,5 @@ Thanks to the following community guidelines which were immensely helpful while 
 - <a href="https://numpydoc.readthedocs.io/en/latest/format.html" target="_blank">Numpy docstrings style guide</a>
 - <a href="https://packaging.python.org/en/latest/" target="_blank">Python packaging guide</a>
 
-Additionally, support from ULFSRI for this project has been necessary to keep going.
+Additionally, support from [Fire Safety Research Institute](fsri.org), a part of [UL Research Institutes](ul.org) for this project has been necessary to keep going.
 

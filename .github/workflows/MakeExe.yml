@@ -1,4 +1,4 @@
-name: Exe Release
+name: Exe Release 💾
 
 on:
   push:
