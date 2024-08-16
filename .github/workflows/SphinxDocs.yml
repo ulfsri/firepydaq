@@ -31,20 +31,19 @@ jobs:
         cd ..
     - name: Build HTML
       run: |
-        cd ./docs
-        sphinx-build . _build/html
+        sphinx-build docs _build
       # uses: ammaraskar/sphinx-action@0.4
       # with:
       #   docs-folder: "docs/"
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: html-docs
-        path: docs/_build/html/
+    # - name: Upload artifacts
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: html-docs
+    #     path: docs/_build
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/_build/html
+        publish_dir: _build/
         force_orphan: true
         publish_branch: firepydaq-pages

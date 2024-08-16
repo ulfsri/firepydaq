@@ -1,5 +1,5 @@
 # FIREpyDAQ
-```{include} ../README.md
+```{include} main.md
 ```
 
 ```{toctree}
