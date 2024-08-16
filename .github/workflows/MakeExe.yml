@@ -10,6 +10,7 @@ env:
 
 jobs:
   build:
+    if: ${{ contains(github.event.head_commit.message, 'release exe') }}
     permissions:
       contents: write
     name: Create Release
