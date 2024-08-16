@@ -11,6 +11,7 @@ env:
 jobs:
   build:
     if: ${{ contains(github.event.head_commit.message, 'release exe') }}
+    if: github.repository_owner == 'ulfsri'
     permissions:
       contents: write
     name: Create Release
