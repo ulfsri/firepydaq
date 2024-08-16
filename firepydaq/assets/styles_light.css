@@ -59,6 +59,7 @@ QMenu
 QMenu::item
 {
     padding: 3px 3px 3px 3px;
+    background: transparent;
 }
 
 QMenu::item:selected
@@ -81,7 +82,7 @@ QMenu::indicator:exclusive:checked:selected {
 }
 
 
-#NotifEdit {
+QTextEdit {
     background-color: #f0f0f0;
     color: rgb(23, 22, 22);
     padding-left: 5px;
@@ -91,7 +92,7 @@ QMenu::indicator:exclusive:checked:selected {
     
 }
 
-#NotifEdit:hover {
+QTextEdit:hover {
     border-radius: 10px;
     border-color: #167fca   
 }

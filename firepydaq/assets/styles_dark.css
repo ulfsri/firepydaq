@@ -88,7 +88,7 @@ QMenu::indicator:exclusive:checked:selected {
 }
 
 
-#NotifEdit {
+QTextEdit {
     background-color: #181818;
     color: rgb(202, 195, 195);
     padding-left: 5px;
@@ -105,7 +105,7 @@ QScrollArea {
     background-color: #181818;
 }
 
-#NotifEdit :hover {
+QTextEdit :hover {
     border-radius: 5px;
     border-color: #053262;
 }

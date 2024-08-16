@@ -30,6 +30,7 @@ setuptools = "^72.1.0"
 [tool.poetry.group.test.dependencies]
 pytest = "^8.2.2"
 coverage = "^7.6.1"
+coverage-badge = "^1.1.2"
 pyinstaller = "6.7.0"
 pytest-qt = "^4.4.0"
 

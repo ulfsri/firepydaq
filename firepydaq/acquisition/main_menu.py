@@ -3,7 +3,7 @@ from PySide6.QtGui import QAction, QActionGroup
 
 import webbrowser
 from jsonschema import validate
-from .device import alicat_mfc 
+from .device import alicat_mfc
 import json
 from .device import mfm
 import os
@@ -109,7 +109,7 @@ class MyMenu(QMenuBar):
         self.no_display.setChecked(True)
         self.display_data_menu.addAction(self.no_display)
 
-        self.dash_display = QAction("Display in a Dashboard", self, checkable=True)
+        self.dash_display = QAction("Display in a Dashboard", self, checkable=True)  # noqa E501
         self.dash_display.triggered.connect(self.display_dashboard)
         self.display_data_type_menu.addAction(self.dash_display)
 
@@ -141,7 +141,7 @@ class MyMenu(QMenuBar):
         # Help
         self.help_menu = self.addMenu("&Help")
 
-        # Add Documentation and Reporting Features 
+        # Add Documentation and Reporting Features
         self.lookup_docs = QAction("Open Documentation", self)
         self.lookup_docs.triggered.connect(self.take_to_docs)
         self.help_menu.addAction(self.lookup_docs)
@@ -198,10 +198,10 @@ class MyMenu(QMenuBar):
             self.parent.data_vis_tab = data_vis(self.parent)
 
     def take_to_docs(self):
-        webbrowser.open("https://doc.qt.io/qtforpython-6/")  # todo replace
+        webbrowser.open("https://ulfsri.github.io/firepydaq")  # todo replace
 
     def report_issue(self):
-        webbrowser.open("https://github.com/ulfsri/firepydaq/issues/")  # todo replace
+        webbrowser.open("https://github.com/ulfsri/firepydaq/issues/")
 
     def add_laser(self):
         if not self.parent.device_arr:
@@ -213,12 +213,12 @@ class MyMenu(QMenuBar):
                     self.parent.inform_user("Device name can not be empty.")
                     return
                 self.parent.device_tab_widget = QTabWidget()
-                self.parent.main_layout.addWidget(self.parent.device_tab_widget)
+                self.parent.main_layout.addWidget(self.parent.device_tab_widget)  # noqa E501
                 self.parent.main_layout.setStretch(0, 2)
                 self.parent.main_layout.setStretch(1, 1.5)
-                self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)
+                self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)  # noqa E501
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
-            
+
         elif len(self.parent.lasers) < 6:
             dlg_dev_name = DeviceNameDialog("Add ThorlabsCLD101X")
             self.style_popup(dlg_dev_name)
@@ -230,14 +230,14 @@ class MyMenu(QMenuBar):
                 if dev_name in self.parent.device_arr:
                     self.parent.inform_user("Device names must be unique.")
                     return
-                self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)
+                self.parent.device_arr[dev_name] = thorlabs_laser(self.parent, dev_name)  # noqa E501
                 self.parent.lasers[dev_name] = self.parent.device_arr[dev_name]
             else:
-                print("No ThorlabsCLD101X added.")
+                self.parent.notify("No ThorlabsCLD101X removed", "info")
         else:
             self.parent.inform_user("Maximum 6 ThorlabsCLD101X devices can be added.")
             return
-    
+
     def remove_mfm(self):
         if not self.parent.mfms:
             self.parent.inform_user("No MFM to remove.")
@@ -248,17 +248,17 @@ class MyMenu(QMenuBar):
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
-            index_to_del = list(self.parent.device_arr.keys()).index(dev_to_del)
+            index_to_del = list(self.parent.device_arr.keys()).index(dev_to_del)  # noqa E501
             self.parent.device_tab_widget.removeTab(index_to_del)
             del self.parent.device_arr[dev_to_del]
             del self.parent.mfms[dev_to_del]
 
             if not self.parent.device_arr:
-                self.parent.main_layout.removeWidget(self.parent.device_tab_widget)
+                self.parent.main_layout.removeWidget(self.parent.device_tab_widget)  # noqa E501
                 self.parent.device_tab_widget.deleteLater()
         else:
-                print("No MFM Removed.")
-    
+            self.parent.notify("No MFC removed", "info")
+
     def add_mfm(self):
         if not self.parent.device_arr:
             dlg_dev_name = DeviceNameDialog("Add MFM")
@@ -269,7 +269,7 @@ class MyMenu(QMenuBar):
                     self.parent.inform_user("Device name can not be empty.")
                     return
                 self.parent.device_tab_widget = QTabWidget()
-                self.parent.main_layout.addWidget(self.parent.device_tab_widget)
+                self.parent.main_layout.addWidget(self.parent.device_tab_widget)  # noqa E501
                 self.parent.main_layout.setStretch(0, 2)
                 self.parent.main_layout.setStretch(1, 1.5)
                 self.parent.device_arr[dev_name] = mfm(self.parent, dev_name)
@@ -279,7 +279,7 @@ class MyMenu(QMenuBar):
             dlg_dev_name = DeviceNameDialog("Add MFM")
             self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
-                dev_name = dlg_dev_name.device_name.strip(" ") 
+                dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
                     self.parent.inform_user("Device name can not be empty.")
                     return
@@ -289,9 +289,9 @@ class MyMenu(QMenuBar):
                 self.parent.device_arr[dev_name] = mfm(self.parent, dev_name)
                 self.parent.mfms[dev_name] = self.parent.device_arr[dev_name]
             else:
-                print("No MFM added.")
+                self.parent.notify("No MFM removed", "info")
         else:
-            self.parent.inform_user("Maximum 4 MFM's can be added.")
+            self.parent.inform_user("Maximum 4 MFM's supported for now. Please raise an issue so we can work extend the functionality.")  # noqa E501
             return
 
     def add_mfc(self):
@@ -304,31 +304,31 @@ class MyMenu(QMenuBar):
                     self.parent.inform_user("Device name can not be empty.")
                     return
                 self.parent.device_tab_widget = QTabWidget()
-                self.parent.main_layout.addWidget(self.parent.device_tab_widget)
+                self.parent.main_layout.addWidget(self.parent.device_tab_widget)  # noqa E501
                 self.parent.main_layout.setStretch(0, 2)
                 self.parent.main_layout.setStretch(1, 1.5)
-                self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)
+                self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)  # noqa E501
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
 
         elif len(self.parent.mfcs) < 4:
             dlg_dev_name = DeviceNameDialog("Add MFC")
             self.style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
-                dev_name = dlg_dev_name.device_name.strip(" ") 
+                dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
                     self.parent.inform_user("Device name can not be empty.")
                     return
                 if dev_name in self.parent.device_arr:
                     self.parent.notify("All devices must have unique names.")
                     return
-                self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)
+                self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)  # noqa E501
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
             else:
-                self.parent.notify("No MFC Added.")
+                self.parent.notify("No MFC Added.", "info")
         else:
-            self.parent.notify("Maximum 4 MFC's can be added.")
+            self.parent.notify("Maximum 4 MFC's can be added. Please raise an issue so we can work extend the functionality.")  # noqa E501
             return
-        
+
     def remove_laser(self):
 
         if not self.parent.lasers:
@@ -349,7 +349,7 @@ class MyMenu(QMenuBar):
                 self.parent.main_layout.removeWidget(self.parent.device_tab_widget)
                 self.parent.device_tab_widget.deleteLater()
         else:
-                print("No ThorlabsCLD101X laser Removed.")
+            self.parent.notify("No ThorlabsCLD101X Removed.", "info")
 
     def remove_mfc(self):
 
@@ -371,8 +371,7 @@ class MyMenu(QMenuBar):
                 self.parent.main_layout.removeWidget(self.parent.device_tab_widget)
                 self.parent.device_tab_widget.deleteLater()
         else:
-                print("No MFC Removed.")
-    
+            self.parent.notify("No MFC Removed.", "info")
 
     def style_popup(self, dlg):
         if self.parent.curr_mode == "Light":
@@ -391,10 +390,10 @@ class MyMenu(QMenuBar):
     def save_settings_to_json(self):
         try:
             json_setting = self.parent.settings_to_json()
-        except Exception as e: 
+        except Exception as e:
             self.parent.inform_user(str(e))
             return
-        
+
         dlg_save_json = SaveSettingsDialog("Save settings to .json")
         self.style_popup(dlg_save_json)
 
@@ -432,7 +431,7 @@ class MyMenu(QMenuBar):
                 self.parent.device_arr.clear()
                 self.parent.lasers.clear()
                 self.parent.mfcs.clear()
-                self.parent.main_layout.removeWidget(self.parent.device_tab_widget)
+                self.parent.main_layout.removeWidget(self.parent.device_tab_widget)  # noqa E501
                 self.parent.device_tab_widget.deleteLater()
             self.parent.settings.clear()
             self.repopulate_settings(data)
@@ -449,28 +448,29 @@ class MyMenu(QMenuBar):
                 laser_dict = dev_dict["Lasers"]
                 for laser in laser_dict.keys():
                     my_dict =  dev_dict["Lasers"][laser]
-                    self.parent.device_arr[laser] = thorlabs_laser(self.parent,  laser)
-                    self.parent.device_arr[laser].load_device_data(str(my_dict["P"]), str(my_dict["I"]), 
-                        str(my_dict["D"]), str(my_dict["COMPORT"]), str(my_dict["Tec Rate"]), str(my_dict["Laser Rate"]))
-                    self.parent.lasers[laser] = self.parent.device_arr[laser] 
+                    self.parent.device_arr[laser] = thorlabs_laser(self.parent, laser)
+                    self.parent.device_arr[laser].load_device_data(str(my_dict["P"]), str(my_dict["I"]),
+                                                                    str(my_dict["D"]), str(my_dict["O"]), str(my_dict["COMPORT"]),
+                                                                    str(my_dict["Tec Rate"]), str(my_dict["Laser Rate"]))
+                    self.parent.lasers[laser] = self.parent.device_arr[laser]
             if "MFCs" in dev_dict:
                 mfc_dict = dev_dict["MFCs"]
                 for mfc in mfc_dict.keys():
                     my_dict = mfc_dict[mfc]
                     self.parent.device_arr[mfc] = alicat_mfc(self.parent, self.parent.device_tab_widget, mfc)
                     self.parent.device_arr[mfc].load_device_data(my_dict["Gas"], str(my_dict["Rate"]), my_dict["COMPORT"])
-                    self.parent.mfcs[mfc] = self.parent.device_arr[mfc] 
+                    self.parent.mfcs[mfc] = self.parent.device_arr[mfc]
 
     def repopulate_settings(self, data):
         self.parent.settings["Name"] = data["Name"]
-        self.parent.settings["Experiment Name"] = data["Experiment Name"] 
+        self.parent.settings["Experiment Name"] = data["Experiment Name"]
         self.parent.settings["Test Name"] = data["Test Name"] 
         self.parent.settings["Sampling Rate"] = data["Sampling Rate"]
         self.parent.settings["Formulae File"] = data["Formulae File"]
         self.parent.settings["Experiment Type"] = data["Experiment Type"]
         self.parent.settings["Config File"] = data["Config File"]
         self.parent._set_texts()
-       
+
     def remove_all(self):
         if self.parent.device_arr:
             self.parent.device_arr.clear()
@@ -485,4 +485,3 @@ class MyMenu(QMenuBar):
         else:
             self.parent.inform_user("No devices added yet.")
             return
-        
