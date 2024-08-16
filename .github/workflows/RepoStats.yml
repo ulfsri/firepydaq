@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: run-ghrs
         uses: jgehrcke/github-repo-stats@RELEASE
+        if: github.repository_owner == 'dushyant-fire'
         with:
           # Define the stats repository (the repo to fetch
           # stats for and to generate the report for).
