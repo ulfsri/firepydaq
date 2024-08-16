@@ -13,6 +13,7 @@
 <!-- Workflows -->
 [![Pytest](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
 [![Exe Release](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
+[![.github/workflows/BuildDists.yml](https://github.com/ulfsri/firepydaq/actions/workflows/BuildDists.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/BuildDists.yml)
 
 <!-- Followers and usage -->
 ![GitHub forks](https://img.shields.io/github/forks/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
@@ -39,7 +40,7 @@ This interface can be used for three types of devices simultaneously,
 
 - NI hardware, which requires installation of <a href="https://www.ni.com/en/support/downloads/drivers/download.ni-daq-mx.html#532710" target="_blank">NI-DAQmx driver</a> from National Instruments.
 	- This has been built so far only for Analog Input and Output data.
-- Alicat Mass Flow Controllers and Mass Flow Meter, which is based via serial communication and python API available from <a href="https://github.com/numat/alicat" target="_blank">Alicat</a>.
+- Alicat Mass Flow Controllers and Mass Flow Meter, which is based via serial communication and python API available from <a href="https://github.com/numat/alicat" target="_blank">Numat</a>.
 - Thorlabs CLD101X, which is based on serial communication
 
 ## Usage
@@ -105,6 +106,7 @@ Thanks to the following community guidelines which were immensely helpful while 
 - <a href="https://www.sphinx-doc.org/en/master/usage/index.html" target="_blank">Sphinx documentation</a>
 - <a href="https://sphinx-autoapi.readthedocs.io/en/latest/" target="_blank">Sphinx AutoAPI documentation</a>
 - <a href="https://numpydoc.readthedocs.io/en/latest/format.html" target="_blank">Numpy docstrings style guide</a>
+- <a href="https://packaging.python.org/en/latest/" target="_blank">Python packaging guide</a>
 
-
+Additionally, support from [Fire Safety Research Institute](fsri.org), a part of [UL Research Institutes](ul.org) for this project has been necessary to keep going.
 

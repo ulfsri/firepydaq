@@ -15,6 +15,7 @@ Thumbs.db
 
 # Sphinx documentation
 docs/_build/
+jupyter_execute/
 
 # FIREpyDAQ specific #
 ######################

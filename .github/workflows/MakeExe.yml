@@ -1,4 +1,4 @@
-name: Exe Release
+name: Exe Release 💾
 
 on:
   push:
@@ -10,6 +10,7 @@ env:
 
 jobs:
   build:
+    if: ${{ contains(github.event.head_commit.message, 'release exe') }}
     permissions:
       contents: write
     name: Create Release
@@ -35,13 +36,11 @@ jobs:
         pip install setuptools wheel twine
         ls
         pip install .
-        pip list
     - name: Build windows executable
       if: runner.os == 'windows'
       working-directory: ./build-recipes
       run: |
         pip install -r build_requirements.txt
-    #    pyinstaller -y --log-level=WARN FIREpyDAQ_NIConfigMaker.spec
         pyinstaller -y --log-level=WARN FIREpyDAQ_Acquisition.spec
     - name: Release Assets
       uses: softprops/action-gh-release@v2

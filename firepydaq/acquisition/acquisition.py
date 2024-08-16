@@ -41,9 +41,11 @@ from ..api.EchoNIDAQTask import CreateDAQTask
 import traceback
 from ..utilities.ErrorUtils import error_logger, firepydaq_logger
 
-# To make the application icon in the tab appear as the selected icon
-import ctypes
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ulfsri.firepydaq.010')  # noqa: E501
+# To make the application icon in the tab
+# appear as the selected icon for Windows
+if os.name == 'nt':
+    import ctypes
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ulfsri.firepydaq.010')  # noqa: E501
 
 
 class application(QMainWindow):

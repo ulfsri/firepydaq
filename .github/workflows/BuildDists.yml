@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
+name: Publish to PyPI 🐍
 
 on: 
   push:
@@ -33,32 +33,54 @@ jobs:
         name: python-package-distributions
         path: dist/
 
-  publish-to-pypi:
-    name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
+  publish-to-testpypi:
+    name: Publish Python 🐍 distribution 📦 to TestPyPI
     needs:
     - build
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     environment:
       name: FIREpyDAQRelease
-      url: https://pypi.org/p/firepydaq
+      url: https://test.pypi.org/p/firepydaq
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
+
     steps:
     - name: Download all the dists
       uses: actions/download-artifact@v3
       with:
         name: python-package-distributions
         path: dist/
-    - name: Publish distribution 📦 to PyPI
+    - name: Publish distribution 📦 to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+
+  # publish-to-pypi:
+  #   name: >-
+  #     Publish Python 🐍 distribution 📦 to PyPI
+  #   needs:
+  #   - build
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: FIREpyDAQRelease
+  #     url: https://pypi.org/p/firepydaq
+  #   permissions:
+  #     id-token: write  # IMPORTANT: mandatory for trusted publishing
+  #   steps:
+  #   - name: Download all the dists
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: python-package-distributions
+  #       path: dist/
+  #   - name: Publish distribution 📦 to PyPI
+  #     uses: pypa/gh-action-pypi-publish@release/v1
 
   github-release:
     name: >-
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release
     needs:
-    - publish-to-pypi
+    - publish-to-testpypi
     runs-on: windows-latest
 
     permissions:
@@ -77,6 +99,16 @@ jobs:
         inputs: >-
           ./dist/*.tar.gz
           ./dist/*.whl
+    # - name: Release Assets
+    #   uses: softprops/action-gh-release@v2
+    #   with:
+    #     name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
+    #     draft: true
+    #     prerelease: false
+    # #     body: |
+    #         # ![](url if needed)
+    #     files: |
+    #       ./build-recipes/dist/*.exe
     - name: Create GitHub Release
       env:
         GITHUB_TOKEN: ${{ github.token }}
@@ -91,8 +123,8 @@ jobs:
       # Upload to GitHub Release using the `gh` CLI.
       # `dist/` contains the built packages, and the
       # sigstore-produced signatures and certificates.
-      run: >-
-        gh release upload
-        '${{ github.ref_name }}' dist/**
-        --repo '${{ github.repository }}'
+      run: |
+        gh release upload '${{ github.ref_name }}' ./dist/*.tar.gz* --repo '${{ github.repository }}'
+        gh release upload '${{ github.ref_name }}' ./dist/*.whl --repo '${{ github.repository }}'
+        gh release upload '${{ github.ref_name }}' ./dist/*.whl* --repo '${{ github.repository }}'
 
