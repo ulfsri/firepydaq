@@ -9,7 +9,7 @@ on:
 
 jobs:
   j1:
-    name: repostats-for-nice-project
+    name: repostats-for-firepydaq
     runs-on: ubuntu-latest
     steps:
       - name: run-ghrs
@@ -19,7 +19,8 @@ jobs:
           # stats for and to generate the report for).
           # Remove the parameter when the stats repository
           # and the data repository are the same.
-          repository: bob/nice-project
+          repository: dushyant-fire/firepydaq
+          databranch: firepydaq-stats
           # Set a GitHub API token that can read the GitHub
           # repository traffic API for the stats repository,
           # and that can push commits to the data repository
