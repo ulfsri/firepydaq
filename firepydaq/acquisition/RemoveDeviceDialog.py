@@ -23,13 +23,13 @@ class RemoveDeviceDialog(QDialog):
 
         self.ok_button = QPushButton("Done")
         self.cancel_button = QPushButton("Cancel")
-        self.ok_button.clicked.connect(self._save_name)
+        self.ok_button.clicked.connect(self._remove_name)
         self.cancel_button.clicked.connect(self._cancel_name)
         layout.addWidget(self.ok_button)
         layout.addWidget(self.cancel_button)
         self.setLayout(layout)
 
-    def _save_name(self):
+    def _remove_name(self):
         self.device_to_del = self.dev_edit.currentText()
         self.index_to_del = self.dev_edit.currentIndex()
         self.accept()

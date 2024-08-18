@@ -3,16 +3,18 @@ from PySide6.QtGui import QAction, QActionGroup
 
 import webbrowser
 from jsonschema import validate
-from .device import alicat_mfc
 import json
-from .device import mfm
 import os
-from .device_name_dialog import DeviceNameDialog
-from .remove_device_dialog import RemoveDeviceDialog
-from .save_setting_to_json_dialog import SaveSettingsDialog
-from .load_setting_json_dialog import LoadSettingsDialog
+
+from .DeviceNameDialog import DeviceNameDialog
+from .RemoveDeviceDialog import RemoveDeviceDialog
+from .SaveSettingsDialog import SaveSettingsDialog
+from .LoadSettingsDialog import LoadSettingsDialog
 from .schema import schema
 from .display_data_tab import data_vis
+
+from .device import alicat_mfc
+from .device import mfm
 from .device import thorlabs_laser
 
 from ..utilities.ErrorUtils import error_logger
@@ -61,16 +63,19 @@ class MyMenu(QMenuBar):
 
         # Add Lasers and MFC's
         self.add_laser_action = QAction("Add ThorlabsCLD101X", self)
+        self.add_laser_action.setObjectName("Add Laser")
         self.add_laser_action.triggered.connect(self.add_laser)
         self.add_devices_menu.addAction(self.add_laser_action)
         self.add_laser_action.setShortcut("Shift+Alt+L")
 
         self.add_mfm_action = QAction("Add MFM", self)
+        self.add_mfm_action.setObjectName("Add MFM")
         self.add_mfm_action.triggered.connect(self.add_mfm)
         self.add_devices_menu.addAction(self.add_mfm_action)
         self.add_mfm_action.setShortcut("Shift+Alt+M")
 
         self.add_mfc_action = QAction("Add MFC", self)
+        self.add_mfc_action.setObjectName("Add MFC")
         self.add_mfc_action.triggered.connect(self.add_mfc)
         self.add_devices_menu.addAction(self.add_mfc_action)
         self.add_mfc_action.setShortcut("Shift+Alt+C")
@@ -80,16 +85,19 @@ class MyMenu(QMenuBar):
 
         # Remove Lasers and MFC's
         self.rem_laser_action = QAction("Remove ThorlabsCLD101X", self)
+        self.rem_laser_action.setObjectName("Remove Laser")
         self.rem_laser_action.triggered.connect(self.remove_laser)
         self.remove_devices_menu.addAction(self.rem_laser_action)
         self.rem_laser_action.setShortcut("Ctrl+Shift+L")
 
         self.rem_mfm_action = QAction("Remove MFM", self)
+        self.rem_mfm_action.setObjectName("Remove MFM")
         self.rem_mfm_action.triggered.connect(self.remove_mfm)
         self.remove_devices_menu.addAction(self.rem_mfm_action)
         self.rem_mfm_action.setShortcut("Ctrl+Shift+F")
 
         self.rem_mfc_action = QAction("Remove MFC", self)
+        self.rem_mfc_action.setObjectName("Remove MFC")
         self.rem_mfc_action.triggered.connect(self.remove_mfc)
         self.remove_devices_menu.addAction(self.rem_mfc_action)
         self.rem_mfc_action.setShortcut("Ctrl+Shift+M")
@@ -309,6 +317,7 @@ class MyMenu(QMenuBar):
                 self.parent.main_layout.setStretch(1, 1.5)
                 self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)  # noqa E501
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
+                print(self.parent.device_arr[dev_name])
 
         elif len(self.parent.mfcs) < 4:
             dlg_dev_name = DeviceNameDialog("Add MFC")
@@ -319,14 +328,14 @@ class MyMenu(QMenuBar):
                     self.parent.inform_user("Device name can not be empty.")
                     return
                 if dev_name in self.parent.device_arr:
-                    self.parent.notify("All devices must have unique names.")
+                    self.parent.notify("All devices must have unique names.", "info")  # noqa E501
                     return
                 self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)  # noqa E501
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
             else:
                 self.parent.notify("No MFC Added.", "info")
         else:
-            self.parent.notify("Maximum 4 MFC's can be added. Please raise an issue so we can work extend the functionality.")  # noqa E501
+            self.parent.notify("Maximum 4 MFC's can be added. Please raise an issue so we can work extend the functionality.", "info")  # noqa E501
             return
 
     def remove_laser(self):
@@ -437,6 +446,7 @@ class MyMenu(QMenuBar):
             self.repopulate_settings(data)
             self.load_devices(data)
 
+    @error_logger
     def load_devices(self, data):
         if "Devices" in data:
             dev_dict = data["Devices"]
@@ -447,7 +457,7 @@ class MyMenu(QMenuBar):
             if "Lasers" in dev_dict:
                 laser_dict = dev_dict["Lasers"]
                 for laser in laser_dict.keys():
-                    my_dict =  dev_dict["Lasers"][laser]
+                    my_dict = dev_dict["Lasers"][laser]
                     self.parent.device_arr[laser] = thorlabs_laser(self.parent, laser)
                     self.parent.device_arr[laser].load_device_data(str(my_dict["P"]), str(my_dict["I"]),
                                                                     str(my_dict["D"]), str(my_dict["O"]), str(my_dict["COMPORT"]),

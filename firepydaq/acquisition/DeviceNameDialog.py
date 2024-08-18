@@ -31,6 +31,7 @@ class DeviceNameDialog(QDialog):
         """Method that saves the user input name for a device"""
         self.device_name = self.dev_edit.text()
         self.accept()
+        return
 
     def _cancel_name(self):
         self.reject()
