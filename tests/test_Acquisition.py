@@ -10,7 +10,7 @@ def test_click_acq(qtbot, monkeypatch):
     try:
         acq_calls = []
         main_app = application()
-        monkeypatch.setattr(main_app, "acquisition_begins", lambda: acq_calls.append(1)) # noqa: E501
+        monkeypatch.setattr(main_app, "acquisition_begins", lambda: acq_calls.append(1))  # noqa: E501
         qtbot.addWidget(main_app)
         qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton)
         assert acq_calls == [1]
@@ -32,6 +32,7 @@ def test_click_acq_unfilled(qtbot):
         while message_box is None and time.time() - start_time < time_out:
             message_box = QApplication.activeModalWidget()
         if message_box is not None:
+            message_box.hide()
             assert message_box.text() == "Unfilled fields encountered."
             message_box.close()
 
@@ -67,6 +68,7 @@ def test_acq_value_err(qtbot):
         while message_box is None and time.time() - start_time < time_out:
             message_box = QApplication.activeModalWidget()
         if message_box is not None:
+            message_box.hide()
             assert message_box.text() == "Invalid Sampling Rate"
             message_box.close()
 
@@ -81,7 +83,7 @@ def test_acq_value_err(qtbot):
     f"Dialog type: {type(message_box)}"
 
 
-def test_save_disabled(qtbot, monkeypatch):
+def test_save_disabled(qtbot):
     try:
         main_app = application()
         qtbot.addWidget(main_app)
@@ -114,6 +116,7 @@ def test_acq_name_err(qtbot):
         while message_box is None and time.time() - start_time < time_out:
             message_box = QApplication.activeModalWidget()
         if message_box is not None:
+            message_box.hide()
             assert message_box.text() == "Names can only be alphanumeric or contain spaces."  # noqa: E501
             message_box.close()
 
@@ -149,6 +152,7 @@ def test_acq_expname_err(qtbot):
         while message_box is None and time.time() - start_time < time_out:
             message_box = QApplication.activeModalWidget()
         if message_box is not None:
+            message_box.hide()
             assert message_box.text() == "Names can only be alphanumeric or contain spaces."  # noqa: E501
             message_box.close()
 

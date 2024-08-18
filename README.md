@@ -108,6 +108,7 @@ Thanks to the following community guidelines which were immensely helpful while 
 - <a href="https://sphinx-autoapi.readthedocs.io/en/latest/" target="_blank">Sphinx AutoAPI documentation</a>
 - <a href="https://numpydoc.readthedocs.io/en/latest/format.html" target="_blank">Numpy docstrings style guide</a>
 - <a href="https://packaging.python.org/en/latest/" target="_blank">Python packaging guide</a>
+- <a href="https://www.pythonguis.com/pyside6/" target="_blank">PythonGUIs, by Martin FitzPatrick</a>
 
 Additionally, support from [Fire Safety Research Institute](fsri.org), a part of [UL Research Institutes](ul.org) for this project has been necessary to keep going.
 

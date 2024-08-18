@@ -75,7 +75,7 @@ class thorlabs_laser(QWidget):
             Calls set_laser()
         - pid_btn: QPushButton
             Calls set_pID()
-        - establish_connection_btn: QPushButton
+        - laser_connection_btn: QPushButton
             Calls establish_connection()
         """
         # Adds Layout
@@ -188,11 +188,11 @@ class thorlabs_laser(QWidget):
         self.laser_switch.setEnabled(False)
         self.device_layout.addWidget(self.laser_switch, 7, 1)
 
-        self.establish_connection_btn = QPushButton("Establish Connection")
-        self.establish_connection_btn.setMaximumWidth(200)
-        self.establish_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
-        self.establish_connection_btn.setCheckable(True)
-        self.device_layout.addWidget(self.establish_connection_btn, 7, 2)
+        self.laser_connection_btn = QPushButton("Establish Connection")
+        self.laser_connection_btn.setMaximumWidth(200)
+        self.laser_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
+        self.laser_connection_btn.setCheckable(True)
+        self.device_layout.addWidget(self.laser_connection_btn, 7, 2)
 
         self.device_widget.setLayout(self.device_layout)
 
@@ -245,7 +245,7 @@ class thorlabs_laser(QWidget):
         The P, I, D, and osc input labels will be
         updated with the present values on the controller.
         """
-        if self.establish_connection_btn.isChecked():
+        if self.laser_connection_btn.isChecked():
             self.thor = EchoThor()
             self.thor.set_connection(self.comport_input.currentText())
             PID_set = self.thor.read_TECPID()
@@ -254,11 +254,11 @@ class thorlabs_laser(QWidget):
             self.d_input.setText(PID_set["D"])
             self.osc_input.setText(PID_set["O"])
             self.parent.notify(self.dev_id + " succesfully connected. Present PID values updatesd.")  # noqa #E501
-            self.establish_connection_btn.setText("Stop Connection")
+            self.laser_connection_btn.setText("Stop Connection")
             self.tec_button.setEnabled(True)
             self.pid_btn.setEnabled(True)
         else:
-            self.establish_connection_btn.setText("Establish Connection")
+            self.laser_connection_btn.setText("Establish Connection")
             self.thor.close()
             self.tec_button.setEnabled(False)
             self.laser_button.setEnabled(False)
@@ -355,7 +355,7 @@ class alicat_mfc(QWidget):
             Calls set_flow_rate()
         - stop_flow_btn: QPushButton
             Calls stop_flow_rate()
-        - connection_btn: QPushButton
+        - mfc_connection_btn: QPushButton
             Calls establish_connection()
         """
         # Adds Layout
@@ -409,11 +409,11 @@ class alicat_mfc(QWidget):
         self.flow_layout.addWidget(self.stop_flow_btn)
         self.device_layout.addLayout(self.flow_layout, 3, 0)
 
-        self.connection_btn = QPushButton("Establish Connection")
+        self.mfc_connection_btn = QPushButton("Establish Connection")
         self.set_flow_btn.setMaximumWidth(200)
-        self.connection_btn.clicked.connect(self.establish_connection)
-        self.connection_btn.setCheckable(True)
-        self.device_layout.addWidget(self.connection_btn, 3, 1)
+        self.mfc_connection_btn.clicked.connect(self.establish_connection)
+        self.mfc_connection_btn.setCheckable(True)
+        self.device_layout.addWidget(self.mfc_connection_btn, 3, 1)
 
         return self.device_widget
 
@@ -443,7 +443,7 @@ class alicat_mfc(QWidget):
         Alicat device at `comport_input`
         and sets the gas type to gas_input.
         """
-        if self.connection_btn.isChecked():
+        if self.mfc_connection_btn.isChecked():
             try:
                 self.MFC = EchoController()
                 self.loop = asyncio.new_event_loop()
@@ -455,7 +455,7 @@ class alicat_mfc(QWidget):
                 self.loop.run_until_complete(self.MFC.set_params(com, gas=gas))
                 self.parent.notify(self.dev_id + " connected successfully", "success")  # noqa E501
 
-                self.connection_btn.setText("Stop Connection")
+                self.mfc_connection_btn.setText("Stop Connection")
                 self.set_flow_btn.setEnabled(True)
                 self.stop_flow_btn.setEnabled(True)
             except Exception as e:
@@ -463,7 +463,7 @@ class alicat_mfc(QWidget):
         else:
             self.loop.run_until_complete(self.MFC.end_connection())
             self.parent.notify("Connection to " + self.dev_id + " ended successfully", "success")  # noqa E501
-            self.connection_btn.setText("Establish Connection")
+            self.mfc_connection_btn.setText("Establish Connection")
 
             self.set_flow_btn.setEnabled(False)
             self.stop_flow_btn.setEnabled(False)
@@ -551,7 +551,7 @@ class mfm(QWidget):
             Dropdown of list of available COMPorts.
             Currently available gases are listed
             in utilities.DAQUtils submodule.
-        - establish_connection_btn: QPushButton
+        - mfm_connection_btn: QPushButton
             Calls establish_connection()
         """
         # Adds Layout
@@ -588,11 +588,11 @@ class mfm(QWidget):
         self.flow_rateVal.setMaximumWidth(200)
         self.device_layout.addWidget(self.flow_rateVal, 2, 1)
 
-        self.establish_connection_btn = QPushButton("Establish Connection")
-        self.establish_connection_btn.setMaximumWidth(200)
-        self.establish_connection_btn.setCheckable(True)
-        self.establish_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
-        self.device_layout.addWidget(self.establish_connection_btn, 3, 1)
+        self.mfm_connection_btn = QPushButton("Establish Connection")
+        self.mfm_connection_btn.setMaximumWidth(200)
+        self.mfm_connection_btn.setCheckable(True)
+        self.mfm_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
+        self.device_layout.addWidget(self.mfm_connection_btn, 3, 1)
         self.device_widget.setLayout(self.device_layout)
 
         return self.device_widget
@@ -602,12 +602,12 @@ class mfm(QWidget):
         MFM device connected at `comport_input` with
         `gas_input` selected gas type.
         """
-        if self.establish_connection_btn.isChecked():
-            self.establish_connection_btn.setText("Establish Connection")
+        if self.mfm_connection_btn.isChecked():
+            self.mfm_connection_btn.setText("Establish Connection")
             self.flow_rate_btn.setEnabled(True)
             self.parent.notify(self.dev_id + " connected successfully", "success")  # noqa E501
         else:
-            self.establish_connection_btn.setText("Stop Connection")
+            self.mfm_connection_btn.setText("Stop Connection")
             self.flow_rate_btn.setEnabled(False)
             self.parent.notify("Connection to " + self.dev_id + " ended successfully", "success")  # noqa E501
 

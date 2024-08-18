@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QDialog, QMainWindow, QWidget, QVBoxLayout, QMenu,
     QTabWidget, QHBoxLayout, QGridLayout, QLabel, QLineEdit,
     QComboBox, QPushButton, QMessageBox, QFileDialog)
-from .save_setting_to_json_dialog import SaveSettingsDialog
+from .SaveSettingsDialog import SaveSettingsDialog
 from .exception_list import UnfilledFieldError
 from .main_menu import MyMenu
 import json
