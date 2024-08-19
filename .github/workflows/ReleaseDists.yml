@@ -25,6 +25,7 @@ jobs:
         pip install
         build
         --user
+        echo ${{ github.workspace }}
     - name: Build a binary wheel and a source tarball
       run: python3 -m build
     - name: Store the distribution packages
@@ -106,7 +107,7 @@ jobs:
         name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
         draft: true
         prerelease: false
-        body_path: {{github.workspace}}-LatestChange.md
+        body_path: ${{github.workspace}}-LatestChange.md
     #     body: |
             # ![](url if needed)
         files: |
