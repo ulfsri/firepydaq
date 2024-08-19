@@ -9,7 +9,7 @@ jobs:
   build:
     name: Build distribution 📦
     runs-on: windows-latest
-    if: ${{ github.repository_owner == 'ulfsri' }}
+    # if: ${{ github.repository_owner == 'ulfsri' }}
     steps:
     - name: Set env
       shell: bash
@@ -55,40 +55,39 @@ jobs:
   #     with:
   #       repository-url: https://test.pypi.org/legacy/
 
-  publish-to-pypi:
-    name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
-    if: ${{ github.repository_owner == 'ulfsri' }}
-    needs:
-    - build
-    runs-on: ubuntu-latest
-    environment:
-      name: FIREpyDAQRelease
-      url: https://pypi.org/p/firepydaq
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v3
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+  # publish-to-pypi:
+  #   name: >-
+  #     Publish Python 🐍 distribution 📦 to PyPI
+  #   if: ${{ github.repository_owner == 'ulfsri' }}
+  #   needs:
+  #   - build
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: FIREpyDAQRelease
+  #     url: https://pypi.org/p/firepydaq
+  #   permissions:
+  #     id-token: write  # IMPORTANT: mandatory for trusted publishing
+  #   steps:
+  #   - name: Download all the dists
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: python-package-distributions
+  #       path: dist/
+  #   - name: Publish distribution 📦 to PyPI
+  #     uses: pypa/gh-action-pypi-publish@release/v1
 
   github-release:
     name: >-
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release
-    if: ${{ github.repository_owner == 'ulfsri' }}
+    # if: ${{ github.repository_owner == 'ulfsri' }}
     needs:
-    - publish-to-pypi
+    - build
+    # - publish-to-pypi
     runs-on: ubuntu-latest
-
     permissions:
       contents: write  # IMPORTANT: mandatory for making GitHub Releases
       id-token: write  # IMPORTANT: mandatory for sigstore
-
     steps:
     - name: Download all the dists
       uses: actions/download-artifact@v3
