@@ -1,4 +1,4 @@
-name: Publish to PyPI 🐍
+name: Publish to PyPI 🐍 and Github
 
 on: 
   push:
@@ -106,6 +106,7 @@ jobs:
         name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
         draft: true
         prerelease: false
+        body_path: {{github.workspace}}-LatestChange.md
     #     body: |
             # ![](url if needed)
         files: |
