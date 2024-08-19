@@ -107,7 +107,7 @@ jobs:
         name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
         draft: true
         prerelease: false
-        body_path: ${{github.workspace}}/LatestChange.md
+        body_path: LatestChange.md
     #     body: |
             # ![](url if needed)
         files: |
