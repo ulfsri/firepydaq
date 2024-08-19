@@ -32,7 +32,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: python-package-distributions
-        path: dist/
+        path: |
+          dist/
+          LatestChange.md
 
   # publish-to-testpypi:
   #   name: Publish Python 🐍 distribution 📦 to TestPyPI
@@ -94,7 +96,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: python-package-distributions
-        path: dist/
+        path: |
+          dist/
+          LatestChange.md
     - name: Sign the dists with Sigstore
       uses: sigstore/gh-action-sigstore-python@v2.1.1
       with:
@@ -108,8 +112,6 @@ jobs:
         draft: true
         prerelease: false
         body_path: LatestChange.md
-    #     body: |
-            # ![](url if needed)
         files: |
           dist/**
     # - name: Create GitHub Release
