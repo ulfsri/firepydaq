@@ -342,6 +342,21 @@ class application(QMainWindow):
 
         # Initialize NotificationPanel
         self.notifications_layout = QVBoxLayout()
+
+        # Create dropdown menu for clear and save actions
+        self.notif_head = QHBoxLayout()
+        self.notif_header = QLabel("Notifications Panel")
+        self.notif_header.setMaximumWidth(190)
+        self.notif_header.setMaximumHeight(24)
+        self.notif_head.addWidget(self.notif_header)# noqa E501
+        self.dropdown_button = QPushButton("Options")
+        self.dropdown_button.setMaximumWidth(60)
+        self.dropdown_button.setMaximumHeight(24)
+        self.notif_head.addWidget(self.dropdown_button)
+        self.notif_head.addWidget(self.notif_header)
+        self.notifications_layout.addLayout(self.notif_head)
+
+        # Panel
         self.panel = NotificationPanel()
         self.panel.setMaximumHeight(375)
         self.panel.setFixedWidth(250)
@@ -354,7 +369,7 @@ class application(QMainWindow):
         self.log_obs_txt = QLineEdit()
         self.log_obs_txt.setPlaceholderText("Write observations here")
         self.log_area.addWidget(self.log_obs_txt)
-        self.notif_log_btn = QPushButton("Log Obs.")
+        self.notif_log_btn = QPushButton("Log")
         self.notif_log_btn.clicked.connect(self.log_Obs)
         self.log_area.addWidget(self.notif_log_btn)
         self.notifications_layout.addLayout(self.log_area)
@@ -368,17 +383,12 @@ class application(QMainWindow):
         clear_action.triggered.connect(self.panel.clear)
         self.notifmenu.addAction(clear_action)
 
+        self.dropdown_button.setMenu(self.notifmenu)
+
         save_action = QAction("Save", self)
         save_action.triggered.connect(self.save_notifs)
         self.notifmenu.addAction(save_action)
         # self.notifmenu.setObjectName("NotifMenu")
-
-        # Create dropdown menu for clear and save actions
-        self.dropdown_button = QPushButton("Options")
-        self.dropdown_button.setMaximumWidth(60)
-        self.dropdown_button.setMaximumHeight(24)
-        self.dropdown_button.setMenu(self.notifmenu)
-        self.notifications_layout.insertWidget(0, self.dropdown_button, alignment=Qt.AlignRight)  # noqa E501
 
         self.main_input_layout.addLayout(self.input_layout)
         self.main_input_layout.addLayout(self.notifications_layout)

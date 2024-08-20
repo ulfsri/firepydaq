@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (QWidget, QGridLayout, QLabel,
                                QLineEdit, QComboBox, QHBoxLayout,
-                               QPushButton)
+                               QPushButton, QVBoxLayout)
 from PySide6.QtGui import QRegularExpressionValidator
 from PySide6.QtCore import QRegularExpression
 
@@ -79,9 +79,12 @@ class thorlabs_laser(QWidget):
             Calls establish_connection()
         """
         # Adds Layout
-        self.device_widget = QWidget()
+        self.main_widget = QWidget()
+        self.main_layout = QVBoxLayout()
         self.device_layout = QGridLayout()
-
+        self.main_layout.addLayout(self.device_layout)
+        self.buttons_layout = QGridLayout()
+        self.main_layout.addLayout(self.buttons_layout)
         # Adds COMPORT input field
         self.comport_label = QLabel("Select COMPORT:")
         self.comport_label.setMaximumWidth(200)
@@ -177,26 +180,25 @@ class thorlabs_laser(QWidget):
         self.device_layout.addLayout(self.laser_layout, 6, 1)
 
         self.pid_btn = QPushButton("Set PID values")
-        self.pid_btn.setMaximumWidth(200)
+        self.pid_btn.setMaximumWidth(150)
         self.pid_btn.clicked.connect(self.set_pid)
         self.pid_btn.setEnabled(False)
-        self.device_layout.addWidget(self.pid_btn, 7, 0)
+        self.buttons_layout.addWidget(self.pid_btn, 0, 2)
 
         self.laser_switch = QPushButton("Start laser")
-        self.laser_switch.setMaximumWidth(200)
+        self.laser_switch.setMaximumWidth(150)
         self.laser_switch.clicked.connect(self.start_laser)
         self.laser_switch.setEnabled(False)
-        self.device_layout.addWidget(self.laser_switch, 7, 1)
+        self.buttons_layout.addWidget(self.laser_switch, 0, 1)
 
         self.laser_connection_btn = QPushButton("Establish Connection")
-        self.laser_connection_btn.setMaximumWidth(200)
+        self.laser_connection_btn.setMaximumWidth(150)
         self.laser_connection_btn.clicked.connect(self.establish_connection)  # noqa E501
         self.laser_connection_btn.setCheckable(True)
-        self.device_layout.addWidget(self.laser_connection_btn, 7, 2)
+        self.buttons_layout.addWidget(self.laser_connection_btn, 0, 0)
+        self.main_widget.setLayout(self.main_layout)
 
-        self.device_widget.setLayout(self.device_layout)
-
-        return self.device_widget
+        return self.main_widget
 
     def set_laser(self):
         """Method that sets the laser output
@@ -583,9 +585,10 @@ class mfm(QWidget):
         # Adds dilution rate
         self.rate_updtLabel = QLabel("Flow Rate")
         self.rate_updtLabel.setMaximumWidth(200)
+        self.rate_updtLabel.setMaximumHeight(20)
         self.device_layout.addWidget(self.rate_updtLabel, 2, 0)
         self.flow_rateVal = QLabel("Flow rate will be updated here.")
-        self.flow_rateVal.setMaximumWidth(200)
+        self.flow_rateVal.setMaximumHeight(30)
         self.device_layout.addWidget(self.flow_rateVal, 2, 1)
 
         self.mfm_connection_btn = QPushButton("Establish Connection")
