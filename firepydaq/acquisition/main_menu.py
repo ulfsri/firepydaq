@@ -471,12 +471,8 @@ class MyMenu(QMenuBar):
             self._repopulate_settings(data)
             self._load_devices(data)
 
-<<<<<<< Updated upstream
-    def load_devices(self, data):
-=======
     @error_logger
     def _load_devices(self, data):
->>>>>>> Stashed changes
         if "Devices" in data:
             dev_dict = data["Devices"]
             self.parent.device_tab_widget = QTabWidget()
