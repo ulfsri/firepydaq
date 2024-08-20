@@ -433,7 +433,7 @@ class application(QMainWindow):
         and asks for filename and folder to save the file in.
         """
         dlg_save_file = SaveSettingsDialog("Select File to Save Data")
-        self.menu.style_popup(dlg_save_file)
+        self.menu._style_popup(dlg_save_file)
         if dlg_save_file.exec() == QDialog.Accepted:
             self.common_path = dlg_save_file.file_path
             file_pq = self.common_path + ".parquet"
