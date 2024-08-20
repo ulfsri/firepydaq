@@ -25,7 +25,6 @@ jobs:
         pip install
         build
         --user
-        echo ${{ github.workspace }}
     - name: Build a binary wheel and a source tarball
       run: python3 -m build
     - name: Store the distribution packages
@@ -36,27 +35,26 @@ jobs:
           dist/
           LatestChange.md
 
-  # publish-to-testpypi:
-  #   name: Publish Python 🐍 distribution 📦 to TestPyPI
-  #   needs:
-  #   - build
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: FIREpyDAQRelease
-  #     url: https://test.pypi.org/p/firepydaq
-  #   permissions:
-  #     id-token: write  # IMPORTANT: mandatory for trusted publishing
-
-  #   steps:
-  #   - name: Download all the dists
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: python-package-distributions
-  #       path: dist/
-  #   - name: Publish distribution 📦 to TestPyPI
-  #     uses: pypa/gh-action-pypi-publish@release/v1
-  #     with:
-  #       repository-url: https://test.pypi.org/legacy/
+  publish-to-testpypi:
+    name: Publish Python 🐍 distribution 📦 to TestPyPI
+    needs:
+    - build
+    runs-on: ubuntu-latest
+    environment:
+      name: FIREpyDAQRelease
+      url: https://test.pypi.org/p/firepydaq
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package-distributions
+    - name: Publish distribution 📦 to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        skip-existing: true
 
   # publish-to-pypi:
   #   name: >-
@@ -86,7 +84,7 @@ jobs:
     # if: ${{ github.repository_owner == 'ulfsri' }}
     needs:
     - build
-    # - publish-to-pypi
+    - publish-to-testpypi
     runs-on: ubuntu-latest
     permissions:
       contents: write  # IMPORTANT: mandatory for making GitHub Releases
@@ -112,22 +110,3 @@ jobs:
         body_path: LatestChange.md
         files: |
           dist/**
-    # - name: Create GitHub Release
-    #   env:
-    #     GITHUB_TOKEN: ${{ github.token }}
-    #   run: >-
-    #     gh release create
-    #     '${{ github.ref_name }}'
-    #     --repo '${{ github.repository }}'
-    #     --notes ""
-    # - name: Upload artifact signatures to GitHub Release
-    #   env:
-    #     GITHUB_TOKEN: ${{ github.token }}
-    #   # Upload to GitHub Release using the `gh` CLI.
-    #   # `dist/` contains the built packages, and the
-    #   # sigstore-produced signatures and certificates.
-    #   run: |
-    #     gh release upload '${{ github.ref_name }}' ./dist/*.tar.gz* --repo '${{ github.repository }}'
-    #     gh release upload '${{ github.ref_name }}' ./dist/*.whl --repo '${{ github.repository }}'
-    #     gh release upload '${{ github.ref_name }}' ./dist/*.whl* --repo '${{ github.repository }}'
-
