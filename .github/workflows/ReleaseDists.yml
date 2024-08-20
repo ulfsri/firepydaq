@@ -9,7 +9,7 @@ jobs:
   build:
     name: Build distribution 📦
     runs-on: windows-latest
-    # if: ${{ github.repository_owner == 'ulfsri' }}
+    if: ${{ github.repository_owner == 'ulfsri' }}
     steps:
     - name: Set env
       shell: bash
@@ -35,61 +35,62 @@ jobs:
           dist/
           LatestChange.md
 
-  publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
-    needs:
-    - build
-    runs-on: ubuntu-latest
-    environment:
-      name: FIREpyDAQRelease
-      url: https://test.pypi.org/p/firepydaq
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-    - name: Publish distribution 📦 to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
-        skip-existing: true
-
-  # publish-to-pypi:
-  #   name: >-
-  #     Publish Python 🐍 distribution 📦 to PyPI
-  #   if: ${{ github.repository_owner == 'ulfsri' }}
+  # publish-to-testpypi:
+  #   name: Publish Python 🐍 distribution 📦 to TestPyPI
   #   needs:
   #   - build
   #   runs-on: ubuntu-latest
   #   environment:
   #     name: FIREpyDAQRelease
-  #     url: https://pypi.org/p/firepydaq
+  #     url: https://test.pypi.org/p/firepydaq
   #   permissions:
   #     id-token: write  # IMPORTANT: mandatory for trusted publishing
   #   steps:
   #   - name: Download all the dists
-  #     uses: actions/download-artifact@v3
+  #     uses: actions/download-artifact@v4
   #     with:
   #       name: python-package-distributions
-  #       path: dist/
-  #   - name: Publish distribution 📦 to PyPI
+  #   - name: Publish distribution 📦 to TestPyPI
   #     uses: pypa/gh-action-pypi-publish@release/v1
+  #     with:
+  #       repository-url: https://test.pypi.org/legacy/
+  #       skip-existing: true
+
+  publish-to-pypi:
+    name: >-
+      Publish Python 🐍 distribution 📦 to PyPI
+    if: ${{ github.repository_owner == 'ulfsri' }}
+    needs:
+    - build
+    runs-on: ubuntu-latest
+    environment:
+      name: FIREpyDAQRelease
+      url: https://pypi.org/p/firepydaq
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
 
   github-release:
     name: >-
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release
-    # if: ${{ github.repository_owner == 'ulfsri' }}
+    if: ${{ github.repository_owner == 'ulfsri' }}
     needs:
-    - build
-    - publish-to-testpypi
+    - publish-to-pypi
     runs-on: ubuntu-latest
     permissions:
       contents: write  # IMPORTANT: mandatory for making GitHub Releases
       id-token: write  # IMPORTANT: mandatory for sigstore
     steps:
+    - name: Set release version
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
