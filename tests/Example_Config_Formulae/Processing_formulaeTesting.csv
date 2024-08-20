@@ -1,2 +1,6 @@
 Label,RHS,Chart,Legend,Layout,Position,Processed_Unit
-Temp_F,(Temperature1)*9/5 + 32,Temperature,Fahrenheit temp,1,1,F
+TF_mult, 9/5, None, TF_mult, 1, 1, -
+TF_offset, 32, Constant, TF_mult, 1, 1, -
+Temp_F,(Temperature1)*TF_mult + TF_offset,Temperature,Fahrenheit temp,2,2,F
+Temp_mean, (Temperature1 + Temperature2)/2, Mean Temperture, Mean Temp, 1,1, C
+VProcessed, Voltage1/1000, V1 (mA), Volts, 1,1, mA

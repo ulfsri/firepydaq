@@ -188,43 +188,51 @@ class PostProcessData():
         if len(self.path_dict.keys()) == 3:
             self.read_formulae = True
             formulae_info = self.data_dict['formulae'].select(select_cols)
+            formulae_info = formulae_info.with_columns(pl.col("Layout").cast(pl.String))
+            formulae_info = formulae_info.with_columns(pl.col("Position").cast(pl.String))
+            formulae_info = formulae_info.with_columns(pl.col("Layout").str.strip_chars().cast(pl.Int64))
+            formulae_info = formulae_info.with_columns(pl.col("Position").str.strip_chars().cast(pl.Int64))
             All_chart_info = pl.concat([config_info, formulae_info])
         else:
             self.read_formulae = False  # Only data scaling
             All_chart_info = config_info
-        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("Intermediate"))
-        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("Constant"))
-        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("None"))
+        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("Intermediate"))  # noqa E501
+        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("Constant"))  # noqa E501
+        All_chart_info = All_chart_info.filter(~pl.col("Chart").str.contains("None"))  # noqa E501
         All_chart_info = All_chart_info
         All_chart_info.rename(str.strip).columns
-        All_chart_info = All_chart_info.with_columns(pl.col(pl.String).str.strip_chars())
+        All_chart_info = All_chart_info.with_columns(pl.col(pl.String).str.strip_chars())  # noqa E501
         self.All_chart_info = All_chart_info
 
         return
 
     def UpdateData(self, dump_output=True):
-        """A method to update the processed data using the initiated path configs
+        """A method to update the processed data
+        using the initiated path configs
 
         Creates the attribute df_processed: `polars.DataFrame`
 
             If `dump_output = True` (Default), A new file having the name
             `self.path_dict['datapath'].split('.parquet')[0]+'_PostProcessed.parquet'` will be created.
-        
+
         Parameters
         ----------
         dump_output: bool, Optional
             Default `dump_outut = True`
 
-            `True`: Processed data will be saved at the location where the data is read from.
+            `True`: Processed data will be saved at the
+            location where the data is read from.
 
             `False`: Processed data will not save the processed data
         """
-        if not self.fpathIsDf:  # Used for authenticating formulae file using random numbers before acquisition begins
+        if not self.fpathIsDf:  
+            # Used for authenticating formulae file using
+            # random numbers before acquisition begins
             self.data_dict['data'] = pl.read_parquet(self.path_dict['datapath'])
         self._CallScaler()
         self._CallParser()
         if dump_output:
-            self.df_processed.write_parquet(self.path_dict['datapath'].split('.parquet')[0]+'_PostProcessed.parquet')
+            self.df_processed.write_parquet(self.path_dict['datapath'].split('.parquet')[0]+'_PostProcessed.parquet')  # noqa E501
 
     def ScaleData(self):
         '''Method to scale the raw data.
@@ -249,15 +257,15 @@ class PostProcessData():
         self.df_processed = pl.DataFrame()
         for col in self.data_dict['data'].columns:
             crow_df = self.data_dict['config'].filter(pl.col("Label") == col)
-            if ("AbsoluteTime" not in col) and ("Absolute_Time" not in col):  
-            # Checking for either these two strings in the data df. 
-                self.data_dict['data'] = self.data_dict['data'].cast({col: pl.Float32})
+            if ("AbsoluteTime" not in col) and ("Absolute_Time" not in col):
+                # Checking for either these two strings in the data df
+                self.data_dict['data'] = self.data_dict['data'].cast({col: pl.Float32})  # noqa E501
             if "Time" in col:
-                self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
+                self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))  # noqa E501
             elif "None" in crow_df.select("Chart").item().strip() == "None":
                 continue
-            elif not self.data_dict['config'].filter(pl.col("Type") == "Thermocouple").filter(pl.col("Label") == col).is_empty():
-                self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
+            elif not self.data_dict['config'].filter(pl.col("Type") == "Thermocouple").filter(pl.col("Label") == col).is_empty():  # noqa E501
+                self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))  # noqa E501
             else:
                 try:
                     min_AI = np.float32(crow_df.select("AIRangeMin").item())
@@ -265,10 +273,11 @@ class PostProcessData():
                     min_Scale = np.float32(crow_df.select("ScaleMin").item())
                     max_Scale = np.float32(crow_df.select("ScaleMax").item())
                     unit_per_V = (max_Scale - min_Scale)/(max_AI - min_AI)
-                    self.df_processed = self.df_processed.with_columns((pl.Series((self.data_dict['data'].select(pl.col(col))-min_AI)*unit_per_V+min_Scale)).alias(col))
+                    self.df_processed = self.df_processed.with_columns((pl.Series((self.data_dict['data'].select(pl.col(col))-min_AI)*unit_per_V+min_Scale)).alias(col))  # noqa E501
                 except ValueError:
-                    # Is there is any ValueError, no scaling will be done to the data
-                    self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))
+                    # Is there is any ValueError
+                    # no scaling will be done to the data
+                    self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))  # noqa E501
 
     def _CheckVarMacthes(self, var, rhs, replacement):
         # Look for variable with non alphanumeric, and underscore characters before or after the string. i.e. a-zA-Z0-9_

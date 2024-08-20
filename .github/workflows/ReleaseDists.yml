@@ -80,7 +80,7 @@ jobs:
   github-release:
     name: >-
       Sign the Python 🐍 distribution 📦 with Sigstore
-      and upload them to GitHub Release
+      and upload them to GitHub Release :octocat:
     if: ${{ github.repository_owner == 'ulfsri' }}
     needs:
     - publish-to-pypi

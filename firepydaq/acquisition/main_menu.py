@@ -446,7 +446,6 @@ class MyMenu(QMenuBar):
             self.repopulate_settings(data)
             self.load_devices(data)
 
-    @error_logger
     def load_devices(self, data):
         if "Devices" in data:
             dev_dict = data["Devices"]
