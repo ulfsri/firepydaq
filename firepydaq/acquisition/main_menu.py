@@ -48,11 +48,6 @@ class MyMenu(QMenuBar):
         self.file_menu.addAction(self.save_daq_action)
         self.save_daq_action.setShortcut("Ctrl+S")
 
-        self.save_notif_action = QAction("Save Notifications", self)
-        self.save_notif_action.triggered.connect(self.save_notifs)
-        self.file_menu.addAction(self.save_notif_action)
-        self.save_notif_action.setShortcut("Ctrl+N")
-
         self.exit_action = QAction("Exit Application", self)
         self.exit_action.triggered.connect(self.parent.safe_exit)
         self.file_menu.addAction(self.exit_action)
@@ -113,20 +108,20 @@ class MyMenu(QMenuBar):
         self.display_type = QActionGroup(self, exclusive=True)
 
         self.no_display = QAction("No Display (Default)", self, checkable=True)
-        self.no_display.triggered.connect(self.do_not_display)
+        self.no_display.triggered.connect(self._do_not_display)
         self.no_display.setChecked(True)
         self.display_data_menu.addAction(self.no_display)
 
         self.dash_display = QAction("Display in a Dashboard", self, checkable=True)  # noqa E501
-        self.dash_display.triggered.connect(self.display_dashboard)
+        self.dash_display.triggered.connect(self._display_dashboard)
         self.display_data_type_menu.addAction(self.dash_display)
 
         self.tab_display = QAction("Display in a Tab", self, checkable=True)
-        self.tab_display.triggered.connect(self.display_tab)
+        self.tab_display.triggered.connect(self._display_tab)
         self.display_data_type_menu.addAction(self.tab_display)
 
         self.all_display = QAction("Display All", self, checkable=True)
-        self.all_display.triggered.connect(self.display_all)
+        self.all_display.triggered.connect(self._display_all)
         self.display_data_type_menu.addAction(self.all_display)
 
         self.display_type.addAction(self.tab_display)
@@ -139,11 +134,11 @@ class MyMenu(QMenuBar):
 
         # Design Mode Switch
         self.dark_mode = QAction("Dark Mode", self)
-        self.dark_mode.triggered.connect(lambda: self.switch_mode("Dark"))
+        self.dark_mode.triggered.connect(lambda: self._switch_mode("Dark"))
         self.mode_menu.addAction(self.dark_mode)
 
         self.light_mode = QAction("Light Mode", self)
-        self.light_mode.triggered.connect(lambda: self.switch_mode("Light"))
+        self.light_mode.triggered.connect(lambda: self._switch_mode("Light"))
         self.mode_menu.addAction(self.light_mode)
 
         # Help
@@ -151,19 +146,14 @@ class MyMenu(QMenuBar):
 
         # Add Documentation and Reporting Features
         self.lookup_docs = QAction("Open Documentation", self)
-        self.lookup_docs.triggered.connect(self.take_to_docs)
+        self.lookup_docs.triggered.connect(self._take_to_docs)
         self.help_menu.addAction(self.lookup_docs)
 
         self.report_issues = QAction("Report Issue on Github", self)
-        self.report_issues.triggered.connect(self.report_issue)
+        self.report_issues.triggered.connect(self._report_issue)
         self.help_menu.addAction(self.report_issues)
 
-    def save_notifs(self):
-        f = open("myfile. txt", "w")
-        f.write(self.parent.notif_text_slot.text())
-        self.parent.notify("File Saved")
-
-    def switch_mode(self, str):
+    def _switch_mode(self, str):
         if str == "Light":
             f = open(self.parent.style_light, "r")
             self.parent.curr_mode = "Light"
@@ -175,14 +165,14 @@ class MyMenu(QMenuBar):
         self.parent.setStyleSheet(style_str)
         f.close()
 
-    def display_all(self):
+    def _display_all(self):
         self.parent.display = True
         self.parent.tab = True
         self.parent.dashboard = True
         if not hasattr(self.parent, "data_vis_tab"):
             self.parent.data_vis_tab = data_vis(self.parent)
 
-    def do_not_display(self):
+    def _do_not_display(self):
         if hasattr(self.parent, "data_vis_tab"):
             self.parent.input_tab_widget.removeTab(1)
             del self.parent.data_vis_tab
@@ -190,7 +180,7 @@ class MyMenu(QMenuBar):
         self.parent.tab = False
         self.parent.dashboard = False
 
-    def display_dashboard(self):
+    def _display_dashboard(self):
         self.parent.display = True
         self.parent.tab = False
         self.parent.dashboard = True
@@ -198,23 +188,28 @@ class MyMenu(QMenuBar):
             self.parent.input_tab_widget.removeTab(1)
             del self.parent.data_vis_tab
 
-    def display_tab(self):
+    def _display_tab(self):
         self.parent.display = True
         self.parent.tab = True
         self.parent.dashboard = False
         if not hasattr(self.parent, "data_vis_tab"):
             self.parent.data_vis_tab = data_vis(self.parent)
 
-    def take_to_docs(self):
+    def _take_to_docs(self):
         webbrowser.open("https://ulfsri.github.io/firepydaq")  # todo replace
 
-    def report_issue(self):
+    def _report_issue(self):
         webbrowser.open("https://github.com/ulfsri/firepydaq/issues/")
 
     def add_laser(self):
+        """
+        Method that opens a 'QDialog' prompting the user to enter the name of the ThorlabsCLD101X to add.
+        Added Device present must have a unique name and must not be a blank space.
+        Application can have upto 6 ThorlabsCLD101X Lasers.
+        """
         if not self.parent.device_arr:
             dlg_dev_name = DeviceNameDialog("Add ThorlabsCLD101X")
-            self.style_popup(dlg_dev_name)
+            self._style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -229,7 +224,7 @@ class MyMenu(QMenuBar):
 
         elif len(self.parent.lasers) < 6:
             dlg_dev_name = DeviceNameDialog("Add ThorlabsCLD101X")
-            self.style_popup(dlg_dev_name)
+            self._style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip(" ") 
                 if dev_name == "":
@@ -246,31 +241,17 @@ class MyMenu(QMenuBar):
             self.parent.inform_user("Maximum 6 ThorlabsCLD101X devices can be added.")
             return
 
-    def remove_mfm(self):
-        if not self.parent.mfms:
-            self.parent.inform_user("No MFM to remove.")
-            return
-
-        dlg_del_name = RemoveDeviceDialog(self.parent.mfms)
-        self.style_popup(dlg_del_name)
-
-        if dlg_del_name.exec() == QDialog.Accepted:
-            dev_to_del = dlg_del_name.device_to_del
-            index_to_del = list(self.parent.device_arr.keys()).index(dev_to_del)  # noqa E501
-            self.parent.device_tab_widget.removeTab(index_to_del)
-            del self.parent.device_arr[dev_to_del]
-            del self.parent.mfms[dev_to_del]
-
-            if not self.parent.device_arr:
-                self.parent.main_layout.removeWidget(self.parent.device_tab_widget)  # noqa E501
-                self.parent.device_tab_widget.deleteLater()
-        else:
-            self.parent.notify("No MFC removed", "info")
 
     def add_mfm(self):
+        """
+        Method that opens a 'QDialog' prompting the user to enter 
+        the name of the Mass Flow Metre to add.
+        Added Device present must have a unique name and must not be a blank space.
+        Application can have upto 4 Mass Flow Metres.
+        """
         if not self.parent.device_arr:
             dlg_dev_name = DeviceNameDialog("Add MFM")
-            self.style_popup(dlg_dev_name)
+            self._style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -285,7 +266,7 @@ class MyMenu(QMenuBar):
 
         elif len(self.parent.mfms) < 4:
             dlg_dev_name = DeviceNameDialog("Add MFM")
-            self.style_popup(dlg_dev_name)
+            self._style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -303,9 +284,15 @@ class MyMenu(QMenuBar):
             return
 
     def add_mfc(self):
+        """
+        Method that opens a 'QDialog' prompting the user to enter the name of 
+        the Alicat Mass Flow Controller to add
+        Added Device present must have a unique name and must not be a blank space.
+        Application can have upto 4 Alicat Mass Flow Controllers.
+        """
         if not self.parent.device_arr:
             dlg_dev_name = DeviceNameDialog("Add MFC")
-            self.style_popup(dlg_dev_name)
+            self._style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -321,7 +308,7 @@ class MyMenu(QMenuBar):
 
         elif len(self.parent.mfcs) < 4:
             dlg_dev_name = DeviceNameDialog("Add MFC")
-            self.style_popup(dlg_dev_name)
+            self._style_popup(dlg_dev_name)
             if dlg_dev_name.exec() == QDialog.Accepted:
                 dev_name = dlg_dev_name.device_name.strip()
                 if dev_name == "":
@@ -339,13 +326,15 @@ class MyMenu(QMenuBar):
             return
 
     def remove_laser(self):
-
+        """
+        Method that opens a 'QDialog' prompting user to select ThorlabsCLD101X Laser to remove.
+        """
         if not self.parent.lasers:
             self.parent.inform_user("No laser to remove.")
             return
 
         dlg_del_name = RemoveDeviceDialog(self.parent.lasers)
-        self.style_popup(dlg_del_name)
+        self._style_popup(dlg_del_name)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -361,13 +350,15 @@ class MyMenu(QMenuBar):
             self.parent.notify("No ThorlabsCLD101X Removed.", "info")
 
     def remove_mfc(self):
-
+        """
+        Method that opens a 'QDialog' prompting user to select Mass Flow Controllers to remove.
+        """
         if not self.parent.mfcs:
             self.parent.inform_user("No MFC to remove.")
             return
 
         dlg_del_name = RemoveDeviceDialog(self.parent.mfcs)
-        self.style_popup(dlg_del_name)
+        self._style_popup(dlg_del_name)
 
         if dlg_del_name.exec() == QDialog.Accepted:
             dev_to_del = dlg_del_name.device_to_del
@@ -382,7 +373,31 @@ class MyMenu(QMenuBar):
         else:
             self.parent.notify("No MFC Removed.", "info")
 
-    def style_popup(self, dlg):
+    def remove_mfm(self):
+        """
+        Method that opens a 'QDialog' prompting user to select MFM to remove
+        """
+        if not self.parent.mfms:
+            self.parent.inform_user("No MFM to remove.")
+            return
+
+        dlg_del_name = RemoveDeviceDialog(self.parent.mfms)
+        self._style_popup(dlg_del_name)
+
+        if dlg_del_name.exec() == QDialog.Accepted:
+            dev_to_del = dlg_del_name.device_to_del
+            index_to_del = list(self.parent.device_arr.keys()).index(dev_to_del)  # noqa E501
+            self.parent.device_tab_widget.removeTab(index_to_del)
+            del self.parent.device_arr[dev_to_del]
+            del self.parent.mfms[dev_to_del]
+
+            if not self.parent.device_arr:
+                self.parent.main_layout.removeWidget(self.parent.device_tab_widget)  # noqa E501
+                self.parent.device_tab_widget.deleteLater()
+        else:
+            self.parent.notify("No MFC removed", "info")
+
+    def _style_popup(self, dlg):
         if self.parent.curr_mode == "Light":
             f = open(self.parent.popup_light)
             str = f.read()
@@ -397,6 +412,11 @@ class MyMenu(QMenuBar):
 
     @error_logger("SaveSettings")
     def save_settings_to_json(self):
+        """
+        Opens a 'QDialog' that prompts user to enter a file name and folder path
+        to save settings entered for NI Configuration and add devices into a .json file.
+        Folder path must exist and entered filename must be unique. 
+        """
         try:
             json_setting = self.parent.settings_to_json()
         except Exception as e:
@@ -404,7 +424,7 @@ class MyMenu(QMenuBar):
             return
 
         dlg_save_json = SaveSettingsDialog("Save settings to .json")
-        self.style_popup(dlg_save_json)
+        self._style_popup(dlg_save_json)
 
         if dlg_save_json.exec() == QDialog.Accepted:
             file_json = dlg_save_json.file_path + ".json"
@@ -422,9 +442,14 @@ class MyMenu(QMenuBar):
                 self.parent.inform_user("Folder path not found.")
                 return
 
-    def load_json_settings(self):
+    def load_json_settings(self): 
+        """
+        Opens a 'QDialog' that prompts user to select a .json file 
+        to populate settings with information of NI Configuration 
+        and added devices in a .json file . 
+        """
         dlg_load = LoadSettingsDialog()
-        self.style_popup(dlg_load)
+        self._style_popup(dlg_load)
         if dlg_load.exec() == QDialog.Accepted:
             settings_file = open(dlg_load.file_name)
             data = json.load(settings_file)
@@ -443,10 +468,15 @@ class MyMenu(QMenuBar):
                 self.parent.main_layout.removeWidget(self.parent.device_tab_widget)  # noqa E501
                 self.parent.device_tab_widget.deleteLater()
             self.parent.settings.clear()
-            self.repopulate_settings(data)
-            self.load_devices(data)
+            self._repopulate_settings(data)
+            self._load_devices(data)
 
+<<<<<<< Updated upstream
     def load_devices(self, data):
+=======
+    @error_logger
+    def _load_devices(self, data):
+>>>>>>> Stashed changes
         if "Devices" in data:
             dev_dict = data["Devices"]
             self.parent.device_tab_widget = QTabWidget()
@@ -470,7 +500,7 @@ class MyMenu(QMenuBar):
                     self.parent.device_arr[mfc].load_device_data(my_dict["Gas"], str(my_dict["Rate"]), my_dict["COMPORT"])
                     self.parent.mfcs[mfc] = self.parent.device_arr[mfc]
 
-    def repopulate_settings(self, data):
+    def _repopulate_settings(self, data):
         self.parent.settings["Name"] = data["Name"]
         self.parent.settings["Experiment Name"] = data["Experiment Name"]
         self.parent.settings["Test Name"] = data["Test Name"] 
@@ -481,6 +511,10 @@ class MyMenu(QMenuBar):
         self.parent._set_texts()
 
     def remove_all(self):
+        """
+        Removes all added devices from the application including Mass Flow Metres, 
+        Mass Flow Controllers and ThorlabsCLD101X 
+        """
         if self.parent.device_arr:
             self.parent.device_arr.clear()
             if self.parent.mfms:
