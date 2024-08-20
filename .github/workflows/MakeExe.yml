@@ -48,7 +48,6 @@ jobs:
         name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
         draft: true
         prerelease: false
-    #     body: |
-            # ![](url if needed)
+    #     body: Should be updated during BuildDists workflow.
         files: |
           ./build-recipes/dist/*.exe

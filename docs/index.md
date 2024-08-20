@@ -1,5 +1,11 @@
 # FIREpyDAQ
-```{include} main.md
+```{image} ./FIREpyDAQDark.png
+:alt: FIREpyDAQ logo
+:width: 256px
+:align: center
+```
+
+```{include} Main.md
 ```
 
 ```{toctree}

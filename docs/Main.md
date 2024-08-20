@@ -1,10 +1,3 @@
-<p align="center">
-  <img src="../firepydaq/assets/FIREpyDAQDark.png" alt= “FIREpyDAQ” width="30%" height="30%">
-</p> 
-
-
-# firepydaq
-
 FIREpyDAQ is a python based Facilitated Interface for Recording Experiments (FIRE), for devices that are traditionally used for data acquisition. The device list and general requirements are given below.
 
 ## Installation
