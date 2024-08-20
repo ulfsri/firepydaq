@@ -1,6 +1,3 @@
-# Changelog
-
-## FIREpyDAQ v0.1.0
 **Functionalities**:
 - Reads/Writes Analog Input/Output from cDAQ and PXI NI hardware using NIDAQmx python API.
 - Reads/Writes from Alicat devices over serial communication.
