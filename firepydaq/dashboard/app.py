@@ -59,11 +59,15 @@ def create_dash_app(**kwargs):
                 fig = make_subplots(df["Layout"][i], 1)
                 fig.update_layout(title_text=df["Chart"][i] + " Graphs")
                 for j in range(df["Layout"][i]):
-                    fig.add_trace(go.Scatter(), row = j + 1, col = 1)
-                plot_divs.append(html.Div(id={'type': 'plot-layout', 'index' : df["Chart"][i]},
-                className='sub-layout', style = {'display':'none'}, children =
-                    [dcc.Graph(id =  {'type': 'graphs', 'index' : df["Chart"][i]}, figure = fig, className = 'graphs',
-                        responsive = True, style={
+                    fig.add_trace(go.Scatter(), row=j + 1, col=1)
+                plot_divs.append(html.Div(id={'type': 'plot-layout',
+                                              'index': df["Chart"][i]},
+                                          className='sub-layout',
+                                          style={'display': 'none'},
+                        children=[dcc.Graph(id={'type': 'graphs',
+                                                'index': df["Chart"][i]},
+                                            figure=fig, className='graphs',
+                                        responsive = True, style={
                             'height': '35vw',
                             'width': '50vw'
                         })]))
@@ -71,66 +75,67 @@ def create_dash_app(**kwargs):
         home_screen_info = html.Div(id="info_container",
                                     className="info-container")
         home_screen_widgets = []
-        #Add Home Screen to help users navigate
+        # Add Home Screen to help users navigate
         for item in processed_obj.path_dict.keys():
             if item == "datapath":
-                home_div = html.Div("Parquet File: " + processed_obj.path_dict[item], id = "data-path", className = "sub-info")
+                home_div = html.Div("Parquet File: " + processed_obj.path_dict[item], id="data-path", className="sub-info")
                 post_processed_file = processed_obj.path_dict[item].split(".parquet")[0] + "_PostProcessed.parquet"
             if item == "configpath":
-                home_div = html.Div("Configuration File: " + processed_obj.path_dict[item], id = "conf-path", className = "sub-info")
+                home_div = html.Div("Configuration File: " + processed_obj.path_dict[item], id="conf-path", className="sub-info")
             if item == "formulaepath":
-                home_div = html.Div("Formulae File: " + processed_obj.path_dict[item], id = "form-path", className = "sub-info")
+                home_div = html.Div("Formulae File: " + processed_obj.path_dict[item], id="form-path", className="sub-info")
             home_screen_widgets.append(home_div)
-            home_screen_widgets.append(html.Br(className = "info-br"))
+            home_screen_widgets.append(html.Br(className="info-br"))
 
-        home_div =  html.Div("Post Processed File: " + post_processed_file, id = "post-path", className = "sub-info")
+        home_div = html.Div("Post Processed File: " + post_processed_file, id="post-path", className="sub-info")
         home_screen_widgets.append(home_div)
-        home_screen_widgets.append(html.Br(className = "info-br"))
+        home_screen_widgets.append(html.Br(className="info-br"))
         home_screen_info.children = home_screen_widgets
         print(home_screen_info.children)
 
-        plot_divs.append(html.Div(id = {'type': 'plot-layout', 'index' : 'Home'},
-            className = 'sub-layout-', style = {'display':'block'},
-            children = [html.H1("Welcome to your experiment dashboard.", id = {'type': 'header', 'index' : 'home'}), 
-                        html.P("Files path of the experiment under visualization:", id = {'type': 'paragraph', 'index' : 'home'}),
-                        home_screen_info]))
+        plot_divs.append(html.Div(id={'type': 'plot-layout', 'index': 'Home'},
+                         className='sub-layout-', style={'display': 'block'},
+                         children=[html.H1("Welcome to your experiment dashboard.",
+                                   id={'type': 'header', 'index': 'home'}), 
+                                   html.P("Files path of the experiment" +
+                                   "under visualization:",
+                                          id={'type': 'paragraph', 'index': 'home'}),
+                         home_screen_info]))
 
+        return html.Div(id='central-layout', className="main-layout",
+                        children=plot_divs)
 
-        return html.Div(id = 'central-layout', className = "main-layout", children = plot_divs)
-
-    
     def make_sidebar(buttons_list):
         """
         Method that makes a sidebar with appropriate buttons
         """
-        #Stores buttons to render
-        button_divs = [] 
+        # Stores buttons to render
+        button_divs = []
 
-        #Create button for each unique chart layout 
+        # Create button for each unique chart layout
         for button_id in buttons_list:
-            button_divs.append(html.Button(button_id, id = {'type': 'sidebar-btn', 'index' : button_id},
-                className = 'button'))
+            button_divs.append(html.Button(button_id, id={'type': 'sidebar-btn', 'index': button_id},
+                               className='button'))
             button_divs.append(html.Br())
 
-        button_divs.append(html.Button('Home', id = {'type': 'sidebar-btn', 'index' : 'Home'},
-                className = 'button'))
-        
-        return html.Div(id = 'sidebar', className = 'sidebar', children = button_divs)
-    
+        button_divs.append(html.Button('Home', id={'type': 'sidebar-btn', 'index': 'Home'},
+                           className='button'))     
+        return html.Div(id='sidebar', className='sidebar',
+                        children=button_divs)
 
     def make_title():
         """
         Method that creates a titlebar with features to switch display modes, save graphs, and pause dashboarding
         """
         children_div = []
-        header = html.Div(id = 'titlebar-head', className = 'titlebar-head', children = "FIREpydaq Dashboard")
+        header = html.Div(id='titlebar-head', className='titlebar-head', children="FIREpydaq Dashboard")
         children_div.append(header)
-        header = html.Div(id = 'titlebar-func', className = 'titlebar-tool', children = [
-
-            html.Div(id = 'titlebar-snapshot-container', className = 'titlebar-cont', children = [
-                html.Button(id = 'snapshot', className = 'titlebar-btn',
-                    children = html.Img(id = "snap", src = "/assets/icons8-graph-50.png")
-                )]), html.Br(className = 'titlebar-btn-space'),
+        header = html.Div(id='titlebar-func', className='titlebar-tool', 
+                          children=[html.Div(id='titlebar-snapshot-container', className='titlebar-cont', children=[
+                                    html.Button(id='snapshot',
+                                                className='titlebar-btn',
+                                                children=html.Img(id="snap", src="/assets/icons8-graph-50.png")
+                                                )]), html.Br(className='titlebar-btn-space'),
             
              html.Div(id = 'titlebar-play-container', className = 'titlebar-cont', children = [
                 html.Button(id = 'pause-play', className = 'titlebar-btn',
@@ -256,10 +261,10 @@ def create_dash_app(**kwargs):
         Input: Clicks on the sidebar layout buttons
         Input: Children of central layout that are plot layouts
         """
-        #Array holding styles for each plot layout
+        # Array holding styles for each plot layout
         display = [] 
 
-        #Returns display for relevant plot on its button being clicked
+        # Returns display for relevant plot on its button being clicked
         if ctx.triggered:
             input_id = ctx.triggered[0]["prop_id"].split(".")[0]
             button_id = json.loads(input_id)["index"]
