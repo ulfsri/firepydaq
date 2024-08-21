@@ -15,10 +15,10 @@
 
 UsageAcquisition.md
 UsageDashboard.md
-Devices.md
+UsageDevices.md
 ExampleConfig.ipynb
 ExampleFormulae.ipynb
-PostProcessExample.ipynb
+ExamplePostProcess.ipynb
 
 ```
 

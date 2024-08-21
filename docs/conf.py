@@ -23,6 +23,21 @@ autoapi_options = [
     "imported-members",
 ]
 
+myst_enable_extensions = [
+    "amsmath",
+    "attrs_inline",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
+]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -34,8 +49,6 @@ exclude_patterns = [
     "jupyter_execute",
     "*venv*",
 ]
-
-from os.path import basename, dirname, realpath
 
 html_context = {
     "display_github": True,

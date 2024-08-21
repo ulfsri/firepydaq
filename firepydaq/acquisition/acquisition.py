@@ -1,4 +1,24 @@
+#########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# a python-based Data Acquisition program.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
+
 import sys
+
 # PyQT Related
 from PySide6.QtCore import QTimer, QRegularExpression
 from PySide6.QtGui import QIcon, Qt, QRegularExpressionValidator, QAction
@@ -8,7 +28,7 @@ from PySide6.QtWidgets import (
     QComboBox, QPushButton, QMessageBox, QFileDialog)
 from .SaveSettingsDialog import SaveSettingsDialog
 from .exception_list import UnfilledFieldError
-from .main_menu import MyMenu
+from .MainMenu import MainMenu
 import json
 from .NotificationPanel import NotificationPanel
 
@@ -20,12 +40,12 @@ import time
 from datetime import datetime, timedelta
 
 # Threading and multiprocesses
-import threading
 import concurrent.futures
 import multiprocessing as mp
 
 # Data related
 import polars as pl
+import pandas as pd
 import numpy as np
 import pyarrow.parquet as pq
 
@@ -74,7 +94,7 @@ class application(QMainWindow):
         self.setGeometry(0, 0, 900, 650)
         self.setFixedSize(900, 650)
         self.setWindowTitle("Facilitated Interface for Recording Experiments (FIRE)")  # noqa: E501
-        self.menu = MyMenu(self)
+        self.menu = MainMenu(self)
         self.setMenuBar(self.menu)
 
         self.assets_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + os.path.sep + "assets"  # noqa: E501
@@ -864,11 +884,14 @@ class application(QMainWindow):
                 self.ydata = np.empty((len(self.NIDAQ_Device.ailabel_map), 0))
         else:  # Todo: check for bugs with AO module
             self.ydata = np.empty((len(self.settings["Label"]), 0))
+        if self.mfcs != {}:
+            self.all_mfcData = {}
+            for mfcname in self.mfcs:
+                self.all_mfcData[mfcname] = pl.DataFrame()
         self.xdata = np.array([0])
         self.abs_timestamp = np.array([])
         self.timing_np = np.empty((0, 3))
 
-    # @error_logger("AcqBegins")
     def acquisition_begins(self):
         """Method to begin acquisition for all devices.
 
@@ -927,6 +950,18 @@ class application(QMainWindow):
                 self.inform_user("Terminating acquisition due to DAQ Connection Errors\n " + str(type) + str(value))  # noqa: E501
                 return
 
+            if self.mfcs != {}:
+                all_connected = []
+                for mfcname in self.mfcs:
+                    all_connected.append(hasattr(self.mfcs[mfcname], "loop"))
+                try:
+                    if not all(all_connected):
+                        raise ConnectionError("All MFC connections must be established before aquisition.")  # noqa E501
+                except Exception as e:
+                    self.acquisition_button.nextCheckState()
+                    self.inform_user(str(e))
+                    return
+
             self.initiate_dataArrays()
             self.ContinueAcquisition = True
             self.save_button.setEnabled(True)
@@ -968,8 +1003,16 @@ class application(QMainWindow):
                 new_df = self.save_dataframe
 
             new_df.write_parquet(self.parquet_file)
-        except Exception:
-            pass
+
+            if self.mfcs != {}:
+                for mfcname, data in self.all_mfcData.items():
+                    MFC_filename = self.parquet_file.split(".parquet")[0] + '_' + mfcname + '.csv'  # noqa E501
+                    data_df = pd.DataFrame(data, index=[self.xdata[-1]])
+                    data_df.to_csv(MFC_filename, mode="a", header=not os.path.isfile(MFC_filename))  # noqa E501
+
+        except Exception as e:
+            self.notify(str(e), "error")
+            self.notify("Error during saving operation", "error")
         return
 
     def runpyDAQ(self):
@@ -978,11 +1021,8 @@ class application(QMainWindow):
 
         '''
         # AO debug in process
-        # if self.save_button.isChecked():
-        # # Condition for saving TDMS
-        self.run_counter += 1
         no_samples = self.NIDAQ_Device.numberOfSamples
-        self.ActualSamplingRate = self.NIDAQ_Device.aitask.timing.samp_clk_rate
+        self.ActualSamplingRate = self.NIDAQ_Device.aitask.timing.samp_clk_rate  # noqa E501
         samplesAvailable = self.NIDAQ_Device.aitask._in_stream.avail_samp_per_chan  # noqa: E501
 
         if (samplesAvailable >= no_samples):
@@ -994,7 +1034,6 @@ class application(QMainWindow):
                 with concurrent.futures.ThreadPoolExecutor() as executor:
                     # Threading AI, AO , and Device tasks
                     aithread = executor.submit(self.NIDAQ_Device.threadaitask)
-                    # par_ai = time.time()
                     self.ydata_new = aithread.result()
                     self.ydata_new = np.array(self.ydata_new)
                     if self.NIDAQ_Device.ao_counter > 0:
@@ -1003,15 +1042,13 @@ class application(QMainWindow):
                         # Currently only float values are accepted.
                         aothread = executor.submit(self.threadaotask, AO_initials=AO_outputs)  # noqa: E501
                         self.written_data = aothread.result()
-                    # par_ao = time.time()
-                    # print("Par AI-AO: " +str(par_ao - par_ai))
-                    # alicatthread = executor.submit(self.threadalicat)
-                    # self.ydata_new = aithread.result()
-                    # self.MFC1Vals, self.MFC2Vals = alicatthread.result()
-                    # par_ali = time.time()
+
+                    if self.mfcs != {}:
+                        for mfcname, al_mfc in self.mfcs.items():
+                            mfc_flows = executor.submit(al_mfc.GetFlows)
+                            self.all_mfcData[mfcname] = mfc_flows.result()
                 t_aft_read = time.time()
                 t_now = datetime.now()
-                # t_now_str = t_now.strftime(self.dt_format)
 
                 if (t_aft_read-t_bef_read) > 1/self.ActualSamplingRate:
                     # Read time exceeds prescribed 1/(sampling frequency)
@@ -1021,23 +1058,19 @@ class application(QMainWindow):
                     self.ydata = np.append(self.ydata, self.ydata_new, axis=0)
                 else:
                     self.ydata = np.append(self.ydata, self.ydata_new, axis=1)
-                # print(self.ydata)
                 t_diff = no_samples/self.ActualSamplingRate
                 tdiff_array = np.linspace(1/self.ActualSamplingRate, t_diff, no_samples)  # noqa: E501
                 if self.xdata[-1] == 0:
                     self.xdata_new = np.linspace(self.xdata[-1], self.xdata[-1] + t_diff, no_samples, endpoint=False)  # noqa: E501
-                    if len(self.ydata.shape) == 1 or len(self.ydata.shape) == 2 and len(self.xdata_new) == 1:  # noqa: E501
+                    if len(self.ydata.shape) == 1 and len(self.xdata_new) == 1:  # noqa: E501
+                        # For 1 Hz sampling frequency
                         self.xdata_new = [no_samples/self.ActualSamplingRate]
                     self.xdata = self.xdata_new
                     self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]  # noqa: E501
-                    # self.MFC1Vals["Time"] = self.xdata[-1]
-                    # self.MFC2Vals["Time"] = self.xdata[-1]
                 else:
                     self.xdata_new = np.linspace(self.xdata[-1]+1/self.ActualSamplingRate, self.xdata[-1]+t_diff, no_samples)  # noqa: E501
                     self.abs_timestamp = [(t_now+timedelta(seconds=sec)).strftime(self.dt_format) for sec in tdiff_array]  # noqa: E501
                     self.xdata = np.append(self.xdata, self.xdata_new)
-                    # self.MFC1Vals["Time"] = self.xdata[-1]+t_diff
-                    # self.MFC2Vals["Time"] = self.xdata[-1]+t_diff
 
                 if self.save_bool:
                     with concurrent.futures.ThreadPoolExecutor() as save_executor:  # noqa: E501
@@ -1067,12 +1100,16 @@ class application(QMainWindow):
             except Exception:
                 the_type, the_value, the_traceback = sys.exc_info()
                 self.ContinueAcquisition = False
-                self.inform_user(str(the_type) + str(the_value) + str(traceback.print_tb(the_traceback)))  # noqa: E501
+                # print(the_type, the_value, the_traceback)
+                self.inform_user(str(the_type) + str(the_value))
+                traceback.print_tb(the_traceback)  # noqa: E501
 
         if self.ContinueAcquisition and self.running:
             QTimer.singleShot(10, self.runpyDAQ)
         else:
             self.run_counter = 0
+            self.notify("Acquisition stopped.", "info")
+            self.acquisition_button.setText("Start Acquisition")
             self.save_button.setEnabled(False)
             if hasattr(self, "dash_thread"):
                 self.dash_thread.terminate()

@@ -1,3 +1,22 @@
+#########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# a python-based Data Acquisition program.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
+
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QLabel,
                                QHBoxLayout, QLineEdit,
                                QPushButton, QFileDialog)
@@ -35,12 +54,12 @@ class LoadSettingsDialog(QDialog):
         self.setLayout(layout)
 
     def _set_file(self):
-        self.file_name = QFileDialog.getOpenFileName(self, 'Select a File', None, "JSON files (*.json)")
-        print(self.file_name[0])
+        self.file_name = QFileDialog.getOpenFileName(self, 'Select a File', None, "JSON files (*.json)")  # noqa E501
         self.folder_name.setText(self.file_name[0])
         self.file_name = self.file_name[0]
 
     def _save_name(self):
+        self.file_name = self.folder_name.text()
         self.accept()
 
     def _cancel_name(self):

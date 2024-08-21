@@ -1,4 +1,24 @@
-from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QPushButton
+#########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# a python-based Data Acquisition program.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
+
+from PySide6.QtWidgets import (QWidget, QGridLayout,
+                               QLabel, QLineEdit, QPushButton)
 from PySide6.QtCore import QRegularExpression
 from PySide6.QtGui import QRegularExpressionValidator
 
@@ -35,10 +55,10 @@ class NIAOtab(QWidget):
             setattr(self, key+'_AOvalue', QLineEdit())
             getattr(self, key+'_AOvalue').setMaximumWidth(100)
             getattr(self, key+'_AOvalue').setText("0")
-            getattr(self, key+'_AOvalue').setValidator(QRegularExpressionValidator(reg_ex_1))
+            getattr(self, key+'_AOvalue').setValidator(QRegularExpressionValidator(reg_ex_1))  # noqa E501
 
             self.ao_layout.addWidget(getattr(self, key), ao_counter, 0)
-            self.ao_layout.addWidget(getattr(self, key+'_AOvalue'), ao_counter, 1)
+            self.ao_layout.addWidget(getattr(self, key+'_AOvalue'), ao_counter, 1)  # noqa E501
             ao_counter += 1
 
         self.setbtn = QPushButton("Set AO values")
@@ -58,7 +78,7 @@ class NIAOtab(QWidget):
                 to the values of respective LineEdit inputs.
         """
         ao_map = {}
-        for key, item in self.aolabelmap.items():
+        for key, _ in self.aolabelmap.items():
             ao_map[key] = getattr(self, key+'_AOvalue').text()
 
         return ao_map

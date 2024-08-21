@@ -24,7 +24,7 @@ build: ## Runs a build
 ############
 COV_OPTS ?=
 COVERAGE ?= coverage $(COV_OPTS)
-RUN_COV = $(COVERAGE) run --source=firepydaq --omit=*NIConfig*,*form*,*app*,*Echo*,*NISYS*,*Notification*
+RUN_COV = $(COVERAGE) run --source=firepydaq --omit=*NIConfig*,*app*,*Echo*,*NISYS*
 COV_BADGE = coverage-badge
 
 .PHONY: coverage
