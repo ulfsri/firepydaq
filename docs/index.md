@@ -13,8 +13,8 @@
 :maxdepth: 1
 :caption: Usage Guide
 
-GeneralUsage.md
-DashboardUsage.md
+UsageAcquisition.md
+UsageDashboard.md
 Devices.md
 ExampleConfig.ipynb
 ExampleFormulae.ipynb
