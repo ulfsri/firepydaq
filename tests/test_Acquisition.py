@@ -182,17 +182,14 @@ def test_save_enabled(qtbot, monkeypatch):
     button = main_app.save_button
 
     def my_config(cls, path):
-        print(path)
         cls.ai_counter = 1
         cls.ao_counter = 0
         return
 
     def my_StartAIContinuousTask(cls, x, y):
-        print(x, y)
         return
 
     def my_inform(cls, s):
-        print(s)
         return
 
     def myinit_dataArray(cls):
@@ -208,3 +205,13 @@ def test_save_enabled(qtbot, monkeypatch):
     monkeypatch.setattr(application, "runpyDAQ", my_runpydaq)
     qtbot.mouseClick(main_app.acquisition_button, Qt.LeftButton)
     assert button.isEnabled(), "Save button not enabled."
+
+
+def test_NotificationPanel(qtbot):
+    main_app = application()
+
+    for type, color in main_app.panel.message_types.items():
+        msg = "test " + type
+        main_app.notify(msg, type=type)
+        assert color == main_app.panel.color.name(), False
+        assert msg in main_app.panel.toPlainText(), False

@@ -1,10 +1,21 @@
-#######################
-# This script will first post processes experiment data by scaling them into respective units in real time ##
-# Then, this will produce custom data fields based on predefined formulae in the formulae file ##
-# All processed data will be saved in the same location as the experimental data
-# By: Dushyant M. Chaudhari ##
-# Updated: June 20, 2024 #####
-#######################
+#########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# a python-based Data Acquisition program.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
 
 import polars as pl
 import re
@@ -17,7 +28,8 @@ from .DAQUtils import Formulae_dict
 class PostProcessData():
     """An object that processes data based on the config and formulae file
 
-    Setting up how the post processing will be done, as a utility or use in the dash app
+    Setting up how the post processing will be done,
+    as a utility or use in the dash app
 
     Keyword Arguments
     ---------
@@ -44,7 +56,7 @@ class PostProcessData():
     Attributes
     ----------
         path_dict: dict
-            Contains a dictionary that maps 
+            Contains a dictionary that maps
             `datapath`,`configpath`, and `formulaepath`.
 
             The items of the keys are read as `polars.DataFrame`
@@ -53,14 +65,14 @@ class PostProcessData():
             after an experiment, or randomly created numpy array
             to validate formulae before acquisition begins.
 
-            `configpath` can be path to the configuration file 
+            `configpath` can be path to the configuration file
             for the NI hardware that uses ni-daqmx driver.
 
             `formulaepath` can be a path to the formulae file. Optionally,
             if processing formulae needs to be skipped,
             the path is passed as an either an empty string ('').
 
-            Formulae file should use the variables defined in the `Label` 
+            Formulae file should use the variables defined in the `Label`
             column of the config file. The formulae file will be
             processed in the order that the formulae appears,
             from the topmost row to the bottom.
@@ -83,7 +95,8 @@ class PostProcessData():
         _initializing_path_lists = []
         for ftype, fpath in files.items():
             try:
-                if ftype == 'jsonpath' and _arg_nos == 1:  # Reading from the .json file
+                if ftype == 'jsonpath' and _arg_nos == 1:
+                    # Reading from the .json file
                     with open(fpath) as f:
                         path_dict = json.load(f)
                     par_f = path_dict["Test Name"]
@@ -177,21 +190,22 @@ class PostProcessData():
 
         Creates the attribute All_chart_info.
         """
-        select_cols = ["Label", "Chart", "Layout", "Position", "Processed_Unit", "Legend"]
+        select_cols = ["Label", "Chart", "Layout",
+                       "Position", "Processed_Unit", "Legend"]
         config_info = self.data_dict['config'].select(select_cols)
         # Ensure Layout an position are integers
-        config_info = config_info.with_columns(pl.col("Layout").cast(pl.String))
-        config_info = config_info.with_columns(pl.col("Position").cast(pl.String))
-        config_info = config_info.with_columns(pl.col("Layout").str.strip_chars().cast(pl.Int64))
-        config_info = config_info.with_columns(pl.col("Position").str.strip_chars().cast(pl.Int64))
+        config_info = config_info.with_columns(pl.col("Layout").cast(pl.String))  # noqa E501
+        config_info = config_info.with_columns(pl.col("Position").cast(pl.String))  # noqa E501
+        config_info = config_info.with_columns(pl.col("Layout").str.strip_chars().cast(pl.Int64))  # noqa E501
+        config_info = config_info.with_columns(pl.col("Position").str.strip_chars().cast(pl.Int64))  # noqa E501
 
         if len(self.path_dict.keys()) == 3:
             self.read_formulae = True
             formulae_info = self.data_dict['formulae'].select(select_cols)
-            formulae_info = formulae_info.with_columns(pl.col("Layout").cast(pl.String))
-            formulae_info = formulae_info.with_columns(pl.col("Position").cast(pl.String))
-            formulae_info = formulae_info.with_columns(pl.col("Layout").str.strip_chars().cast(pl.Int64))
-            formulae_info = formulae_info.with_columns(pl.col("Position").str.strip_chars().cast(pl.Int64))
+            formulae_info = formulae_info.with_columns(pl.col("Layout").cast(pl.String))  # noqa E501
+            formulae_info = formulae_info.with_columns(pl.col("Position").cast(pl.String))  # noqa E501
+            formulae_info = formulae_info.with_columns(pl.col("Layout").str.strip_chars().cast(pl.Int64))  # noqa E501
+            formulae_info = formulae_info.with_columns(pl.col("Position").str.strip_chars().cast(pl.Int64))  # noqa E501
             All_chart_info = pl.concat([config_info, formulae_info])
         else:
             self.read_formulae = False  # Only data scaling
@@ -213,7 +227,7 @@ class PostProcessData():
         Creates the attribute df_processed: `polars.DataFrame`
 
             If `dump_output = True` (Default), A new file having the name
-            `self.path_dict['datapath'].split('.parquet')[0]+'_PostProcessed.parquet'` will be created.
+            `self.path_dict['datapath'].split('.parquet')[0]+'_PostProcessed.parquet'` will be created.  # noqa E501
 
         Parameters
         ----------
@@ -225,10 +239,10 @@ class PostProcessData():
 
             `False`: Processed data will not save the processed data
         """
-        if not self.fpathIsDf:  
+        if not self.fpathIsDf:
             # Used for authenticating formulae file using
             # random numbers before acquisition begins
-            self.data_dict['data'] = pl.read_parquet(self.path_dict['datapath'])
+            self.data_dict['data'] = pl.read_parquet(self.path_dict['datapath'])  # noqa E501
         self._CallScaler()
         self._CallParser()
         if dump_output:
@@ -280,10 +294,12 @@ class PostProcessData():
                     self.df_processed = self.df_processed.with_columns(pl.Series(self.data_dict['data'].select(col)).alias(col))  # noqa E501
 
     def _CheckVarMacthes(self, var, rhs, replacement):
-        # Look for variable with non alphanumeric, and underscore characters before or after the string. i.e. a-zA-Z0-9_
+        # Look for variable with non alphanumeric, and
+        # underscore characters before or after the string.
+        # i.e. a-zA-Z0-9_
         pattern = r"(?<![\w])"+var+r"(?![\w])"
         matcher = re.finditer(pattern, rhs, re.IGNORECASE)
-        matchy_spans = [(re.findall(var, i.group())[0], i.span()) for i in matcher]
+        matchy_spans = [(re.findall(var, i.group())[0], i.span()) for i in matcher]  # noqa E501
         for i in range(len(matchy_spans)):
             matches = matchy_spans[i]
             rhs = rhs[:matches[1][0]] + replacement + rhs[matches[1][1]:]
@@ -301,7 +317,7 @@ class PostProcessData():
         Parameters
         ---------
             lhs : string
-                Left-hand side of the equation. 
+                Left-hand side of the equation.
                 This variable will be created upon execution
             rhs : string
                 Right-hand side of the equation.
@@ -341,24 +357,25 @@ class PostProcessData():
                 self.ExecEqn(lhs, rhs)
             else:
                 # vars = re.findall(r'[A-Za-z]+_?[A-Za-z0-9]+',rhs)
-                vars = re.findall(f'[a-zA-Z_][a-zA-Z0-9_]*', rhs)
-                if vars == []: # Constant
+                vars = re.findall(r'[a-zA-Z_][a-zA-Z0-9_]*', rhs)
+                if vars == []:  # Constant
                     self.ExecEqn(lhs, rhs)
                     continue
                 unique_vars = pl.Series(vars).unique()
                 for var in unique_vars:
                     if any([var in i for i in self.Formulae_dict.keys()]):
                         continue
-                    if var in locals():  # Checking for Constants and Intermediates
+                    if var in locals():
+                        # Checking for Constants and Intermediates
                         continue
                     elif var not in locals() and hasattr(self, var):
-                        rhs = self._CheckVarMacthes(var, rhs, 'getattr(self,\"'+var+'\")')
+                        rhs = self._CheckVarMacthes(var, rhs, 'getattr(self,\"' + var + '\")')  # noqa E501
                         continue
                     try:
                         # Checking for variable in the processed_df
                         if not self.df_processed.select(var).is_empty():
-                            setattr(self, var, self.df_processed.select(var).to_numpy().flatten())
-                            rhs = self._CheckVarMacthes(var, rhs, 'getattr(self, \"'+var+'\")')
+                            setattr(self, var, self.df_processed.select(var).to_numpy().flatten())  # noqa E501
+                            rhs = self._CheckVarMacthes(var, rhs, 'getattr(self, \"'+var+'\")')  # noqa E501
                         else:
                             # "Variable " + var + ", does not exist in locals
                             # or in collected/processed data.
@@ -374,7 +391,7 @@ class PostProcessData():
                     # final replacement of formulae
                     # to python parseable functions
                     if i in rhs:
-                        rhs = self._CheckVarMacthes(i, rhs, self.Formulae_dict[i])
+                        rhs = self._CheckVarMacthes(i, rhs, self.Formulae_dict[i])  # noqa E501
                 eqn = lhs + '=' + rhs
 
             if not skip_processing:
@@ -384,7 +401,7 @@ class PostProcessData():
                             (row["Chart"].strip() != "Intermediate") and
                             (row["Chart"].strip() != "Constant") and
                             (row["Chart"].strip() != "None")):
-                        self.df_processed = self.df_processed.with_columns(pl.Series(getattr(self,lhs)).alias(lhs))
+                        self.df_processed = self.df_processed.with_columns(pl.Series(getattr(self,lhs)).alias(lhs))  # noqa E501
                 except Exception:
                     the_type, the_value, _ = sys.exc_info()
                     err_val = the_value
@@ -399,8 +416,4 @@ class PostProcessData():
         if self.Errors != []:
             with open('Errorlog_formulae.log', 'w') as f:
                 for key, error_item in self.Errors.items():
-                    f.write(key[0] + " : " + key[1] + " :: " + error_item + '\n')
-
-
-if __name__ == "__main__":
-    print("Testing with pytest and poetry")
+                    f.write(key[0] + " : " + key[1] + " :: " + error_item + '\n')  # noqa E501

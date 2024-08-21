@@ -1,3 +1,22 @@
+#########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# a python-based Data Acquisition program.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
+
 from PySide6.QtWidgets import (QWidget, QGridLayout, QLabel,
                                QLineEdit, QComboBox, QHBoxLayout,
                                QPushButton, QVBoxLayout)
@@ -485,7 +504,8 @@ class alicat_mfc(QWidget):
         """Method to read the gas type selected by the user.
         """
         self.gas = self.gas_input.currentText()
-        return self.gas
+        gas_unicode = self.gas.encode('ascii', 'ignore')
+        return gas_unicode
 
     def load_device_data(self, gas_val, rate_val, comp_val):
         """Method to load the pre-saved Alicat MFC device data
@@ -514,6 +534,9 @@ class alicat_mfc(QWidget):
             self.settings.clear()
             raise ValueError("Data Invalid for " + self.dev_id) from v
         return self.settings
+
+    def GetFlows(self):
+        return self.loop.run_until_complete(self.MFC.get_MFC_val())
 
 
 class mfm(QWidget):

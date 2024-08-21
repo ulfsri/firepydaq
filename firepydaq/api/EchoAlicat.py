@@ -1,4 +1,22 @@
-### Alicat flow controller check
+#########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# a python-based Data Acquisition program.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
+
 import asyncio
 from alicat import FlowController, FlowMeter
 import time
@@ -52,7 +70,7 @@ class EchoController:
 
         Returns
         -------
-        vals : dict
+        A dictionary type object
 
                 {
                 'setpoint': float (mass or pressure),
@@ -65,8 +83,7 @@ class EchoController:
                 'volumetric_flow': float (units specified during purchase)
                 }
         """
-        vals = await self.flow_controller.get()
-        return vals
+        return await self.flow_controller.get()
 
     async def get_until_true(self, run_for=0, read_boolean=True, flow_rate=0):
         """ Method to run Alicat MFC for a set duration
