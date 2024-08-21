@@ -38,13 +38,15 @@ def create_dash_app(**kwargs):
     app = Dash(__name__, suppress_callback_exceptions=True)
     log = logging.getLogger('werkzeug')
     open("dashboard_error.log", "w").close()
+    # print([i for i in processed_obj.All_chart_info["Label"]])
     handler = RotatingFileHandler('dashboard_error.log', maxBytes=10000, backupCount=1)
     log.addHandler(handler)
     log.setLevel(logging.DEBUG)
 
     def make_layout(df):
         """
-        Method that makes plot layouts for each chart types with layout and positions
+        Method that makes plot layouts for each chart types with layout
+        and positions
         """
         # Stores plots to be rendered
         plot_divs = []
@@ -66,7 +68,8 @@ def create_dash_app(**kwargs):
                             'width': '50vw'
                         })]))
 
-        home_screen_info = html.Div(id = "info_container", className = "info-container")
+        home_screen_info = html.Div(id="info_container",
+                                    className="info-container")
         home_screen_widgets = []
         #Add Home Screen to help users navigate
         for item in processed_obj.path_dict.keys():
@@ -76,7 +79,7 @@ def create_dash_app(**kwargs):
             if item == "configpath":
                 home_div = html.Div("Configuration File: " + processed_obj.path_dict[item], id = "conf-path", className = "sub-info")
             if item == "formulaepath":
-                home_div =  html.Div("Formulae File: " + processed_obj.path_dict[item], id = "form-path", className = "sub-info")
+                home_div = html.Div("Formulae File: " + processed_obj.path_dict[item], id = "form-path", className = "sub-info")
             home_screen_widgets.append(home_div)
             home_screen_widgets.append(html.Br(className = "info-br"))
 
@@ -298,7 +301,6 @@ def create_dash_app(**kwargs):
         processed_obj.UpdateData()
         processed_data = processed_obj.df_processed
         df = processed_obj.All_chart_info.sort("Chart")
-
         # Plotting for corresponding charts
         for i in range(len(df.select("Chart"))):
             for plot in plots:
@@ -323,7 +325,7 @@ def create_dash_app(**kwargs):
                         # Plot points on graph
                         graph.add_trace(
                             go.Scatter(x = processed_data["Time"],
-                            y = processed_data[label], name = label 
+                            y = processed_data[label], name = df["Legend"][i]
                             ), row = df["Position"][i], col = 1
                         ) 
 
@@ -335,7 +337,7 @@ def create_dash_app(**kwargs):
                         graph = updates.get(df["Chart"][i])
                         graph.add_trace(
                                 go.Scatter(x = processed_data["Time"],
-                                y = processed_data[label], name = label
+                                y = processed_data[label], name = df["Legend"][i]
                                 ), row = df["Position"][i], col = 1
                         )  
                         graph.update_yaxes(title_text = df["Processed_Unit"][i],row = df["Position"][i])
