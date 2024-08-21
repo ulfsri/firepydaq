@@ -57,7 +57,6 @@ def create_dash_app(**kwargs):
     app = Dash(__name__, suppress_callback_exceptions=True)
     log = logging.getLogger('werkzeug')
     open("dashboard_error.log", "w").close()
-    # print([i for i in processed_obj.All_chart_info["Label"]])
     handler = RotatingFileHandler('dashboard_error.log', maxBytes=10000, backupCount=1)
     log.addHandler(handler)
     log.setLevel(logging.DEBUG)
