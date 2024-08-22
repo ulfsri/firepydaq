@@ -24,7 +24,6 @@ import json
 from plotly.subplots import make_subplots
 import numpy as np
 import os
-from datetime import datetime
 from ..utilities.PostProcessing import PostProcessData
 from threading import Timer
 import webbrowser
@@ -34,37 +33,32 @@ from contextlib import redirect_stdout
 
 
 def create_dash_app(**kwargs):
-    """
-    Method to post process and visualise data on a dashboard
+    """ Method to post process and visualise data on a dashboard
     hosted on a web server.
 
-    Keyword Arguments
-    ----------
-            jsonpath: str
-                path to .json file with information on parquet,
-                config, formulae file
-            or
-            datapath: str
-                path to .parquet file with
-                acquisition data
-            configpath: str
-                path to the configuration file corresponding
-                to the parquet file
-            formulaepath: str
-                path to the formula file corresponding to the parquet file
+    Uses the same keyword argument/s as
+    :py:class:`firepydaq.utilities.PostProcessing.PostProcessData`
+
+
     """
     processed_obj = PostProcessData(**kwargs)
     app = Dash(__name__, suppress_callback_exceptions=True)
     log = logging.getLogger('werkzeug')
-    open("dashboard_error.log", "w").close()
-    handler = RotatingFileHandler('dashboard_error.log', maxBytes=10000, backupCount=1)
+    open("DashboardError.log", "w").close()
+    handler = RotatingFileHandler('DashboardError.log', maxBytes=10000, backupCount=1)  # noqa E501
     log.addHandler(handler)
     log.setLevel(logging.DEBUG)
 
     def make_layout(df):
-        """
-        Method that makes plot layouts for each chart types with layout
-        and positions
+        """ Method that makes plot layouts for each chart types with layout
+        and positions.
+
+        Parameters
+        ----------
+        df: polars.DataFrame
+            `All_chart_info` DataFrame
+            from `PostPorcessData`
+
         """
         # Stores plots to be rendered
         plot_divs = []
@@ -82,13 +76,18 @@ def create_dash_app(**kwargs):
                                               'index': df["Chart"][i]},
                                           className='sub-layout',
                                           style={'display': 'none'},
-                        children=[dcc.Graph(id={'type': 'graphs',
-                                                'index': df["Chart"][i]},
-                                            figure=fig, className='graphs',
-                                        responsive = True, style={
-                            'height': '35vw',
-                            'width': '50vw'
-                        })]))
+                                          children=[
+                                              dcc.Graph(id={'type': 'graphs',
+                                                            'index': df["Chart"][i]},  # noqa E501
+                                                        figure=fig, className='graphs',  # noqa E501
+                                                        responsive=True,
+                                                        style={'height': '35vw',  # noqa E501
+                                                               'width': '50vw'
+                                                               }
+                                                        )
+                                                    ]
+                                          )
+                                 )
 
         home_screen_info = html.Div(id="info_container",
                                     className="info-container")
@@ -96,28 +95,52 @@ def create_dash_app(**kwargs):
         # Add Home Screen to help users navigate
         for item in processed_obj.path_dict.keys():
             if item == "datapath":
-                home_div = html.Div("Parquet File: " + processed_obj.path_dict[item], id="data-path", className="sub-info")
-                post_processed_file = processed_obj.path_dict[item].split(".parquet")[0] + "_PostProcessed.parquet"
+                home_div = html.Div([html.Span("Data File: ",
+                                               style={'color': 'black'}
+                                               ),
+                                    html.Br(),
+                                    html.Br(),
+                                    html.Span(processed_obj.path_dict[item])],
+                                    id="data-path", className="sub-info")
+                post_processed_file = processed_obj.path_dict[item].split(".parquet")[0] + "_PostProcessed.parquet"  # noqa E501
             if item == "configpath":
-                home_div = html.Div("Configuration File: " + processed_obj.path_dict[item], id="conf-path", className="sub-info")
+                home_div = html.Div([html.Span("Configuration File: ",
+                                               style={'color': 'black'}
+                                               ),
+                                    html.Br(),
+                                    html.Br(),
+                                    html.Span(processed_obj.path_dict[item])],
+                                    id="conf-path", className="sub-info")
             if item == "formulaepath":
-                home_div = html.Div("Formulae File: " + processed_obj.path_dict[item], id="form-path", className="sub-info")
+                home_div = html.Div([html.Span("Formulae File: ",
+                                               style={'color': 'black'}
+                                               ),
+                                    html.Br(),
+                                    html.Br(),
+                                    html.Span(processed_obj.path_dict[item])],
+                                    id="form-path", className="sub-info")
             home_screen_widgets.append(home_div)
             home_screen_widgets.append(html.Br(className="info-br"))
 
-        home_div = html.Div("Post Processed File: " + post_processed_file, id="post-path", className="sub-info")
+        home_div = html.Div([html.Span("Post Processed File: ",
+                                       style={'color': 'black'}
+                                       ),
+                            html.Br(),
+                            html.Br(),
+                            html.Span(post_processed_file)],
+                            id="post-path",
+                            className="sub-info")
         home_screen_widgets.append(home_div)
         home_screen_widgets.append(html.Br(className="info-br"))
         home_screen_info.children = home_screen_widgets
-        print(home_screen_info.children)
 
         plot_divs.append(html.Div(id={'type': 'plot-layout', 'index': 'Home'},
                          className='sub-layout-', style={'display': 'block'},
-                         children=[html.H1("Welcome to your experiment dashboard.",
-                                   id={'type': 'header', 'index': 'home'}), 
-                                   html.P("Files path of the experiment" +
-                                   "under visualization:",
-                                          id={'type': 'paragraph', 'index': 'home'}),
+                         children=[html.H1("Welcome to your experiment dashboard.",  # noqa E501
+                                   id={'type': 'header', 'index': 'home'}),
+                                   html.P("Files path of the experiment " +
+                                          "under visualization:",
+                                          id={'type': 'paragraph', 'index': 'home'}),  # noqa E501
                          home_screen_info]))
 
         return html.Div(id='central-layout', className="main-layout",
@@ -132,65 +155,81 @@ def create_dash_app(**kwargs):
 
         # Create button for each unique chart layout
         for button_id in buttons_list:
-            button_divs.append(html.Button(button_id, id={'type': 'sidebar-btn', 'index': button_id},
+            button_divs.append(html.Button(button_id, id={'type': 'sidebar-btn', 'index': button_id},  # noqa E501
                                className='button'))
             button_divs.append(html.Br())
 
-        button_divs.append(html.Button('Home', id={'type': 'sidebar-btn', 'index': 'Home'},
-                           className='button'))     
+        button_divs.append(html.Button('Home', id={'type': 'sidebar-btn', 'index': 'Home'},  # noqa E501
+                           className='button'))
         return html.Div(id='sidebar', className='sidebar',
                         children=button_divs)
 
     def make_title():
-        """
-        Method that creates a titlebar with features to switch display modes, save graphs, and pause dashboarding
+        """Method that creates a titlebar with features to
+        switch display modes, save graphs, and pause dashboarding
         """
         children_div = []
-        header = html.Div(id='titlebar-head', className='titlebar-head', children="FIREpydaq Dashboard")
+        header = html.Div(id='titlebar-head',
+                          className='titlebar-head',
+                          children="FIREpydaq Dashboard")
         children_div.append(header)
-        header = html.Div(id='titlebar-func', className='titlebar-tool', 
-                          children=[html.Div(id='titlebar-snapshot-container', className='titlebar-cont', children=[
-                                    html.Button(id='snapshot',
-                                                className='titlebar-btn',
-                                                children=html.Img(id="snap", src="/assets/icons8-graph-50.png")
-                                                )]), html.Br(className='titlebar-btn-space'),
-            
-             html.Div(id = 'titlebar-play-container', className = 'titlebar-cont', children = [
-                html.Button(id = 'pause-play', className = 'titlebar-btn',
-                    children = html.Img(id = "play", src = "/assets/icons8-pause-48.png")
-                )]), html.Br(className = 'titlebar-btn-space'),
-                
-            html.Div(id = 'titlebar-display-container', className = 'titlebar-cont', children = [
-            html.Img(id = "light", src = "/assets/icons8-sun-24.png"),
-            daq.BooleanSwitch(id = 'display-switch', className = 'titlebar-btn-toggle'),
-            html.Img(id = "dark", src = "/assets/icons8-moon-24.png")
-            ])        
-        ])
+        header = html.Div(id='titlebar-func', className='titlebar-tool',
+                          children=[html.Div(id='titlebar-snapshot-container',
+                                             className='titlebar-cont',
+                                             children=[
+                                                 html.Button(id='snapshot',
+                                                             className='titlebar-btn',  # noqa E501
+                                                             children=html.Img(id="snap", src="/assets/icons8-graph-50.png")  # noqa E501
+                                                             )
+                                                       ]
+                                             ),
+                                    html.Br(className='titlebar-btn-space'),
+                                    html.Div(id='titlebar-play-container',
+                                             className='titlebar-cont',
+                                             children=[html.Button(id='pause-play',  # noqa E501
+                                                                      className='titlebar-btn',  # noqa E501
+                                                                      children=html.Img(id="play", src="/assets/icons8-pause-48.png")  # noqa E501
+                                                                   )
+                                                       ]
+                                             ),
+                                    html.Br(className='titlebar-btn-space'),
+                                    html.Div(id='titlebar-display-container',
+                                             className='titlebar-cont',
+                                             children=[html.Img(id="light", src="/assets/icons8-sun-24.png"),  # noqa E501
+                                                       daq.BooleanSwitch(id='display-switch',  # noqa E501
+                                                                         className='titlebar-btn-toggle'),  # noqa E501
+                                                                         html.Img(id="dark", src="/assets/icons8-moon-24.png")  # noqa E501
+                                                       ]
+                                             )
+                                    ]
+                          )
         children_div.append(header)
-        return html.Div(id = 'titlebar', className = 'titlebar', children = children_div)
+        return html.Div(id='titlebar',
+                        className='titlebar',
+                        children=children_div
+                        )
 
     def serve_layout():
-        """
-        Method that serves plot and application layouts from a data frame based on
-        processed data available from files given.
-        - First, it calls make_sidebar() to serve the sidebar from the charts 
-        - Next, it calls make_layout() to give each plot layouts and to create a home layout with information about files
+        """ Method that serves plot and application layouts from a data
+        frame based on processed data available from files given.
+        - First, it calls make_sidebar() to serve the sidebar from the charts
+        - Next, it calls make_layout() to give each plot layouts and to create
+            a home layout with information about files
         - Finally, it calls make_title() to create the titlebar
         """
-
         # Obtain and read files
         final_df = processed_obj.All_chart_info.sort("Chart")
 
         # Creates buttons
         buttons_list = np.unique(final_df.select("Chart").to_numpy().flatten())
-        sidebar = make_sidebar(buttons_list)   
+        sidebar = make_sidebar(buttons_list)
         # Creates plot layouts
         main_layout = make_layout(final_df)
 
         title_bar = make_title()
-
-        return title_bar, sidebar, main_layout, dcc.Interval(id = "refresh", 
-            interval = 1 * 3000, n_intervals = 0), html.Div(id = 'para', style = {'display': 'none'})
+        interval = dcc.Interval(id="refresh", interval=1 * 3000, n_intervals=0)
+        para_div = html.Div(id='para', style={'display': 'none'})
+        return title_bar, sidebar, main_layout, interval, para_div  # noqa E501
 
     app.layout = serve_layout
 
@@ -225,38 +264,35 @@ def create_dash_app(**kwargs):
     )
     def _switch_pictures(clicks):
         print("Switch")
-        if clicks == None:
+        if clicks is None:
             return "/assets/icons8-pause-48.png", False
         if clicks % 2 == 0:
             return "/assets/icons8-play-50.png", True
         else:
             return "/assets/icons8-pause-48.png", False
-        
+
     @app.callback(
             Output('para', 'style'),
             Input('snapshot', 'n_clicks'),
             Input({'type': 'plot-layout', 'index': ALL}, "children")
     )
     def download(clicks, plots):
-        """
-        Callback to download all plots as html code in the same directory as the data file
+        """Callback to download all plots as html code in
+        the same directory as the data file
         Input: Clicks on the capture graphs button
-        Input: All plot layouts 
+        Input: All plot layouts
         Output: Style of Para Div
         """
         if ctx.triggered_id == "snapshot":
-            print("Clicked")
             for plot in plots:
                 plot_name = plot[0].get('props', {}).get('id').get('index')
                 graph = plot[0].get('props', {}).get('figure')
                 fig = go.Figure(graph)
-                dir = processed_obj.path_dict["datapath"].split(".parquet")[0] 
-                now = datetime.now()
-                print(dir + "_" + now.strftime("%Y%m%d_%H%M%S"))
+                dir = processed_obj.path_dict["datapath"].split(".parquet")[0]
                 fig.write_html(dir + "_" + plot_name + ".html")
 
         return {'display': 'none'}
-        
+
     @app.callback(
             Output('snap', 'style'),
             Output('light', 'style'),
@@ -266,12 +302,12 @@ def create_dash_app(**kwargs):
     )
     def _switch_color(value):
         if value:
-            return {'filter': 'invert(1)'}, {'filter': 'invert(1)'}, {'filter': 'invert(1)'}, {'filter': 'invert(1)'}
-        return {'filter': 'none'}, {'filter': 'none'}, {'filter': 'none'}, {'filter': 'none'}
+            return {'filter': 'invert(1)'}, {'filter': 'invert(1)'}, {'filter': 'invert(1)'}, {'filter': 'invert(1)'}  # noqa E501
+        return {'filter': 'none'}, {'filter': 'none'}, {'filter': 'none'}, {'filter': 'none'}  # noqa E501
 
     @app.callback(Output({'type': 'plot-layout', 'index': ALL}, "style"),
                   Input({'type': 'sidebar-btn', 'index': ALL}, "n_clicks"),
-                  Input('central-layout', 'children')) 
+                  Input('central-layout', 'children'))
     def navigate(click_list, layout_children):
         """
         Callback to navigate and render images on click
@@ -280,7 +316,7 @@ def create_dash_app(**kwargs):
         Input: Children of central layout that are plot layouts
         """
         # Array holding styles for each plot layout
-        display = [] 
+        display = []
 
         # Returns display for relevant plot on its button being clicked
         if ctx.triggered:
@@ -292,8 +328,7 @@ def create_dash_app(**kwargs):
                     display.append({'display': 'block'})
                 else:
                     display.append({'display': 'none'})
-        
-        #Stays on the Home screen if not updated
+        # Stays on the Home screen if not updated
         else:
             for child in layout_children:
                 if child.get('props', {}).get('id').get('index') == 'Home':
@@ -302,7 +337,7 @@ def create_dash_app(**kwargs):
                     display.append({'display': 'none'})
 
         return display
-  
+
     @app.callback(
         Output({'type': 'graphs', 'index': ALL}, "figure"),
         Input('refresh', 'n_intervals'),
@@ -334,41 +369,49 @@ def create_dash_app(**kwargs):
                     if df["Chart"][i] not in updates:
 
                         # Create graph Object
-                        graph = plot[0].get('props', {}).get('figure') 
+                        graph = plot[0].get('props', {}).get('figure')
                         graph = go.Figure(graph)
                         graph = make_subplots(df["Layout"][i], 1)
                         label = str(df["Label"][i])
-                        
                         # Add chart and axes titles
                         graph.update_layout(
-                            title_text = df["Chart"][i] + " Graphs"
+                            title_text=df["Chart"][i] + " Graphs"
                         )
-                        graph.update_xaxes(title_text = "Time (s)", row = df["Layout"][i])
-                        graph.update_yaxes(title_text = df["Processed_Unit"][i], row = df["Position"][i])
+                        graph.update_xaxes(title_text="Time (s)",
+                                           row=df["Layout"][i])
+                        graph.update_yaxes(title_text=df["Processed_Unit"][i],
+                                           row=df["Position"][i])
                         # Plot points on graph
                         graph.add_trace(
-                            go.Scatter(x = processed_data["Time"],
-                            y = processed_data[label], name = df["Legend"][i]
-                            ), row = df["Position"][i], col = 1
-                        ) 
+                            go.Scatter(x=processed_data["Time"],
+                                       y=processed_data[label],
+                                       name=df["Legend"][i]
+                                       ),
+                            row=df["Position"][i],
+                            col=1
+                        )
 
-                    # If graph updated before, get updated graph and add traces 
+                    # If graph updated before, get updated graph and add traces
                     else:
 
                         # Add relevant plot data and axes
                         label = str(df["Label"][i])
                         graph = updates.get(df["Chart"][i])
                         graph.add_trace(
-                                go.Scatter(x = processed_data["Time"],
-                                y = processed_data[label], name = df["Legend"][i]
-                                ), row = df["Position"][i], col = 1
-                        )  
-                        graph.update_yaxes(title_text = df["Processed_Unit"][i],row = df["Position"][i])
-
+                                go.Scatter(x=processed_data["Time"],
+                                           y=processed_data[label],
+                                           name=df["Legend"][i]
+                                           ),
+                                row=df["Position"][i],
+                                col=1
+                        )
+                        graph.update_yaxes(title_text=df["Processed_Unit"][i],
+                                           row=df["Position"][i]
+                                           )
                     # Store new layout
                     updates[plot_name] = graph
         return list(updates.values())
-       
+
     def open_browser():
         """
         Method that opens browser to display link
@@ -379,7 +422,7 @@ def create_dash_app(**kwargs):
     if __name__ == "main":
         return app
     else:
-        with open('dashboard_error.log', 'a') as f:
+        with open('DashboardError.log', 'a') as f:
             with redirect_stdout(f):
                 Timer(1, open_browser).start()
                 app.run_server(port=1222)
