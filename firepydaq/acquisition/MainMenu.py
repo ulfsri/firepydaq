@@ -476,6 +476,7 @@ class MainMenu(QMenuBar):
             else:
                 self.parent.inform_user("Folder path not found.")
                 return
+            self.parent.notify("Saved to " + str(file_json) + " file successfully.") # noqa E501
 
     def load_json_settings(self):
         """Opens a 'LoadSettingsDialog' that prompts
@@ -507,6 +508,7 @@ class MainMenu(QMenuBar):
             self.parent.settings.clear()
             self._repopulate_settings(data)
             self._load_devices(data)
+            self.parent.notify("Resolved " + str(settings_file) + " file successfully") # noqa E501
 
     def _load_devices(self, data):
         if "Devices" in data:
