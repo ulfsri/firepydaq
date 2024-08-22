@@ -35,11 +35,24 @@ This section discusses how the layout for the dashboard is generated. The layout
 
 This section offers insight into some other functionalities offered by the dashboard such as switching display modes, capturing all graphs, other features on the title bar etc. 
 
+```{image} assets/Dashboard/Dashboard2.png
+:width: 500px
+:align: center
+:alt: AcqSettings
+```
+
+
 ### General
 The user interface is responsive and can be used on varying desktop or laptops. However, they are not yet suited for phones. The graphs on the dashboard are also interactive in nature and can be zoomed in on for a closer, more detailed look.
 
 ### Home Page
 The home page is the page the website lands on first after loading. It has a few fields indicating the locations of the parquet, configuration, formula and post processed files that are used up by the application or created by it.
+
+```{image} assets/Dashboard/Dashboard1.png
+:width: 500px
+:align: center
+:alt: AcqSettings
+```
 
 ### Navigation
 In order to navigate between different graphs more seamlessly, simply chose the desired 'Chart' Type on the sidebar.
@@ -56,9 +69,15 @@ In order to save all plots, simply click on the graph button. All the graphs pre
 ### Display Modes
 The toggle button on the title bar may be used to switch between light and dark modes such as shown below.
 
-## 5.Logger 
+```{image} assets/Dashboard/Dashboard3.png
+:width: 500px
+:align: center
+:alt: AcqSettings
+```
+
+## 5. Logger 
 The dashboard_error.log contains all the output printed by the program and while the server was running. It serves as a means to understand the issues or updates that occur through the course of the application.
 
-## 6.Exit
+## 6. Exit
 To exit the application, simply navigate to the the window the application is running from and use the key combination "Ctrl + C". The server should come to a halt.
 

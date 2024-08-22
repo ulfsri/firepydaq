@@ -1,5 +1,5 @@
 #########################################################################
-# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
+# FIREpyDAQ - Facilitated Interface for Recording Experiments,
 # a python-based Data Acquisition program.
 # Copyright (C) 2024  Dushyant M. Chaudhari
 
