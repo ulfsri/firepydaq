@@ -30,7 +30,7 @@ class NotificationPanel(QTextEdit):
     ----------
     message_types: dict
         {
-            "info": QColor("blue"),
+            "info": QColor("darkcyan"),
             "warning": QColor("orange"),
             "error": QColor("red"),
             "success": QColor("green"),
@@ -47,7 +47,7 @@ class NotificationPanel(QTextEdit):
         self.setWindowTitle("Testing tite")
         self.setReadOnly(True)
         self.message_types = {
-            "info": QColor("blue"),
+            "info": QColor("darkcyan"),
             "warning": QColor("orange"),
             "error": QColor("red"),
             "success": QColor("green"),

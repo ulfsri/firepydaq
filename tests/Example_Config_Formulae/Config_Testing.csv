@@ -1,5 +1,5 @@
 ,Panel,Device,Channel,ScaleMax,ScaleMin,Label,Type, TCType, Chart,AIRangeMin,AIRangeMax,Layout,Position,Processed_Unit,Legend
-0, 1, cDAQ1Mod1, ai0, 1, 1,Temperature1,Thermocouple, K, Temperature, 1, 1, 2, 1, C, Amb. Temp
-1, 1, cDAQ1Mod1, ai3, 1, 1,Temperature2,Thermocouple, K, Temperature, 1, 1, 2, 1, C, Amb. Temp
-2, 1, cDAQ1Mod3, ai0, 1, 0,Voltage1,Voltage, NA, V1, 0, 1, 1, 1, V, Open V1
-3, 1, cDAQ1Mod3, ai3, 1, 0,Voltage2,Voltage, NA, None, 0, 1, 1, 1, C, Open V2
+0,1, cDAQ1Mod1, ai0,1,1,Temperature1,Thermocouple, K, Temperature,1,1,2,1, C, Amb. Temp
+1,1, cDAQ1Mod1, ai2,1,1,Temperature2,Thermocouple, K, Temperature,1,1,2,1, C, Amb. Temp
+2,1, cDAQ1Mod3, ai0,1,0,Voltage1,Voltage, NA, V1,0,1,1,1, V, Open V1
+3,1, cDAQ1Mod3, ai2,1,0,Voltage2,Voltage, NA, None,0,1,1,1, C, Open V2
