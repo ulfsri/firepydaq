@@ -1,22 +1,3 @@
-#########################################################################
-# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
-# a python-based Data Acquisition program.
-# Copyright (C) 2024  Dushyant M. Chaudhari
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#########################################################################
-
 import sys
 
 # PyQT Related
@@ -989,7 +970,7 @@ class application(QMainWindow):
         time_data = time_data[np.newaxis, :]
         abs_time = abs_time[np.newaxis, :]
         ydata_new = self._queue.get(block=True, timeout=1)
-        print(ydata_new)
+
         if len(ydata_new.shape) == 1:
             # If a single channel, a list is returned by nidaqmx
             ydata_new = ydata_new[np.newaxis, :]
@@ -1011,7 +992,7 @@ class application(QMainWindow):
             if self.mfcs != {}:
                 for mfcname, data in self.all_mfcData.items():
                     MFC_filename = self.parquet_file.split(".parquet")[0] + '_' + mfcname + '.csv'  # noqa E501
-                    data_df = pd.DataFrame(data, index=[self.xdata[-1]])
+                    data_df = pd.DataFrame(data, index=[self.xdata_new[0]])
                     data_df.to_csv(MFC_filename, mode="a", header=not os.path.isfile(MFC_filename))  # noqa E501
 
         except Exception as e:
@@ -1028,6 +1009,15 @@ class application(QMainWindow):
         no_samples = self.NIDAQ_Device.numberOfSamples
         self.ActualSamplingRate = self.NIDAQ_Device.aitask.timing.samp_clk_rate  # noqa E501
         samplesAvailable = self.NIDAQ_Device.aitask._in_stream.avail_samp_per_chan  # noqa: E501
+
+        if self.mfcs != {}:
+            self.alicat_locks = {}
+            for mfcname, al_mfc in self.mfcs.items():
+                # Lock Alicat thread for release only
+                # when NI data is available
+                self.alicat_locks[mfcname] = threading.Lock()
+                self.alicat_locks[mfcname].acquire()
+                self.all_mfcData[mfcname] = al_mfc.GetFlows()
 
         if (samplesAvailable >= no_samples):
             try:
@@ -1047,10 +1037,11 @@ class application(QMainWindow):
                         aothread = executor.submit(self.NIDAQ_Device.threadaotask, AO_initials=AO_outputs)  # noqa: E501
                         self.written_data = aothread.result()
 
-                    if self.mfcs != {}:
-                        for mfcname, al_mfc in self.mfcs.items():
-                            mfc_flows = executor.submit(al_mfc.GetFlows)
-                            self.all_mfcData[mfcname] = mfc_flows.result()
+                if self.mfcs != {}:
+                    for mfcname, _ in self.mfcs.items():
+                        # Release alicat threads once the data is acquired.
+                        self.alicat_locks[mfcname].release()
+                self.alicat_locks[mfcname].acquire()
                 t_aft_read = time.time()
                 t_now = datetime.now()
 
@@ -1082,13 +1073,12 @@ class application(QMainWindow):
                     # there should be no conflict with acquisition. 
                     save_thread = threading.Thread(target=self.save_data_thread)  # noqa E501
                     save_thread.start()
-                    # with concurrent.futures.ThreadPoolExecutor() as save_executor:  # noqa: E501
-                    #     save_executor.submit(self.save_data_thread)
+
                 t_aft_save = time.time()
-                if (t_aft_save - t_bef_read) > 1/self.ActualSamplingRate:
+                if (t_aft_save - t_bef_read) > 1:
                     # Time between read and save time exceeds
                     # prescribed 1/(sampling frequency)
-                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.", "warning")  # noqa: E501
+                    self.notify("Data Loss WARNING: Time to save exceeds 1 s. Some data will be lost as a consequence.", "warning")  # noqa: E501
 
                 # Plots
                 if hasattr(self, "data_vis_tab"):
@@ -1150,9 +1140,7 @@ class application(QMainWindow):
 
             self.initiate_dataArrays()
             firepydaq_logger.info("Saving initiated properly.")
-            self.panel.clear()
             self.save_begin_time = time.time()
-            self.notify("Previous text cleared. This will  be done for each saving operation.", "info")  # noqa: E501
             self.notify("Saving Data in " + self.settings["Test Name"], "info")
 
             pl_cols = self.labels_to_save
