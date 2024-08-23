@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
 ```
 @misc{firepydaq,
-title={Facilitated Interface for Recording Experiments - A python-based data acquisition program.},
+title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},
 howpublished = {Fire Safety Research Institute, UL Research Institutes},
 url = {https://github.com/ulfsri/firepydaq},
 author = {Dushyant M. Chaudhari, Anvii Mishra},

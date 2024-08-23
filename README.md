@@ -46,6 +46,8 @@ This interface can be used for three types of devices simultaneously,
 
 ## Usage
 
+**A brief usage is provided below. Please refer to the documentation for additional details.**
+
 `firepydaq` can be used to compile PyQT based user interface.
 
 ```python
@@ -80,8 +82,10 @@ if __name__ == "__main__":
 Example of how Acquisition interface looks like:
 ![Acquisition Setup](docs/assets/Acquisition/SetUp1.png)
 
-Example of NI config and a formulae file that is used to set-up the acquisition.
+Example of NI config that is required to set-up the acquisition. You can formulate your own config file. You can use the `NISYSCheck.py` utility to get information of the connected NI device.
 ![ConfigExample](docs/assets/Setup/ConfigExample.png)
+
+Example of Formulae file that is used to post-process data is display in dashboard is selected.
 ![ConfigExample](docs/assets/Setup/FormulaeExample.png)
 
 Example of Acquisition interface during acquisition:
@@ -89,8 +93,6 @@ Example of Acquisition interface during acquisition:
 
 Example of how the dashboard looks like during acquisition:
 ![Dashboard](docs/assets/Dashboard/Dashboard2.png)
-
-See documentation for additional details.
 
 ## Contributing
 
@@ -117,7 +119,7 @@ of the GNU General Public license, v.3.0.
 
 ```
 @misc{firepydaq,
-title={Facilitated Interface for Recording Experiments - A python-based data acquisition program.},
+title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},
 howpublished = {Fire Safety Research Institute, UL Research Institutes},
 url = {https://github.com/ulfsri/firepydaq},
 author = {Dushyant M. Chaudhari, Anvii Mishra},
