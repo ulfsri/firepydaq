@@ -1009,7 +1009,6 @@ class application(QMainWindow):
         no_samples = self.NIDAQ_Device.numberOfSamples
         self.ActualSamplingRate = self.NIDAQ_Device.aitask.timing.samp_clk_rate  # noqa E501
         samplesAvailable = self.NIDAQ_Device.aitask._in_stream.avail_samp_per_chan  # noqa: E501
-
         if self.mfcs != {}:
             self.alicat_locks = {}
             for mfcname, al_mfc in self.mfcs.items():
@@ -1070,26 +1069,26 @@ class application(QMainWindow):
                 if self.save_bool:
                     self._queue.put(self.ydata_new, block=True, timeout=1)
                     # As long as save does not take more than 1 s,
-                    # there should be no conflict with acquisition. 
+                    # there should be no conflict with acquisition.
                     save_thread = threading.Thread(target=self.save_data_thread)  # noqa E501
                     save_thread.start()
 
                 t_aft_save = time.time()
-                if (t_aft_save - t_bef_read) > 1:
+                if (t_aft_save - t_bef_read) > 1/self.ActualSamplingRate:
                     # Time between read and save time exceeds
                     # prescribed 1/(sampling frequency)
-                    self.notify("Data Loss WARNING: Time to save exceeds 1 s. Some data will be lost as a consequence.", "warning")  # noqa: E501
+                    self.notify("Data Loss WARNING: Time to save exceeds number of samples per seconds prescribed for acquisition.", "warning")  # noqa: E501
 
                 # Plots
                 if hasattr(self, "data_vis_tab"):
                     if not hasattr(self.data_vis_tab, "dev_edit"):
                         self.data_vis_tab.set_labels(self.config_file)
+                    self.vis_lock = threading.Lock()
+                    self.vis_lock.acquire(timeout=0.5)
                     if len(self.ydata.shape) == 1:
                         self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata)  # noqa: E501
                     else:
                         self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])  # noqa: E501
-                    # raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])  # noqa: E501
-                    # raw_dpthread.start()
 
                 if (self.xdata[-1] % 5) <= 1/self.ActualSamplingRate:
                     text_update = ("Last time entry:" +
@@ -1107,7 +1106,7 @@ class application(QMainWindow):
                 traceback.print_tb(the_traceback)  # noqa: E501
 
         if self.ContinueAcquisition and self.running:
-            QTimer.singleShot(10, self.runpyDAQ)
+            QTimer.singleShot(1, self.runpyDAQ)
         else:
             self.run_counter = 0
             self.notify("Acquisition stopped.", "info")
