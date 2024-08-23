@@ -77,6 +77,21 @@ if __name__ == "__main__":
 	sys.exit(app.exec())
 ```
 
+Example of how Acquisition interface looks like:
+![Acquisition Setup](docs/assets/Acquisition/SetUp1.png)
+
+Example of NI config and a formulae file that is used to set-up the acquisition.
+![ConfigExample](docs/assets/Setup/ConfigExample.png)
+![ConfigExample](docs/assets/Setup/FormulaeExample.png)
+
+Example of Acquisition interface during acquisition:
+![Acquisition](docs/assets/Acquisition/16.png)
+
+Example of how the dashboard looks like during acquisition:
+![Dashboard](docs/assets/Dashboard/Dashboard2.png)
+
+See documentation for additional details.
+
 ## Contributing
 
 Interested in contributing? Check out the [contributing guidelines](CONTRIBUTING.md). 
@@ -98,6 +113,20 @@ Suggested procedure is given below. Note: Pull request into the `main` branch wi
 `firepydaq` was created by Dushyant M. Chaudhari. It is licensed under the terms
 of the GNU General Public license, v.3.0.
 
+## Citation
+
+```
+@misc{firepydaq,
+title={Facilitated Interface for Recording Experiments - A python-based data acquisition program.},
+howpublished = {Fire Safety Research Institute, UL Research Institutes},
+url = {https://github.com/ulfsri/firepydaq},
+author = {Dushyant M. Chaudhari, Anvii Mishra},
+publisher = {Github},
+journal = {Github Repository},
+year = {2024}
+}
+```
+
 ## Acknowledgements
 
 Thanks to the following community guidelines which were immensely helpful while making this package.
@@ -110,5 +139,5 @@ Thanks to the following community guidelines which were immensely helpful while 
 - <a href="https://packaging.python.org/en/latest/" target="_blank">Python packaging guide</a>
 - <a href="https://www.pythonguis.com/pyside6/" target="_blank">PythonGUIs, by Martin FitzPatrick</a>
 
-Additionally, support from [Fire Safety Research Institute](fsri.org), a part of [UL Research Institutes](ul.org) for this project has been necessary to keep going.
+Additionally, the contributors are grateful for the support from [Fire Safety Research Institute](fsri.org), a part of [UL Research Institutes](ul.org), for this project.
 
