@@ -22,8 +22,6 @@ class data_vis(QWidget):
         self._makeinit(parent)
 
     def _makeinit(self, parent):
-        self.ydata = []
-        self.xdata = []
         self.index = 0
         self.parent = parent
         self.content = self.create_data_vis_content()
@@ -36,7 +34,7 @@ class data_vis(QWidget):
         self.widget = QWidget()
         self.data_layout = QVBoxLayout()
         self.plot_graph = pg.PlotWidget()
-        self.plot_graph.plot(self.ydata, self.xdata)
+        self.plot_graph.plot([], [])
         self.plot_graph.setLabel('bottom', "Time (s)")
         self.data_layout.addWidget(self.plot_graph)
         self.widget.setLayout(self.data_layout)
@@ -57,6 +55,7 @@ class data_vis(QWidget):
         self.plot_graph.clear()
         self.plot_graph.plot(xdata, ydata)
         self.plot_graph.setLabel('left', self.dev_edit.currentText())
+        self.parent.vis_lock.release()
 
     def set_labels(self, config_file):
         """Method that creates dropdown for letting user select
