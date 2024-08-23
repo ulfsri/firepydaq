@@ -40,6 +40,8 @@ import time
 from datetime import datetime, timedelta
 
 # Threading and multiprocesses
+import queue
+import threading
 import concurrent.futures
 import multiprocessing as mp
 
@@ -986,22 +988,24 @@ class application(QMainWindow):
         abs_time = np.array(self.abs_timestamp)
         time_data = time_data[np.newaxis, :]
         abs_time = abs_time[np.newaxis, :]
-        if len(self.ydata_new.shape) == 1:
+        ydata_new = self._queue.get(block=True, timeout=1)
+        print(ydata_new)
+        if len(ydata_new.shape) == 1:
             # If a single channel, a list is returned by nidaqmx
-            self.ydata_new = self.ydata_new[np.newaxis, :]
-        temp_data = np.append(time_data, np.array(self.ydata_new), axis=0)
+            ydata_new = ydata_new[np.newaxis, :]
+        temp_data = np.append(time_data, np.array(ydata_new), axis=0)
+
         temp_data = np.append(abs_time, temp_data, axis=0)
-        self.save_dataframe = pl.DataFrame(schema=self.pl_schema_dict, data=temp_data, orient='col')  # noqa: E501
+        save_dataframe = pl.DataFrame(schema=self.pl_schema_dict, data=temp_data, orient='col')  # noqa: E501
         self.parquet_file = self.common_path + ".parquet"
 
         try:
             if os.path.isfile(self.parquet_file):
                 table = pq.read_table(self.parquet_file)
                 old_pq = pl.from_arrow(table)
-                new_df = pl.concat([old_pq, self.save_dataframe])
+                new_df = pl.concat([old_pq, save_dataframe])
             else:
-                new_df = self.save_dataframe
-
+                new_df = save_dataframe
             new_df.write_parquet(self.parquet_file)
 
             if self.mfcs != {}:
@@ -1040,7 +1044,7 @@ class application(QMainWindow):
                         AO_outputs = [0 for i in range(self.NIDAQ_Device.ao_counter)]  # noqa: E501
                         # AO_outputs will need user iniput.
                         # Currently only float values are accepted.
-                        aothread = executor.submit(self.threadaotask, AO_initials=AO_outputs)  # noqa: E501
+                        aothread = executor.submit(self.NIDAQ_Device.threadaotask, AO_initials=AO_outputs)  # noqa: E501
                         self.written_data = aothread.result()
 
                     if self.mfcs != {}:
@@ -1073,8 +1077,13 @@ class application(QMainWindow):
                     self.xdata = np.append(self.xdata, self.xdata_new)
 
                 if self.save_bool:
-                    with concurrent.futures.ThreadPoolExecutor() as save_executor:  # noqa: E501
-                        save_executor.submit(self.save_data_thread)
+                    self._queue.put(self.ydata_new, block=True, timeout=1)
+                    # As long as save does not take more than 1 s,
+                    # there should be no conflict with acquisition. 
+                    save_thread = threading.Thread(target=self.save_data_thread)  # noqa E501
+                    save_thread.start()
+                    # with concurrent.futures.ThreadPoolExecutor() as save_executor:  # noqa: E501
+                    #     save_executor.submit(self.save_data_thread)
                 t_aft_save = time.time()
                 if (t_aft_save - t_bef_read) > 1/self.ActualSamplingRate:
                     # Time between read and save time exceeds
@@ -1085,7 +1094,10 @@ class application(QMainWindow):
                 if hasattr(self, "data_vis_tab"):
                     if not hasattr(self.data_vis_tab, "dev_edit"):
                         self.data_vis_tab.set_labels(self.config_file)
-                    self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])  # noqa: E501
+                    if len(self.ydata.shape) == 1:
+                        self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata)  # noqa: E501
+                    else:
+                        self.data_vis_tab.set_data_and_plot(self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()])  # noqa: E501
                     # raw_dpthread = threading.Thread(target=self.data_vis_tab.set_data_and_plot, args=[self.xdata, self.ydata[self.data_vis_tab.get_curr_selection()]])  # noqa: E501
                     # raw_dpthread.start()
 
@@ -1123,6 +1135,7 @@ class application(QMainWindow):
             self.save_button.setText("Stop")
             self.save_bool = True
             self.run_counter = 0
+            self._queue = queue.Queue(maxsize=0)  # infinite queue size
 
             # This will call Create_save path also based on updated fields.
             self.set_up()
@@ -1140,7 +1153,7 @@ class application(QMainWindow):
             self.panel.clear()
             self.save_begin_time = time.time()
             self.notify("Previous text cleared. This will  be done for each saving operation.", "info")  # noqa: E501
-            self.notify("Saving Data in " + self.parquet_file, "info")
+            self.notify("Saving Data in " + self.settings["Test Name"], "info")
 
             pl_cols = self.labels_to_save
             pl_cols.insert(0, "Time")
