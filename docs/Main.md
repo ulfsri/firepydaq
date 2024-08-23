@@ -16,6 +16,11 @@ This interface can be used for three types of devices simultaneously,
 - Alicat Mass Flow Controllers and Mass Flow Meter, which is based via serial communication and python API available from <a href="https://github.com/numat/alicat" target="_blank">Numat</a>.
 - Thorlabs CLD101X, which is based on serial communication
 
+
+## Architecture
+
+```{image} assets/FIREpyDAQArchitecture.svg
+```
 ## Usage
 
 `firepydaq` can be used to compile PyQT based user interface.
@@ -49,3 +54,16 @@ if __name__ == "__main__":
   sys.exit(app.exec())
 ```
 
+## Citation
+
+```
+@misc{firepydaq,
+title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},
+howpublished = {Fire Safety Research Institute, UL Research Institutes},
+url = {https://github.com/ulfsri/firepydaq},
+author = {Dushyant M. Chaudhari, Anvii Mishra},
+publisher = {Github},
+journal = {Github Repository},
+year = {2024}
+}
+```

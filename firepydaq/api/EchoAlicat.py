@@ -1,22 +1,3 @@
-#########################################################################
-# FIREpyDAQ - Facilitated Interface for Recording Experiemnts,
-# a python-based Data Acquisition program.
-# Copyright (C) 2024  Dushyant M. Chaudhari
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#########################################################################
-
 import asyncio
 from alicat import FlowController, FlowMeter
 import time
@@ -124,7 +105,7 @@ class EchoController:
             if not all_time:
                 all_time.append(0)
             else:
-                all_time.append(np.round(all_time[-1]+(t2-t1),2))
+                all_time.append(np.round(all_time[-1]+(t2-t1), 2))
             if all_time[-1] % 2 < 0.15:
                 print(all_time[-1])
 
@@ -187,7 +168,7 @@ class EchoMeter:
                 Duration in seconds to run the Alicat device
                 Default is zero.
             read_boolean: bool
-                Boolean that is set to True until the 
+                Boolean that is set to True until the
                 time for which the data is acquired exceeds `run_for` seconds
                 Default: True
         Returns
@@ -213,7 +194,7 @@ class EchoMeter:
             if not all_time:
                 all_time.append(0)
             else:
-                all_time.append(np.round(all_time[-1]+(t2-t1),2))
+                all_time.append(np.round(all_time[-1]+(t2-t1), 2))
             if all_time[-1] % 2 < 0.15:
                 print(all_time[-1])
 
@@ -235,7 +216,7 @@ if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.run_until_complete(Ali.set_params("COM4", gas='C3H8'))
-    MF_Vals = loop.run_until_complete(Ali.get_until_true(run_for=4, read_boolean=True, flow_rate=1))
+    MF_Vals = loop.run_until_complete(Ali.get_until_true(run_for=4, read_boolean=True, flow_rate=1))  # noqa E501
     fig, ax = plt.subplots()
     ax.plot(MF_Vals['Time'], MF_Vals['mass_flow'])
     plt.show()
