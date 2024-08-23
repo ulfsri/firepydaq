@@ -1040,7 +1040,7 @@ class application(QMainWindow):
                     for mfcname, _ in self.mfcs.items():
                         # Release alicat threads once the data is acquired.
                         self.alicat_locks[mfcname].release()
-                self.alicat_locks[mfcname].acquire()
+                # self.alicat_locks[mfcname].acquire()
                 t_aft_read = time.time()
                 t_now = datetime.now()
 
@@ -1151,6 +1151,7 @@ class application(QMainWindow):
                     self.pl_schema_dict[col] = pl.Float32
                 else:
                     self.pl_schema_dict[col] = pl.String
+            print(self.pl_schema_dict)
 
             if self.dashboard:
                 firepydaq_logger.info("Dash app Process initiated after saving initiations")  # noqa: E501
