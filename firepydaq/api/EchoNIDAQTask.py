@@ -21,8 +21,7 @@ import nidaqmx
 import nidaqmx.constants
 import nidaqmx.stream_writers
 import pandas as pd
-from importlib.metadata import version
-__version__ = version("firepydaq")
+import time
 
 
 class CreateDAQTask:
@@ -102,18 +101,18 @@ class CreateDAQTask:
         print(PhysChannelName)
         if measurement == "Thermocouple":
             if TCtype.strip() not in ["B", "E", "J", "K", "N", "R", "S", "T"]:
-                raise KeyError('"TCType" must be one of "B","E","J","K","N","R","S", or "T" thermocouple type')
+                raise KeyError('"TCType" must be one of "B", "E", "J", "K", "N", "R", "S", or "T" thermocouple type') # noqa E501
             else:
                 TC = nidaqmx.constants.ThermocoupleType[TCtype]
             # TC = nidaqmx.constants.ThermocoupleType.K
             TC_unit = nidaqmx.constants.TemperatureUnits.DEG_C
-            getattr(self.aitask.ai_channels, 'add_ai_thrmcpl_chan')(PhysChannelName, units=TC_unit, thermocouple_type=TC)
+            getattr(self.aitask.ai_channels, 'add_ai_thrmcpl_chan')(PhysChannelName, units=TC_unit, thermocouple_type=TC)  # noqa E501
         elif measurement == 'Voltage':
             V_unit = nidaqmx.constants.VoltageUnits.VOLTS
-            getattr(self.aitask.ai_channels, 'add_ai_voltage_chan')(PhysChannelName, units=V_unit)
+            getattr(self.aitask.ai_channels, 'add_ai_voltage_chan')(PhysChannelName, units=V_unit)  # noqa E501
         elif measurement == "Current":
             A_unit = nidaqmx.constants.CurrentUnits.AMPS
-            getattr(self.aitask.ai_channels, 'add_ai_current_chan')(PhysChannelName, units=A_unit)
+            getattr(self.aitask.ai_channels, 'add_ai_current_chan')(PhysChannelName, units=A_unit) # noqa E501
 
     def addAOTask(self, daqname, aochan, measurement):
         """Method to add Analog Voltage Output task.
@@ -129,12 +128,12 @@ class CreateDAQTask:
         """
         PhysChannelName = daqname+'/'+aochan
         if measurement != 'Voltage':
-            raise AttributeError('Analog Output task should be "Voltage" or "Current"')
+            raise AttributeError('Analog Output task should be "Voltage" or "Current"')  # noqa E501
         else:
             V_unit = nidaqmx.constants.VoltageUnits.VOLTS
-            getattr(self.aotask.ao_channels, 'add_ao_voltage_chan')(PhysChannelName, units=V_unit, min_val=0.0, max_val=3.0)
+            getattr(self.aotask.ao_channels, 'add_ao_voltage_chan')(PhysChannelName, units=V_unit, min_val=0.0, max_val=3.0)  # noqa E501
 
-    def StartAIContinuousTask(self, SamplingRate, HowManySample, save_tdms=False, save_tdms_path="PreSavedData_AI.tdms"):
+    def StartAIContinuousTask(self, SamplingRate, HowManySample, save_tdms=False, save_tdms_path="PreSavedData_AI.tdms"):  # noqa E501
         """Method to  start a continous AI task once the `aitask`
         is configured to open up communication with the NI hardware.
 
@@ -151,23 +150,24 @@ class CreateDAQTask:
         self.save_tdms = save_tdms
         self.sampleRate = SamplingRate
         self.numberOfSamples = HowManySample
-        print("Sampling Rate: "+str(self.sampleRate)+", Samples per read: " + str(self.numberOfSamples))
-        self.aitask.timing.cfg_samp_clk_timing(rate=self.sampleRate, sample_mode=nidaqmx.constants.AcquisitionType.CONTINUOUS, samps_per_chan=self.numberOfSamples)
+        print("Sampling Rate: "+str(self.sampleRate)+", Samples per read: " + str(self.numberOfSamples))  # noqa E501
+        self.aitask.timing.cfg_samp_clk_timing(rate=self.sampleRate, sample_mode=nidaqmx.constants.AcquisitionType.CONTINUOUS, samps_per_chan=self.numberOfSamples)  # noqa E501
 
         if self.save_tdms:
             LOG_AND_READ = 15842
-            LOG = 15844
             log_mode = nidaqmx.constants.LoggingMode(LOG_AND_READ)
-            self.aitask.in_stream.configure_logging(save_tdms_path, logging_mode=log_mode)
+            self.aitask.in_stream.configure_logging(save_tdms_path, logging_mode=log_mode)  # noqa E501
 
         self.aitask.start()
 
-    def StartAOContinuousTask(self, AO_initials=None, save_tdms=False, save_tdms_path="PreSavedData_AO.tdms"):
+    def StartAOContinuousTask(self, AO_initials=None, save_tdms=False, save_tdms_path="PreSavedData_AO.tdms"):  # noqa E501
         """Method to start a continous AO task once
         `aotask` is configured.
 
         Starts an on demand AO task to open up communication with the DAQ
-        AO task requires initial array to be given in the form of a linear array
+        AO task requires initial array to be given in
+        the form of a linear array.
+
 
         Keyword Arguments
         ----------------
@@ -177,27 +177,50 @@ class CreateDAQTask:
                 Default is False
             save_tdms_path : str
                 Default is "PreSaveData_AO.tdms"
+        
+        Note
+        ----
+        This is still under development
         """
         self.save_tdms = save_tdms
         # self.aotask.start()
         # print(self.aotask.out_stream.num_chans)
-        self.aotask.out_stream.regen_mode = nidaqmx.constants.RegenerationMode.DONT_ALLOW_REGENERATION
+        self.aotask.out_stream.regen_mode = nidaqmx.constants.RegenerationMode.DONT_ALLOW_REGENERATION  # noqa E501
         self.aotask.timing.cfg_samp_clk_timing(rate=1)
         print(self.aotask.channel_names, AO_initials, AO_initials.shape)
         self.aotask.write(AO_initials)
         # print(self.aotask.out_stream.curr_write_pos)
-        # self.AO_Writer = nidaqmx.stream_writers.AnalogMultiChannelWriter(self.aotask.out_stream, auto_start=True)
+        # self.AO_Writer = nidaqmx.stream_writers.AnalogMultiChannelWriter(self.aotask.out_stream, auto_start=True)  # noqa E501
 
         # self.AO_Writer.write_one_sample(AO_initials)
         self.aotask.start()
         print(self.aotask.out_stream.curr_write_pos)
         if self.save_tdms:
             LOG_AND_READ = 15842
-            LOG = 15844
             log_mode = nidaqmx.constants.LoggingMode(LOG_AND_READ)
-            self.aotask.out_stream.configure_logging(save_tdms_path, logging_mode=log_mode)
+            self.aotask.out_stream.configure_logging(save_tdms_path, logging_mode=log_mode)  # noqa E501
 
-    # Method to read data from AI task.
+    def GetActualSamplingRate(self):
+        return self.aitask.timing.samp_clk_rate
+
+    def _GetContinousAIData(self):
+        """In development. Will create indefinite iterations.
+        """
+        no_samples = self.numberOfSamples
+        self.ActualSamplingRate = self.aitask.timing.samp_clk_rate  # noqa E501
+        samplesAvailable = self.aitask._in_stream.avail_samp_per_chan  # noqa: E501
+        continue_collection = (samplesAvailable == no_samples)
+        try:
+            while not continue_collection:
+                time.sleep(0.01)
+                self.GetContinousAIData()
+
+            data = self.aitask.read(number_of_samples_per_channel=self.numberOfSamples)  # noqa E501
+            return data
+        except Exception as e:
+            print(e)
+        return
+
     def threadaitask(self):
         """Method to read the `aitask` data
 
@@ -205,7 +228,7 @@ class CreateDAQTask:
         -------
             NI AI data as a numpy array
         """
-        return self.aitask.read(number_of_samples_per_channel=self.numberOfSamples)
+        return self.aitask.read(number_of_samples_per_channel=self.numberOfSamples)  # noqa E501
 
     # Method to output AO task data
     def threadaotask(self, AO_Outputs):
