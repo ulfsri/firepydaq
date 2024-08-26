@@ -23,7 +23,7 @@ This interface can be used for three types of devices simultaneously,
 ```
 ## Usage
 
-`firepydaq` can be used to compile PyQT based user interface.
+`firepydaq` can be compiled by using one of the following scripts. A video showing the usage is provided on [Github](https://github.com/ulfsri/firepydaq).
 
 ```python
 # On Windows: Protect your script from importing child processes

@@ -1,0 +1,9 @@
+{
+    "Experiment Type": "Experiment",
+    "Sampling Rate": 5,
+    "Name": "Anvii",
+    "Experiment Name": "Project1",
+    "Test Name": "Test1",
+    "Formulae File": "C:/Users/ChaudhariDushyantMad/Documents/GitHub/firepydaq/tests/Example_Config_Formulae/Processing_formulaeTesting.csv",
+    "Config File": "C:/Users/ChaudhariDushyantMad/Documents/GitHub/firepydaq/tests/Example_Config_Formulae/Config_Testing.csv"
+}

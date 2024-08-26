@@ -48,7 +48,7 @@ This interface can be used for three types of devices simultaneously,
 
 **A brief usage is provided below. Please refer to the documentation for additional details.**
 
-`firepydaq` can be used to compile PyQT based user interface.
+`firepydaq` can be compiled by using one of the following scripts.
 
 ```python
 # On Windows: Protect your script from importing child processes
@@ -79,8 +79,9 @@ if __name__ == "__main__":
 	sys.exit(app.exec())
 ```
 
-Example of how Acquisition interface looks like:
-![Acquisition Setup](docs/assets/Acquisition/SetUp1.png)
+Example usage is given in the following video. The corresponding files and snapshots are provided after the video for reference.
+
+![FIRepyDAQ Video](docs/assets/FIREpyDAQ.mp4)
 
 Example of NI config that is required to set-up the acquisition. You can formulate your own config file. You can use the `NISYSCheck.py` utility to get information of the connected NI device.
 
@@ -103,10 +104,10 @@ Example of Formulae file that is used to post-process data is display in dashboa
 | V_mA      | Voltage1/1000                      | V1 (mV)         | Volts           | 1          | 1            | mA                 |
 
 Example of Acquisition interface during acquisition:
-![Acquisition](docs/assets/Acquisition/16.png)
+![Acquisition](docs/assets/Acquisition/Acquisition.png)
 
 Example of how the dashboard looks like during acquisition:
-![Dashboard](docs/assets/Dashboard/Dashboard2.png)
+![Dashboard](docs/assets/Dashboard/12.png)
 
 ## Contributing
 
@@ -132,7 +133,7 @@ of the GNU General Public license, v.3.0.
 ## Citation
 
 Full citation:
-```
+```{note}
 
 Chaudhari, D. M., Mishra, A., (2024). Facilitated interface for recording experiments - a python-based data acquisition program. In Github Repository. Fire Safety Research Institute, UL Research Institutes; Github. https://github.com/ulfsri/firepydaq
 
