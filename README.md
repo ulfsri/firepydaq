@@ -46,7 +46,7 @@ This interface can be used for three types of devices simultaneously,
 
 ## Usage
 
-**A brief usage is provided below. Please refer to the documentation for additional details.**
+**Please refer to the documentation for additional details.**
 
 `firepydaq` can be compiled by using one of the following scripts.
 
@@ -79,9 +79,15 @@ if __name__ == "__main__":
 	sys.exit(app.exec())
 ```
 
-Example usage is given in the following video. The corresponding files and snapshots are provided after the video for reference.
+### Interface
 
-![FIRepyDAQ Video](docs/assets/FIREpyDAQ.mp4)
+Example usage is given in the following two videos. The corresponding files and two snapshots are provided after the video for reference.
+
+![FIRepyDAQ Setup Video](docs/assets/FIREpyDAQSetup.mp4)
+
+![FIREpyDAQ Acquisition Video](docs/assets/FIREpyDAQAcqDash.mp4)
+
+### Config and Formulae file
 
 Example of NI config that is required to set-up the acquisition. You can formulate your own config file. You can use the `NISYSCheck.py` utility to get information of the connected NI device.
 
@@ -102,12 +108,6 @@ Example of Formulae file that is used to post-process data is display in dashboa
 | Temp_F    | (Temperature1)*TF_mult + TF_offset | Temperature     | Fahrenheit temp | 2          | 2            | F                  |
 | T_mean    | (Temperature1 + Temperature2)/2    | Mean Temperture | Mean Temp       | 1          | 1            | C                  |
 | V_mA      | Voltage1/1000                      | V1 (mV)         | Volts           | 1          | 1            | mA                 |
-
-Example of Acquisition interface during acquisition:
-![Acquisition](docs/assets/Acquisition/Acquisition.png)
-
-Example of how the dashboard looks like during acquisition:
-![Dashboard](docs/assets/Acquisition/12.png)
 
 ## Contributing
 

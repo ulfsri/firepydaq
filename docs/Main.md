@@ -54,6 +54,12 @@ if __name__ == "__main__":
   sys.exit(app.exec())
 ```
 
+Example of Acquisition interface during acquisition:
+![Acquisition](assets/Acquisition/Acquisition.png)
+
+Example of how the dashboard looks like during acquisition:
+![Dashboard](assets/Acquisition/12.png)
+
 ## Citation
 Full citation:
 ```{note}
