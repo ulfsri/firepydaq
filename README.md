@@ -83,9 +83,9 @@ if __name__ == "__main__":
 
 Example usage is given in the following two videos. The corresponding files and two snapshots are provided after the video for reference.
 
-![FIRepyDAQ Setup Video](docs/assets/FIREpyDAQSetup.mp4)
+![FIRepyDAQ Setup Video](docs/assets/FIREpyDAQSetup.gif)
 
-![FIREpyDAQ Acquisition Video](docs/assets/FIREpyDAQAcqDash.mp4)
+![FIREpyDAQ Acquisition Video](docs/assets/FIREpyDAQAcqDash.gif)
 
 ### Config and Formulae file
 
