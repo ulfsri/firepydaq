@@ -55,7 +55,14 @@ if __name__ == "__main__":
 ```
 
 ## Citation
+Full citation:
+```{note}
 
+Chaudhari, D. M., Mishra, A., (2024). Facilitated interface for recording experiments - a python-based data acquisition program. In Github Repository. Fire Safety Research Institute, UL Research Institutes; Github. https://github.com/ulfsri/firepydaq
+
+```
+
+Bib:
 ```
 @misc{firepydaq,
 title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},

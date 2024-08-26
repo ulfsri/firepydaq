@@ -139,7 +139,7 @@ class PostProcessData():
             A dictionary that maps the label (or LHS) for which an error
             was encountered while parsing
             the formulae to the corresponding error.
-            Errors are also logged in `Errorlog_formulae.log` file,
+            Errors are also logged in `Formulae.log` file,
             which is created in the working directory
         """
         self.Formulae_dict = Formulae_dict
@@ -395,6 +395,6 @@ class PostProcessData():
                     skip_processing = True
 
         if self.Errors != []:
-            with open('Errorlog_formulae.log', 'w') as f:
+            with open('Formulae.log', 'w') as f:
                 for key, error_item in self.Errors.items():
                     f.write(key[0] + " : " + key[1] + " :: " + error_item + '\n')  # noqa E501

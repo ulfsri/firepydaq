@@ -319,7 +319,6 @@ class MainMenu(QMenuBar):
                 self.parent.main_layout.setStretch(1, 1.5)
                 self.parent.device_arr[dev_name] = alicat_mfc(self.parent, self.parent.device_tab_widget, dev_name)  # noqa E501
                 self.parent.mfcs[dev_name] = self.parent.device_arr[dev_name]
-                print(self.parent.device_arr[dev_name])
 
         elif len(self.parent.mfcs) < 4:
             dlg_dev_name = DeviceNameDialog("Add MFC")
