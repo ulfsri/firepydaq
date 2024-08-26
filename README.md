@@ -107,7 +107,7 @@ Example of Acquisition interface during acquisition:
 ![Acquisition](docs/assets/Acquisition/Acquisition.png)
 
 Example of how the dashboard looks like during acquisition:
-![Dashboard](docs/assets/Dashboard/12.png)
+![Dashboard](docs/assets/Acquisition/12.png)
 
 ## Contributing
 
