@@ -73,7 +73,7 @@ The Options under the File Menu enables loading settings from a `.json` file (re
 
 In order to Save Settings, click on `Save DAQ Configuration` under the `File` menu. 
 ```{image} assets/Acquisition/5.png
-:width: 700px
+:width: 400px
 :align: center
 :alt: SaveMenuButton
 ```
@@ -109,13 +109,11 @@ For more information and concerns about the application, visit the `Help menu` t
 
 After configuring the desired settings, click on `Begin Acquisition` to establish connection with the NI System or other added devices and create AO/AI tasks. The notifications panel will indicate if the acquisition process has begun or run into any faults. 
 
-```{image} assets/Acquisition/10.png
+```{image} assets/Acquisition/Acquisition.png
 :width: 700px
 :align: center
 :alt: AcqSave
 ```
-
-**todo: change this image to show save paths for these two types**
 
 Once acquisition begins safely, the `Save Button` is enabled and on clicking it, the data collected is saved. There are two ways in which the file path where the data is saved is created, 
 
