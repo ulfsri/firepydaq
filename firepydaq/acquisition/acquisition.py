@@ -1151,7 +1151,6 @@ class application(QMainWindow):
                     self.pl_schema_dict[col] = pl.Float32
                 else:
                     self.pl_schema_dict[col] = pl.String
-            print(self.pl_schema_dict)
 
             if self.dashboard:
                 firepydaq_logger.info("Dash app Process initiated after saving initiations")  # noqa: E501

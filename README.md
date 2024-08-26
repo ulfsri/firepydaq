@@ -24,7 +24,7 @@
 ![Coverage](tests/coverage.svg)
 </div>
 
-# firepydaq
+# FIREpyDAQ
 
 FIREpyDAQ is a python based Facilitated Interface for Recording Experiments (FIRE), for devices that are generally used for data acquisition in engineering research. The device list and general requirements are given below.
 
@@ -46,9 +46,9 @@ This interface can be used for three types of devices simultaneously,
 
 ## Usage
 
-**A brief usage is provided below. Please refer to the documentation for additional details.**
+**Please refer to the documentation for additional details.**
 
-`firepydaq` can be used to compile PyQT based user interface.
+`firepydaq` can be compiled by using one of the following scripts.
 
 ```python
 # On Windows: Protect your script from importing child processes
@@ -79,20 +79,37 @@ if __name__ == "__main__":
 	sys.exit(app.exec())
 ```
 
-Example of how Acquisition interface looks like:
-![Acquisition Setup](docs/assets/Acquisition/SetUp1.png)
+### Interface
+
+Example usage is given in the following two videos. The corresponding files and two snapshots are provided after the video for reference.
+
+- FIREpyDAQ Setup
+![FIREpyDAQ Setup Video](docs/assets/FIREpyDAQSetup.gif)
+
+- FIREpyDAQ Acquisition and Dashboard
+![FIREpyDAQ Acquisition Video](docs/assets/FIREpyDAQAcqDash.gif)
+
+### Config and Formulae file
 
 Example of NI config that is required to set-up the acquisition. You can formulate your own config file. You can use the `NISYSCheck.py` utility to get information of the connected NI device.
-![ConfigExample](docs/assets/Setup/ConfigExample.png)
+
+|**\#**| **Panel** | **Device** | **Channel** | **ScaleMax** | **ScaleMin** | **Label** | **Type**     | **TCType**   | **Chart** | **AIRangeMin** | **AIRangeMax** | **Layout** | **Position** | **Processed\_Unit** | **Legend** |
+|-----------|------------|-------------|--------------|--------------|-----------|--------------|--------------|-----------|----------------|----------------|------------|--------------|--------------------|------------|--------------|
+| 0         | 1          | cDAQ1Mod1   | ai0          | 1            | 1         | Temperature1 | Thermocouple | K         | Temperature    | 1              | 1          | 2            | 1                  | C          | Temperature1 |
+| 1         | 1          | cDAQ1Mod1   | ai2          | 1            | 1         | Temperature2 | Thermocouple | K         | Temperature    | 1              | 1          | 2            | 1                  | C          | Temperature2 |
+| 2         | 1          | cDAQ1Mod3   | ai0          | 1            | 0         | Voltage1     | Voltage      | NA        | V1             | 0              | 1          | 1            | 1                  | V          | Open V1      |
+| 3         | 1          | cDAQ1Mod3   | ai2          | 1            | 0         | Voltage2     | Voltage      | NA        | None           | 0              | 1          | 1            | 1                  | C          | Open V2      |
+
 
 Example of Formulae file that is used to post-process data is display in dashboard is selected.
-![ConfigExample](docs/assets/Setup/FormulaeExample.png)
 
-Example of Acquisition interface during acquisition:
-![Acquisition](docs/assets/Acquisition/16.png)
-
-Example of how the dashboard looks like during acquisition:
-![Dashboard](docs/assets/Dashboard/Dashboard2.png)
+| **Label** | **RHS**                            | **Chart**       | **Legend**      | **Layout** | **Position** | **Processed\_Unit** |
+|-----------|------------------------------------|-----------------|-----------------|------------|--------------|--------------------|
+| TF_mult   | 9/5                                | None            | TF_mult         | 1          | 1            | -                  |
+| TF_offset | 32                                 | Constant        | TF_mult         | 1          | 1            | -                  |
+| Temp_F    | (Temperature1)*TF_mult + TF_offset | Temperature     | Fahrenheit temp | 2          | 2            | F                  |
+| T_mean    | (Temperature1 + Temperature2)/2    | Mean Temperture | Mean Temp       | 1          | 1            | C                  |
+| V_mA      | Voltage1/1000                      | V1 (mV)         | Volts           | 1          | 1            | mA                 |
 
 ## Contributing
 
@@ -117,6 +134,14 @@ of the GNU General Public license, v.3.0.
 
 ## Citation
 
+Full citation:
+```{note}
+
+Chaudhari, D. M., Mishra, A., (2024). Facilitated interface for recording experiments - a python-based data acquisition program. In Github Repository. Fire Safety Research Institute, UL Research Institutes; Github. https://github.com/ulfsri/firepydaq
+
+```
+
+Bib:
 ```
 @misc{firepydaq,
 title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},

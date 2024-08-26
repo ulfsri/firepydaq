@@ -25,6 +25,7 @@ class EchoController:
             gas : str, optional
                 Default: 'N2'
                 Gas set for the connected Alicat.
+
         """
         time.sleep(0.1)
         self.flow_controller = FlowController(Com_port)
@@ -53,7 +54,7 @@ class EchoController:
         -------
         A dictionary type object
 
-                {
+        {
                 'setpoint': float (mass or pressure),
                 'control_point':'flow' or 'pressure',
                 'gas':str,
@@ -62,12 +63,14 @@ class EchoController:
                 'temperature': float (usually C),
                 'total_flow': float (Optional only for totalizer),
                 'volumetric_flow': float (units specified during purchase)
-                }
+        }
+
         """
         return await self.flow_controller.get()
 
     async def get_until_true(self, run_for=0, read_boolean=True, flow_rate=0):
         """ Method to run Alicat MFC for a set duration
+
         Parameters
         ----------
             run_for: int
@@ -86,6 +89,7 @@ class EchoController:
             all_vals : pandas DataFrame
                 Dataframe containing all acquired values
                 during `run_for` seconds.
+
         """
         self.run_for = run_for
         self.get_vals = read_boolean
@@ -143,6 +147,7 @@ class EchoMeter:
             gas : str, optional
                 Default: 'N2'
                 Gas set for the connected Alicat.
+
         """
         time.sleep(0.1)
         self.flow_meter = FlowMeter(Com_port)
@@ -176,6 +181,7 @@ class EchoMeter:
             all_vals : pandas DataFrame
                 Dataframe containing all acquired values
                 during `run_for` seconds.
+
         """
         self.run_for = run_for
         self.get_vals = read_boolean

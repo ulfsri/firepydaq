@@ -23,7 +23,7 @@ This interface can be used for three types of devices simultaneously,
 ```
 ## Usage
 
-`firepydaq` can be used to compile PyQT based user interface.
+`firepydaq` can be compiled by using one of the following scripts. A video showing the usage is provided on [Github](https://github.com/ulfsri/firepydaq).
 
 ```python
 # On Windows: Protect your script from importing child processes
@@ -54,8 +54,21 @@ if __name__ == "__main__":
   sys.exit(app.exec())
 ```
 
-## Citation
+Example of Acquisition interface during acquisition:
+![Acquisition](assets/Acquisition/Acquisition.png)
 
+Example of how the dashboard looks like during acquisition:
+![Dashboard](assets/Acquisition/12.png)
+
+## Citation
+Full citation:
+```{note}
+
+Chaudhari, D. M., Mishra, A., (2024). Facilitated interface for recording experiments - a python-based data acquisition program. In Github Repository. Fire Safety Research Institute, UL Research Institutes; Github. https://github.com/ulfsri/firepydaq
+
+```
+
+Bib:
 ```
 @misc{firepydaq,
 title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},

@@ -29,7 +29,7 @@ COV_BADGE = coverage-badge
 
 .PHONY: coverage
 coverage:
-	$(RUN_COV) -m pytest -x tests
+	$(RUN_COV) -m pytest -s -v -x tests
 	$(COVERAGE) report
 	$(COV_BADGE) -o tests/coverage.svg -f
 
