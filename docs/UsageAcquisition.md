@@ -129,7 +129,7 @@ Collected Data are always saved every second. This is done so that the data loss
 ```
 
 ```{hint}
-For reference, 100 channel acquisition (50 thermocouples, 50 voltages) at 5 Hz on a PXIe-1088 device (8 GB RAM, 2.64 GHz processor) runs into memory issues after about one hour of continuous acquisition and saving. 
+For reference, 100 channel acquisition (50 thermocouples, 50 voltages) at 5 Hz on a PXIe-1088 device (8 GB RAM, 2.8 GHz processor) runs into memory issues after about one hour of continuous acquisition and saving. 
 ```
 
 ### Data visualizer
