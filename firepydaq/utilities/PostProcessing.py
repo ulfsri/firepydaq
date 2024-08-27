@@ -155,6 +155,7 @@ class PostProcessData():
         :meta private:
         '''
         if len(self.path_dict.keys()) == 3:
+
             self.ParseFormulae()
         return
 
@@ -343,13 +344,17 @@ class PostProcessData():
                     self.ExecEqn(lhs, rhs)
                     continue
                 unique_vars = pl.Series(vars).unique()
+                dict_replacements = []
                 for var in unique_vars:
                     if any([var in i for i in self.Formulae_dict.keys()]):
+                        dict_replacements.append(var)
                         continue
                     if var in locals():
                         # Checking for Constants and Intermediates
                         continue
                     elif var not in locals() and hasattr(self, var):
+                        # Replace already used var with
+                        # corresponding object attribute
                         rhs = self._CheckVarMacthes(var, rhs, 'getattr(self,\"' + var + '\")')  # noqa E501
                         continue
                     try:
@@ -368,9 +373,9 @@ class PostProcessData():
                         if not (lhs, err_val) in self.Errors:
                             self.Errors[(lhs, err_val)] = str(the_type)
                         skip_processing = True
-                for i in self.Formulae_dict.keys():
+                for i in dict_replacements:
                     # final replacement of formulae
-                    # to python parseable functions
+                    # to python parse-able functions
                     if i in rhs:
                         rhs = self._CheckVarMacthes(i, rhs, self.Formulae_dict[i])  # noqa E501
                 eqn = lhs + '=' + rhs
@@ -394,7 +399,7 @@ class PostProcessData():
                         self.Errors[(lhs, err_val)] = str(the_type)
                     skip_processing = True
 
-        if self.Errors != []:
-            with open('Formulae.log', 'w') as f:
+        if self.Errors:
+            with open('FormulaeError.log', 'w') as f:
                 for key, error_item in self.Errors.items():
                     f.write(key[0] + " : " + key[1] + " :: " + error_item + '\n')  # noqa E501

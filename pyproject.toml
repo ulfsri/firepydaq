@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "firepydaq"
-version = "0.0.21"
+version = "0.1.0"
 description = "A user-interface to read data during experiments"
 authors = ["Dushyant Chaudhari <dush.chaudhari@gmail.com>"]
 license = "GNU General Public v3"
@@ -37,8 +37,9 @@ pytest-qt = "^4.4.0"
 [tool.poetry.group.dev.dependencies]
 myst-nb = {version = "^1.1.1", python = "^3.9"}
 sphinx-autoapi = "^3.1.2"
-sphinx-rtd-theme = "^2.0.0"
-jupyter = "^1.0.0"
+furo = "^2024.8.6"
+notebook = "^7.0.0"
+sphinxext-opengraph = "^0.9.1"
 
 [build-system]
 requires = ["poetry-core"]
