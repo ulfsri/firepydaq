@@ -15,16 +15,23 @@ AlicatGases = {
 """ dict
     A dictionary that maps gasname to unicode gas names for Alicat device.
 
-    For example, 'N2': u'N\u2082'.
+    For example, 'N2': u'N\\u2082'.
 
     You can add custom gas map in this dictionary before you import
     and compile the application interface.
+
+    .. code-block:: python
+
+        from firepydaq.utilities.DAQUtils import AlicatGases
+        AlicatGases['C2H2'] = u'C\\u2082H\\u2082'
 """
 
-Formulae_dict = {"sqrt": "np.sqrt",
+Formulae_dict = {"len":"len",
+                 "min":"min",
+                 "max": "max",
+                 "sqrt": "np.sqrt",
                  "pi": "np.pi",
                  "mean": "np.mean",
-                 "max": "max",
                  "abs": "np.abs",
                  "exp": "np.exp"}
 """ dict
@@ -35,5 +42,13 @@ Formulae_dict = {"sqrt": "np.sqrt",
     `np.exp` while executing the formulae
 
     You can add a custom map to this dictionary before you import
-    and compile the application interface.
+    and compile the application interface, as shown below for 'log'.
+    Once you do this, you can use 'log' in the equations you specify
+    and the formulae parser will replace it to the corresponding
+    function you define.
+
+    .. code-block:: python
+    
+        from firepydaq.utilities.DAQUtils import Formulae_dict
+        Formulae_dict['log'] = 'np.log10'
 """

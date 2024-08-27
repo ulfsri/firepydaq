@@ -33,7 +33,7 @@ def single_json_check(jsonpath: str):
     plot_collected(testing)
 
 
-def donttest_json(monkeypatch):
+def test_json(monkeypatch):
     monkeypatch.setattr(plt, 'show', lambda: None)
     single_json_check(jsonpath=pytest.jsonpath)
     assert True
@@ -70,4 +70,6 @@ def test_formulae_parser():
 if __name__ == "__main__":
     import os
     user_specific_path = os.getcwd()
-    single_json_check(user_specific_path + os.sep + pytest.jsonpath)
+    jsonpath = 'tests/Example_ExpData/20240612_1717_ExampleFireData_Testing_Dushyant.json'  # noqa E501
+    single_json_check(user_specific_path + os.sep + jsonpath)
+    plt.show()

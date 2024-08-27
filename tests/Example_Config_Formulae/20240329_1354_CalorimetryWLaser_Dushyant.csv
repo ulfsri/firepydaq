@@ -1,4 +1,4 @@
-,Panel,Device,Channel,ScaleMax,ScaleMin,Label,Type,Chart,AIRangeMin,AIRangeMax,Layout,Position,Processed_Unit,Legend, TCType
+#,Panel,Device,Channel,ScaleMax,ScaleMin,Label,Type,Chart,AIRangeMin,AIRangeMax,Layout,Position,Processed_Unit,Legend, TCType
 0,1,cDAQ9185-21CD48CMod2,ai0,100,0,AmbHum,Voltage,PTH,1,5,3,1,%,Amb. Humidity, NA
 1,1,cDAQ9185-21CD48CMod2,ai1,120,-20,AmbTemp,Voltage,PTH,1,5,3,2,C,Amb. Temp, NA
 2,1,cDAQ9185-21CD48CMod2,ai2,1100,750,AmbPress,Voltage,PTH,1,5,3,3,Pa,Amb. Pressure, NA
