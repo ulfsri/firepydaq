@@ -4,7 +4,7 @@ polars==1.1.0
 myst-nb ==1.1.1
 sphinx-autoapi ==3.1.2
 furo == 2024.8.6
-notebook == 7.0.0
+notebook == 7.0.7
 sphinxext-opengraph == 0.9.1
 sphinxcontrib-googleanalytics==0.4
 sphinx-jsonschema == 1.19.1

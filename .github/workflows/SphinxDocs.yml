@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.repository_owner == 'ulfsri' && github.ref == 'refs/heads/main'}}
+    if: ${{ github.repository_owner == 'ulfsri' && github.ref_name == 'main' }}
     permissions:
       contents: write
     runs-on: ${{ matrix.os }}
@@ -49,16 +49,8 @@ jobs:
     - name: Build HTML
       run: |
         sphinx-build docs docs/_build
-      # uses: ammaraskar/sphinx-action@0.4
-      # with:
-      #   docs-folder: "docs/"
-    # - name: Upload artifacts
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: html-docs
-    #     path: docs/_build
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/_build/
