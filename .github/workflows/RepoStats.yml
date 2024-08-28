@@ -4,7 +4,7 @@ on:
   schedule:
     # Run this once per day, towards the end of the day for keeping the most
     # recent data point most meaningful (hours are interpreted in UTC).
-    - cron: "0 23 * * *"
+    - cron: "0 23 * * 6"
   workflow_dispatch: # Allow for running this manually.
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
           # stats for and to generate the report for).
           # Remove the parameter when the stats repository
           # and the data repository are the same.
-          repository: dushyant-fire/firepydaq
+          repository: ulfsri/firepydaq
           databranch: firepydaq-stats
           # Set a GitHub API token that can read the GitHub
           # repository traffic API for the stats repository,
