@@ -12,15 +12,14 @@
 
 <!-- Workflows -->
 [![Pytest](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
-[![.github/workflows/BuildDists.yml](https://github.com/ulfsri/firepydaq/actions/workflows/BuildDists.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/BuildDists.yml)
-
+![Coverage](tests/coverage.svg)
 
 <!-- Followers and usage -->
 ![GitHub forks](https://img.shields.io/github/forks/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
 ![GitHub watchers](https://img.shields.io/github/watchers/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ulfsri/firepydaq?style=flat-square&labelColor=brown&color=green)
-![Coverage](tests/coverage.svg)
+
 </div>
 
 # FIREpyDAQ
