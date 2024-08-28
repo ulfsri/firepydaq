@@ -9,7 +9,7 @@ jobs:
   build:
     name: Build distribution 📦
     runs-on: windows-latest
-    if: ${{ github.repository_owner == 'ulfsri' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'ulfsri'}}
     steps:
     - name: Set env
       shell: bash
@@ -59,7 +59,7 @@ jobs:
   publish-to-pypi:
     name: >-
       Publish Python 🐍 distribution 📦 to PyPI
-    if: ${{ github.repository_owner == 'ulfsri' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'ulfsri'}}
     needs:
     - build
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
     name: >-
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release :octocat:
-    if: ${{ github.repository_owner == 'ulfsri' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'ulfsri'}}
     needs:
     - publish-to-pypi
     runs-on: ubuntu-latest
