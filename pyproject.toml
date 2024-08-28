@@ -38,7 +38,7 @@ pytest-qt = "^4.4.0"
 myst-nb = {version = "^1.1.1", python = "^3.9"}
 sphinx-autoapi = "^3.1.2"
 furo = "^2024.8.6"
-notebook = "^7.0.0"
+notebook = "^7.0.7"
 sphinxext-opengraph = "^0.9.1"
 sphinxcontrib-googleanalytics="^0.4"
 sphinx-jsonschema = "^1.19.1"
