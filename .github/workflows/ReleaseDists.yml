@@ -105,7 +105,7 @@ jobs:
     - name: Release Assets
       uses: softprops/action-gh-release@v2
       with:
-        name: ${{ env.RELEASE_VERSION }}
+        name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
         draft: true
         prerelease: false
         body_path: LatestChange.md
