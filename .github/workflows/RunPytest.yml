@@ -1,12 +1,14 @@
 name: Pytest 🧪
 
 on:
-  branches:
-    - dev
   push:
+    branches:
+      - dev
     tags:
       - '*'
   pull_request:
+    branches:
+      - dev
 
 jobs:
   build:
