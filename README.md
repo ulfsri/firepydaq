@@ -165,5 +165,5 @@ Thanks to the following community guidelines which were immensely helpful while 
 - <a href="https://packaging.python.org/en/latest/" target="_blank">Python packaging guide</a>
 - <a href="https://www.pythonguis.com/pyside6/" target="_blank">PythonGUIs, by Martin FitzPatrick</a>
 
-Additionally, the contributors are grateful for the support from [Fire Safety Research Institute](fsri.org), a part of [UL Research Institutes](ul.org), for this project.
+Additionally, the contributors are grateful for the support from [Fire Safety Research Institute](https://fsri.org/?utm_source=sphinx-documentation&utm_medium=direct&utm_campaign=FIREpyDAQ-public-launch), a part of [UL Research Institutes](https://ul.org/?utm_source=sphinx-documentation&utm_medium=direct&utm_campaign=FIREpyDAQ-public-launch), for this project.
 
