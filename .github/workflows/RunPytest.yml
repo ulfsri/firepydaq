@@ -1,6 +1,8 @@
 name: Pytest 🧪
 
 on:
+  branches:
+    - dev
   push:
     tags:
       - '*'

@@ -1,6 +1,8 @@
 name: Publish to PyPI 🐍 and Github
 
 on: 
+  branches:
+    - main
   push:
     tags:
       - '*'
