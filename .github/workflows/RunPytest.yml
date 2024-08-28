@@ -3,7 +3,7 @@ name: Pytest 🧪
 on:
   push:
     branches:
-      - dev
+      - main
   pull_request:
     branches:
       - dev
@@ -44,7 +44,3 @@ jobs:
     - name: Generate Coverage Report  
       run: |
         coverage report -m
-    # Can be added later once the code and documentation is resolved. 
-    # - name: Lint with flake8
-    #   run: |
-    #     flake8 --exclude _version.py .

@@ -2,8 +2,6 @@ name: Render Sphinx docs 📖
 
 on: 
   push:
-    branches:
-      - main
     paths:
       - docs/**
       - AUTHORS.md
@@ -13,8 +11,6 @@ on:
   pull_request:
     types:
       - closed
-    branches:
-      - main
     paths: 
       - docs/**
       - AUTHORS.md
