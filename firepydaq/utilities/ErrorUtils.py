@@ -51,7 +51,7 @@ def setup_logger(name, logfile, formatter, stream_handler=False, level=logging.D
 formatter = logging.Formatter('%(asctime)s - %(levelname)s -> %(message)s\n')
 # Generate the log object
 cwd = os.getcwd()
-fullLogPath = cwd+os.sep+'FIREyDAQ.log'
+fullLogPath = cwd+os.sep+'FIREpyDAQ.log'
 if os.path.exists(fullLogPath):
     os.remove(fullLogPath)
 firepydaq_logger = setup_logger('firepydaq_logger', fullLogPath, formatter)
