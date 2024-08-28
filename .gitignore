@@ -1,0 +1,67 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Jupyter related
+.ipynb_checkpoints/
+
+**/__pycache__/
+
+# tests and coverage related
+.coverage
+
+# Sphinx documentation
+docs/_build/
+jupyter_execute/
+
+# FIREpyDAQ specific #
+######################
+# parquet generated during testing
+*.parquet
+dist/
+build/
+Experiment/
+Calibration/
+*.log
+*.html
+*.txt
+
+# Paper #
+#########
+jats/
+Paper/*.pdf
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Latex generated files #
+######################
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*__latexindent_temp.tex
+*.bcf
+*.run.xml
+*.lua
+_markdown*/
+Guide/*.pdf

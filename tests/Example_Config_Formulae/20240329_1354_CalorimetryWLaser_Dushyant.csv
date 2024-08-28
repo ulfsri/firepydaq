@@ -1,0 +1,16 @@
+#,Panel,Device,Channel,ScaleMax,ScaleMin,Label,Type,Chart,AIRangeMin,AIRangeMax,Layout,Position,Processed_Unit,Legend, TCType
+0,1,cDAQ9185-21CD48CMod2,ai0,100,0,AmbHum,Voltage,PTH,1,5,3,1,%,Amb. Humidity, NA
+1,1,cDAQ9185-21CD48CMod2,ai1,120,-20,AmbTemp,Voltage,PTH,1,5,3,2,C,Amb. Temp, NA
+2,1,cDAQ9185-21CD48CMod2,ai2,1100,750,AmbPress,Voltage,PTH,1,5,3,3,Pa,Amb. Pressure, NA
+11,1,cDAQ9185-21CD48CMod3,ai0,1,0,DuctTC1,Thermocouple,DuctTC,0,1000,2,1,C,TC1, K
+12,1,cDAQ9185-21CD48CMod3,ai1,1,0,DuctTC2,Thermocouple,DuctTC,0,1000,2,1,C,TC2, K
+12,1,cDAQ9185-21CD48CMod3,ai2,1,0,DuctTC3,Thermocouple,DuctTC,0,1000,2,1,C,TC3, K
+13,1,cDAQ9185-21CD48CMod2,ai7,124.42,0,dPDuctDwyer,Voltage,dPDuct,0.9788,4.894,1,1,Pa,Local duct dP, NA
+14,1,cDAQ9185-21CD48CMod2,ai3,248.84,0,dPDuctAvg,Voltage,dPDuct,0.9788,4.894,1,1,Pa,Avg duct dP, NA
+15,1,cDAQ9185-21CD48CMod2,ai4,0.25,0,DuctO2,Voltage,DuctGas,0,5,3,1,-,Duct O2, NA
+16,1,cDAQ9185-21CD48CMod2,ai5,0.25,0,DuctCO2,Voltage,DuctGas,0,5,3,2,-,Duct CO2, NA
+17,1,cDAQ9185-21CD48CMod2,ai6,0.05,0,DuctCO,Voltage,DuctGas,0,5,3,3,-,Duct CO, NA
+10,1,cDAQ9185-21CD48CMod3,ai3,1,0,IgnTC,Thermocouple,IgnTC,0,1000,1,1,C,Ignition TC, K
+13,1,cDAQ9185-21CD48CMod2,ai8,10,0,LaserRef,Voltage,Laser,0,10,1,1,V,Laser Ref., NA
+14,1,cDAQ9185-21CD48CMod2,ai9,10,0,LaserSig,Voltage,Laser,0,10,1,1,V,Laser Sig., NA
+14,1,cDAQ9185-21CD48CMod2,ai10,1,0,O2Hum,Voltage,O2Hum,0,1,1,1,-,O2 Hummingbird, NA

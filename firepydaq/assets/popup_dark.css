@@ -1,0 +1,118 @@
+QMessageBox {
+    background-color: #232323;
+    color: rgb(202, 195, 195)
+}
+
+QMessageBox QPushButton {
+    padding: 2px;
+    border-style: solid;
+    border: 1px solid #106099;
+    color: rgb(202, 195, 195);
+    border-radius: 5px;
+    background-color: #106099;
+}
+
+QMessageBox QPushButton:hover {
+    padding: 2px;
+    border-style: solid;
+    border: 1px solid #053262;
+    color: silver;
+    border-radius: 5px;
+    background-color: #053262;
+}
+
+
+
+QMessageBox QLabel {
+    background-color: #232323;
+    color: rgb(202, 195, 195)
+}
+
+QDialog {
+    background-color: #232323;
+    color: rgb(202, 195, 195)
+}
+
+QDialog QPushButton {
+    padding: 2px;
+    border-style: solid;
+    border: 1px solid #106099;
+    color: rgb(202, 195, 195);
+    border-radius: 5px;
+    background-color: #106099;
+}
+
+QDialog QPushButton:hover {
+    padding: 2px;
+    border-style: solid;
+    border: 1px solid #053262;
+    color: silver;
+    border-radius: 5px;
+    background-color: #053262;
+}
+
+QDialog QLineEdit {
+    background-color: #181818;
+    padding: 2px;
+    border-style: solid;
+    border: 0.5px solid  #181818;
+    border-radius: 5px;
+    color:  rgb(202, 195, 195);
+}
+
+QDialog QLabel {
+    color:  rgb(202, 195, 195);
+}
+
+QDialog QLineEdit:selected {
+    border: 2px solid #106099;
+}
+
+QDialog QLineEdit:hover {
+    border: 1px solid #106099;
+}
+
+
+
+QDialog QComboBox
+{
+    background-color: #181818;
+    padding: 2px;
+    border-style: solid;
+    border: 0.5px solid  #181818;
+    border-radius: 5px;
+    color:  rgb(202, 195, 195);
+}
+
+QDialog QComboBox:on
+{
+    background-color: #181818;
+    padding-top: 5px;
+    padding-left: 3px;
+    selection-background-color: #106099;
+}
+
+QDialog QComboBox QAbstractItemView {
+    border: 2px solid transparent;
+    padding: 3px;
+    border-radius: 4px;
+    background-color: #181818;
+    color: rgb(202, 195, 195);
+    selection-background-color: #106099;
+}
+
+QDialog QComboBox::drop-down
+{
+    background-color: #181818;
+    width: 15px;
+    border-radius: 4px;
+    border-left-width: 0px;
+    selection-background-color: #106099;
+    border-left-color: transparent;
+    border-left-style: solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+
+
