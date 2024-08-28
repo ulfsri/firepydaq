@@ -80,3 +80,7 @@ journal = {Github Repository},
 year = {2024}
 }
 ```
+
+# Acknowledgement
+
+The contributors are grateful to the [Fire Safety Research Institute](https://fsri.org), part of [UL Research Institute](https://ulri.org), for supporting the development of this package.

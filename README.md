@@ -12,7 +12,6 @@
 
 <!-- Workflows -->
 [![Pytest](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
-[![Exe Release](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml/badge.svg)](https://github.com/ulfsri/firepydaq/actions/workflows/MakeExe.yml)
 [![.github/workflows/BuildDists.yml](https://github.com/ulfsri/firepydaq/actions/workflows/BuildDists.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/BuildDists.yml)
 
 

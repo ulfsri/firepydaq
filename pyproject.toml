@@ -40,6 +40,8 @@ sphinx-autoapi = "^3.1.2"
 furo = "^2024.8.6"
 notebook = "^7.0.0"
 sphinxext-opengraph = "^0.9.1"
+sphinxcontrib-googleanalytics="^0.4"
+sphinx-jsonschema = "^1.19.1"
 
 [build-system]
 requires = ["poetry-core"]

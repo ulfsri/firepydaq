@@ -7,7 +7,7 @@ This is an example of how to use the acquisition application to collect data fro
 
 To run the application, paste the following lines of code in an empty python file: 
 
-```
+```python
 if __name__ == "__main__":
     from firepydaq.FIREpyDAQ_Acquisition import FIREpyDAQ_Acquisition
     FIREpyDAQ_Acquisition()
