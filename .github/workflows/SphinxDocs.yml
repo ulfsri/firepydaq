@@ -11,6 +11,8 @@ on:
       - CHANGELOG.md
       - CONDUCT.md
   pull_request:
+    types:
+      - closed
     branches:
       - main
     paths: 
