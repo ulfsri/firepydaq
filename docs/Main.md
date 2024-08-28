@@ -83,4 +83,4 @@ year = {2024}
 
 # Acknowledgement
 
-The contributors are grateful to the [Fire Safety Research Institute](https://fsri.org), part of [UL Research Institute](https://ulri.org), for supporting the development of this package.
+The contributors are grateful to the [Fire Safety Research Institute](https://fsri.org/?utm_source=sphinx-documentation&utm_medium=direct&utm_campaign=FIREpyDAQ-public-launch), part of [UL Research Institute](https://ul.org/?utm_source=sphinx-documentation&utm_medium=direct&utm_campaign=FIREpyDAQ-public-launch), for supporting the development of this package.
