@@ -2,8 +2,8 @@ name: Pytest 🧪
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - firepydaq/**
   pull_request:
     branches:
       - dev
