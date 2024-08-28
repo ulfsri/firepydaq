@@ -2,13 +2,27 @@ name: Render Sphinx docs 📖
 
 on: 
   push:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - AUTHORS.md
+      - CONTRIBUTING.md
+      - CHANGELOG.md
+      - CONDUCT.md
   pull_request:
-    types:
-      - closed
+    branches:
+      - main
+    paths: 
+      - docs/**
+      - AUTHORS.md
+      - CONTRIBUTING.md
+      - CHANGELOG.md
+      - CONDUCT.md
 
 jobs:
   build:
-    if: ${{ contains(github.event.head_commit.message, 'update docs') && github.repository_owner == 'ulfsri'}}
+    if: ${{ github.repository_owner == 'ulfsri' }}
     permissions:
       contents: write
     runs-on: ${{ matrix.os }}

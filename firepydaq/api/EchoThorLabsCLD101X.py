@@ -1,3 +1,22 @@
+##########################################################################
+# FIREpyDAQ - Facilitated Interface for Recording Experiments,
+# a python-package for Data Acquisition.
+# Copyright (C) 2024  Dushyant M. Chaudhari
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#########################################################################
+
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -30,6 +49,7 @@ class EchoThor(object):
         port: str
             COM port for the device.
             Example `COM1` on Windows
+
         '''
         self.port = port
         self.ThorCLD = self.rm.open_resource(self.port)
@@ -51,6 +71,7 @@ class EchoThor(object):
                 Temp in C
             Amp_Lim: float
                 Current in mA
+
         '''
         self.ThorCLD.write("Source2:CURRent:AMPLitude "+str(Amp_Lim))
         self.ThorCLD.write("Source2:TEMPerature:LIMit:UPPer "+str(Temp_HI))
@@ -67,6 +88,7 @@ class EchoThor(object):
                 Default: [8.0, 3.7, 3.2]
             Osc_Period : float
                 Oscillation period in seconds
+
         '''
         self.ThorCLD.write("Source2:TEMPerature:LCONstants:GAIN "+str(PID_values[0]))  # noqa #501
         time.sleep(0.2)
@@ -98,7 +120,8 @@ class EchoThor(object):
 
     def set_TECPID(self, Proportional: float, Integral: float, Derivative: float, Osc: str):
         """ Writes controller PID values
-            takes in P I D, and Osc period in order as float type values """
+            takes in P I D, and Osc period in order as float type values
+        """
         print("Previous PID:    " + str(self.read_TECPID()))
         self.TEC_SetPID(PID_values=[Proportional, Integral, Derivative], Osc_Period=Osc)
         time.sleep(1)
@@ -181,7 +204,8 @@ class EchoThor(object):
         return self.ThorCLD.write("OUTPut1:STATe?")
 
     def close(self):
-        """Closes serial connection with controller """
+        """Closes serial connection with controller
+        """
         if float(self.GetLaserCurrent()) > 0:
             self.UpdateLaserCurrent(0.0)
             time.sleep(0.5)

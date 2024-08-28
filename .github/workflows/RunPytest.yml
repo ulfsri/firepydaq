@@ -38,7 +38,7 @@ jobs:
         pip freeze
     - name: Test with pytest
       run: |
-        coverage run --source=firepydaq --omit=*NIConfig*,*form*,*app*,*Echo*,*NISYS*,*Notification* -m pytest -x tests
+        coverage run --source=firepydaq --omit=*NIConfig*,*app*,*Echo*,*NISYS* -m pytest -x tests
     - name: Generate Coverage Report  
       run: |
         coverage report -m

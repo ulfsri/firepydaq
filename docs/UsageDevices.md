@@ -44,11 +44,11 @@ Connection to All MFCs need to be established before acquisition can begin.
 ````
 
 ```{note}
-Currently, acquisition with alicat device is only supported if acquisitoin from an NI device is setup.
+Currently, acquisition with Alicat device is only supported if acquisitoin from an NI device is setup.
 ```
 
 ```{warning}
-MFC device communication could be slower communication with NI devices and could result in data loss above 5Hz NI acquisition. This will be addressed in the next release.
+MFC device communication could be slower communication with NI devices and could result in data loss above 5Hz NI acquisition. 
 ```
 (MFMs)=
 ### Mass Flow Meter (MFM)
@@ -75,7 +75,7 @@ This feature has not been tested entirely on an Alicat MFM device and the data i
 
 The ThorLabsCLD101X device will show a pane as seen in the figure below. You can select the COM port for the device and establish connection. The P, I, D, and the oscillation period values will be updated to the current values on the device. The placeholder values shown here are not used to set the PID and oscillation period values.
 
-The Set TEC tempreature button is only enabled if the connection is established succesfully. 
+The Set TEC temperature button is only enabled if the connection is established succesfully. 
 
 The Set Laser output button is only enabled if the TEC is on.
 
@@ -90,5 +90,5 @@ There is currently no acquisition of any data setup for this device during acqui
 ```
 
 ```{warning}
-This feature has not been tested entirely on the CLD101X device.
+This feature may require additional testing on the CLD101X device.
 ```

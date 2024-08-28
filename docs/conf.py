@@ -6,11 +6,13 @@ github_repo_name = "firepydaq"  # auto-detected from dirname if blank
 github_version = "main"
 
 extensions = [
+    "sphinx-jsonschema",
     "myst_nb",
     "autoapi.extension",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "sphinxext.opengraph"
+    "sphinxext.opengraph",
+    "sphinxcontrib.googleanalytics",
 ]
 autoapi_dirs = ["../firepydaq"]  # location to parse for API reference
 html_theme = "furo" #"sphinx_rtd_theme"
@@ -22,6 +24,8 @@ autoapi_options = [
     "show-module-summary",
     "imported-members",
 ]
+
+googleanalytics_id = "G-XXXXXXXXX"
 
 ogp_site_url = "http://ulfsri.github.io/firepydaq"
 ogp_image = "http://ulfsri.github.io/_images/FIREpyDAQDark.png"
