@@ -2,8 +2,6 @@ name: Publish to PyPI 🐍 and Github
 
 on: 
   push:
-    branches:
-      - main
     tags:
       - '*'
 
@@ -11,7 +9,7 @@ jobs:
   build:
     name: Build distribution 📦
     runs-on: windows-latest
-    if: ${{ github.repository_owner == 'ulfsri' }}
+    if: ${{ github.repository_owner == 'ulfsri' && github.ref == 'refs/heads/main' }}
     steps:
     - name: Set env
       shell: bash

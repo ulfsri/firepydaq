@@ -24,7 +24,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.repository_owner == 'ulfsri' }}
+    if: ${{ github.repository_owner == 'ulfsri' && github.ref == 'refs/heads/main'}}
     permissions:
       contents: write
     runs-on: ${{ matrix.os }}
