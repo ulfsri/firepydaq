@@ -84,7 +84,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         name: FIREpyDAQ ${{ env.RELEASE_VERSION }}
-        draft: true
+        draft: false
         prerelease: false
         body_path: LatestChange.md
         files: |
