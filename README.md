@@ -9,6 +9,7 @@
 ![PyPI - Version](https://img.shields.io/pypi/v/firepydaq?style=flat-square&labelColor=black&color=blue)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/firepydaq?style=flat-square&labelColor=black&color=blue)
 ![GitHub License](https://img.shields.io/github/license/ulfsri/firepydaq?style=flat-square&labelColor=black&color=blue)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13486708.svg)](https://doi.org/10.5281/zenodo.13486708)
 
 <!-- Workflows -->
 [![Pytest](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml/badge.svg?branch=main)](https://github.com/ulfsri/firepydaq/actions/workflows/RunPytest.yml)
@@ -28,10 +29,19 @@ FIREpyDAQ is a python based Facilitated Interface for Recording Experiments (FIR
 
 ## Installation
 
-Using `pip`, you can install this package. `pip` will also install relevant dependencies.
+Using `pip`, you can install this package. `pip` will also install relevant dependencies. 
 
 ```bash
 $ pip install firepydaq
+```
+
+Else, you can clone this repository and use `poetry` to compile the project locally. 
+Once cloned, you can do the following to create a virtual environment using poetry.
+```bash
+# Create and Install package dependencies. 
+$ poetry install
+# To activate the virtual environment, unless the IDE you use automatically does this for you
+$ poetry shell
 ```
 ## Hardware/Communication Requirements
 
@@ -134,20 +144,17 @@ of the GNU General Public license, v.3.0.
 
 Full citation:
 ```{note}
-
-Chaudhari, D. M., Mishra, A., (2024). Facilitated interface for recording experiments - a python-based data acquisition program. In Github Repository. Fire Safety Research Institute, UL Research Institutes; Github. https://github.com/ulfsri/firepydaq
-
+Chaudhari, D. M., & Mishra, A. (2024). FIREpyDAQ: Facilitated Interface for Recording Experiments (FIRE), a python-package for Data Acquisition. (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.13486708
 ```
 
 Bib:
 ```
 @misc{firepydaq,
-title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},
-howpublished = {Fire Safety Research Institute, UL Research Institutes},
+title={FIREpyDAQ: Facilitated Interface for Recording Experiments (FIRE), a python-package for Data Acquisition. (v0.1.0)},
 url = {https://github.com/ulfsri/firepydaq},
-author = {Dushyant M. Chaudhari, Anvii Mishra},
-publisher = {Github},
-journal = {Github Repository},
+author = {Chaudhari, Dushyant M. and Mishra, Anvii},
+publisher = {Zenodo},
+doi = {10.5281/zenodo.13486708},
 year = {2024}
 }
 ```
