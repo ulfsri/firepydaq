@@ -63,20 +63,17 @@ Example of how the dashboard looks like during acquisition:
 ## Citation
 Full citation:
 ```{note}
-
-Chaudhari, D. M., Mishra, A., (2024). Facilitated interface for recording experiments - a python-based data acquisition program. In Github Repository. Fire Safety Research Institute, UL Research Institutes; Github. https://github.com/ulfsri/firepydaq
-
+Chaudhari, D. M., & Mishra, A. (2024). FIREpyDAQ: Facilitated Interface for Recording Experiments (FIRE), a python-package for Data Acquisition. (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.13486708
 ```
 
 Bib:
 ```
 @misc{firepydaq,
-title={Facilitated Interface for Recording Experiments - A python-package for data acquisition.},
-howpublished = {Fire Safety Research Institute, UL Research Institutes},
+title={FIREpyDAQ: Facilitated Interface for Recording Experiments (FIRE), a python-package for Data Acquisition. (v0.1.0)},
 url = {https://github.com/ulfsri/firepydaq},
-author = {Dushyant M. Chaudhari, Anvii Mishra},
-publisher = {Github},
-journal = {Github Repository},
+author = {Chaudhari, Dushyant M. and Mishra, Anvii},
+publisher = {Zenodo},
+doi = {10.5281/zenodo.13486708},
 year = {2024}
 }
 ```
