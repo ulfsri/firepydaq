@@ -1,5 +1,11 @@
 # Changelog
 
+## FIREpyDAQ v0.1.0.post0
+Readme changes
+
+**Primary Contributors**
+@dushyant-fire
+
 ## FIREpyDAQ v0.1.0
 **Functionalities**:
 - Reads/Writes Analog Input/Output from cDAQ and PXI NI hardware using NIDAQmx python API.
