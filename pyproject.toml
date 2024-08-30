@@ -2,7 +2,7 @@
 name = "firepydaq"
 version = "0.1.0.post0"
 description = "Facilitated Interface for Recording Experiments (FIRE), a python-based Data Acquisition package for nidaqmx, Alicat, and ThorlabsCLD101X devices."
-authors = ["Dushyant Chaudhari <dush.chaudhari@gmail.com>"]
+authors = ["Dushyant Chaudhari <dushyant.chaudhari@ul.org>"]
 license = "GNU General Public v3"
 readme = "README.md"
 
