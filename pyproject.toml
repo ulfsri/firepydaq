@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "firepydaq"
-version = "0.1.0"
-description = "A user-interface to read data during experiments"
+version = "0.1.0.post0"
+description = "Facilitated Interface for Recording Experiments (FIRE), a python-based Data Acquisition package for nidaqmx, Alicat, and ThorlabsCLD101X devices."
 authors = ["Dushyant Chaudhari <dush.chaudhari@gmail.com>"]
 license = "GNU General Public v3"
 readme = "README.md"
@@ -38,7 +38,7 @@ pytest-qt = "^4.4.0"
 myst-nb = {version = "^1.1.1", python = "^3.9"}
 sphinx-autoapi = "^3.1.2"
 furo = "^2024.8.6"
-notebook = "^7.0.7"
+notebook = "^7.2.2"
 sphinxext-opengraph = "^0.9.1"
 sphinxcontrib-googleanalytics="^0.4"
 sphinx-jsonschema = "^1.19.1"
