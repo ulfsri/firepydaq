@@ -25,7 +25,7 @@ autoapi_options = [
     "imported-members",
 ]
 
-googleanalytics_id = "G-XXXXXXXXX"
+googleanalytics_id = "G-773X2LZHRR"
 
 ogp_site_url = "http://ulfsri.github.io/firepydaq"
 ogp_image = "http://ulfsri.github.io/_images/FIREpyDAQDark.png"
