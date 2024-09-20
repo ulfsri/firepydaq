@@ -1,0 +1,17 @@
+firepydaq.api
+=============
+
+.. py:module:: firepydaq.api
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/firepydaq/api/EchoAlicat/index
+   /autoapi/firepydaq/api/EchoNIDAQTask/index
+   /autoapi/firepydaq/api/EchoThorLabsCLD101X/index
+
+

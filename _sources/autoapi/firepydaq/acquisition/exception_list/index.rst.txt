@@ -1,0 +1,25 @@
+firepydaq.acquisition.exception_list
+====================================
+
+.. py:module:: firepydaq.acquisition.exception_list
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.exception_list.UnfilledFieldError
+
+
+Module Contents
+---------------
+
+.. py:exception:: UnfilledFieldError(message)
+
+   Bases: :py:obj:`Exception`
+
+
+   Common base class for all non-exit exceptions.
+
+

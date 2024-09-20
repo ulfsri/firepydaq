@@ -1,0 +1,32 @@
+firepydaq.utilities.NISYSCheck
+==============================
+
+.. py:module:: firepydaq.utilities.NISYSCheck
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.utilities.NISYSCheck.system
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.utilities.NISYSCheck.check_system_config
+
+
+Module Contents
+---------------
+
+.. py:data:: system
+
+.. py:class:: check_system_config
+
+   .. py:method:: GetCleanInfo(Devs, Chans)
+
+

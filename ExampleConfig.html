@@ -1,0 +1,877 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Example: NI Config File" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://ulfsri.github.io/ExampleConfig.html" />
+<meta property="og:site_name" content="FIREpyDAQ" />
+<meta property="og:description" content="An example NI configuration file lives at tests/Example_Config_Formulae/20240329_1354_CalorimetryWLaser_Dushyant.csv. Here, this file will be read and the columns their expected values and use will be discussed. Minimum required NI config file: In the table shown above, there are 4 columns, and 1..." />
+<meta property="og:image" content="http://ulfsri.github.io/_images/FIREpyDAQDark.png" />
+<meta property="og:image:alt" content="FIREpyDAQ" />
+<meta name="description" content="An example NI configuration file lives at tests/Example_Config_Formulae/20240329_1354_CalorimetryWLaser_Dushyant.csv. Here, this file will be read and the columns their expected values and use will be discussed. Minimum required NI config file: In the table shown above, there are 4 columns, and 1..." />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-773X2LZHRR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-773X2LZHRR');
+    </script>
+    <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Example: Formulae file" href="ExampleFormulae.html" /><link rel="prev" title="Example: Other Devices" href="UsageDevices.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>Example: NI Config File - FIREpyDAQ documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">FIREpyDAQ  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">FIREpyDAQ  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="UsageAcquisition.html">Acquisition Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageDashboard.html">Example: Dashboard Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageDevices.html">Example: Other Devices</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Example: NI Config File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExampleFormulae.html">Example: Formulae file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExamplePostProcess.html">Example: Post-processed data plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Schema.html">Schema for FIREpyDAQ Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FIREpyDAQ Code</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/index.html">firepydaq</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of firepydaq</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html">firepydaq.FIREpyDAQ_Acquisition</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html#acknowledgement">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conduct.html">Code of Conduct</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/ulfsri/firepydaq/blob/dev/docs/ExampleConfig.ipynb?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/ulfsri/firepydaq/edit/dev/docs/ExampleConfig.ipynb" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="example-ni-config-file">
+<span id="niconfigexample"></span><h1>Example: NI Config File<a class="headerlink" href="#example-ni-config-file" title="Link to this heading">¶</a></h1>
+<p>An example NI configuration file lives at <code class="docutils literal notranslate"><span class="pre">tests/Example_Config_Formulae/20240329_1354_CalorimetryWLaser_Dushyant.csv</span></code>.</p>
+<p>Here, this file will be read and the columns their expected values and use will be discussed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, the config file will be imported here and discussed.</span>
+<span class="c1"># Columns necessary for running the NI acquisition will be discussed first.</span>
+<span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">config_file_path</span> <span class="o">=</span> <span class="s2">&quot;../tests/Example_Config_Formulae/20240329_1354_CalorimetryWLaser_Dushyant.csv&quot;</span>
+<span class="n">config_df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">config_file_path</span><span class="p">)</span>
+<span class="n">config_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">config_df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">pl</span><span class="o">.</span><span class="n">Config</span><span class="p">()</span> <span class="k">as</span> <span class="n">cfg</span><span class="p">:</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">set_tbl_cols</span><span class="p">(</span><span class="n">config_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">set_tbl_rows</span><span class="p">(</span><span class="n">config_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">set_fmt_str_lengths</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">set_float_precision</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">set_tbl_formatting</span><span class="p">(</span><span class="s2">&quot;UTF8_FULL&quot;</span><span class="p">)</span>
+    <span class="c1"># cfg.set_tbl_hide_column_data_types(True)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">set_tbl_hide_dataframe_shape</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pl_cfg_json</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of columns in config file: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total rows in this config file: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">config_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Minumum required columns for creating an NI task is shown below for the example config file</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">config_df</span><span class="p">[[</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span><span class="s2">&quot;Channel&quot;</span><span class="p">,</span><span class="s2">&quot;TCType&quot;</span><span class="p">,</span><span class="s2">&quot;Type&quot;</span><span class="p">,</span><span class="s2">&quot;Label&quot;</span><span class="p">]],</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of columns in config file: 16
+Total rows in this config file: 15
+
+Minumum required columns for creating an NI task is shown below for the example config file
+
+┌──────────────────────┬─────────┬────────┬──────────────┬─────────────┐
+│ Device               ┆ Channel ┆ TCType ┆ Type         ┆ Label       │
+│ ---                  ┆ ---     ┆ ---    ┆ ---          ┆ ---         │
+│ str                  ┆ str     ┆ str    ┆ str          ┆ str         │
+╞══════════════════════╪═════════╪════════╪══════════════╪═════════════╡
+│ cDAQ9185-21CD48CMod2 ┆ ai0     ┆  NA    ┆ Voltage      ┆ AmbHum      │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai1     ┆  NA    ┆ Voltage      ┆ AmbTemp     │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai2     ┆  NA    ┆ Voltage      ┆ AmbPress    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod3 ┆ ai0     ┆  K     ┆ Thermocouple ┆ DuctTC1     │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod3 ┆ ai1     ┆  K     ┆ Thermocouple ┆ DuctTC2     │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod3 ┆ ai2     ┆  K     ┆ Thermocouple ┆ DuctTC3     │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai7     ┆  NA    ┆ Voltage      ┆ dPDuctDwyer │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai3     ┆  NA    ┆ Voltage      ┆ dPDuctAvg   │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai4     ┆  NA    ┆ Voltage      ┆ DuctO2      │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai5     ┆  NA    ┆ Voltage      ┆ DuctCO2     │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai6     ┆  NA    ┆ Voltage      ┆ DuctCO      │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod3 ┆ ai3     ┆  K     ┆ Thermocouple ┆ IgnTC       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai8     ┆  NA    ┆ Voltage      ┆ LaserRef    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai9     ┆  NA    ┆ Voltage      ┆ LaserSig    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ cDAQ9185-21CD48CMod2 ┆ ai10    ┆  NA    ┆ Voltage      ┆ O2Hum       │
+└──────────────────────┴─────────┴────────┴──────────────┴─────────────┘ 
+</pre></div>
+</div>
+</div>
+</div>
+<section id="minimum-required-ni-config-file">
+<span id="minconfigcols"></span><h2>Minimum required NI config file<a class="headerlink" href="#minimum-required-ni-config-file" title="Link to this heading">¶</a></h2>
+<p>In the table shown above, there are 4 columns, and 15 rows. The rows indicate unique set of NI channels that were used in this configuration file. The columns are the minimum columns required to run the NI acquisition.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Device</span></code>: type - str.</p>
+<ul>
+<li><p>Indicates the NI Device to be connected</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Channel</span></code>: type - str.</p>
+<ul>
+<li><p>Indicates the channel for the corresponding device in the row.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TCType</span></code>: type - str.</p>
+<ul>
+<li><p>Indicates the Thermocouple types that can be used.</p></li>
+<li><p>Currently, nidaqmx driver and python API supports the use of <code class="docutils literal notranslate"><span class="pre">B</span></code>,<code class="docutils literal notranslate"><span class="pre">E</span></code>,<code class="docutils literal notranslate"><span class="pre">J</span></code>,<code class="docutils literal notranslate"><span class="pre">K</span></code>,<code class="docutils literal notranslate"><span class="pre">N</span></code>,<code class="docutils literal notranslate"><span class="pre">R</span></code>,<code class="docutils literal notranslate"><span class="pre">S</span></code>, or <code class="docutils literal notranslate"><span class="pre">T</span></code> thermocouple type.</p></li>
+<li><p>You can write anything in the <code class="docutils literal notranslate"><span class="pre">TCType</span></code> corresponding to the Voltage channel <code class="docutils literal notranslate"><span class="pre">Type</span></code>. This column will not be used to configure the NI Task.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Type</span></code>: type - str.</p>
+<ul>
+<li><p>Indicates the type of channel from which the data needs to be acquired or data needs to be sent.</p></li>
+<li><p>For AI, these values must be <code class="docutils literal notranslate"><span class="pre">Voltage</span></code>, <code class="docutils literal notranslate"><span class="pre">Thermocouple</span></code>, or <code class="docutils literal notranslate"><span class="pre">Current</span></code>. Out of these, only <code class="docutils literal notranslate"><span class="pre">Voltage</span></code> and <code class="docutils literal notranslate"><span class="pre">Thermocouple</span></code> are tested and if you want face issues with using the <code class="docutils literal notranslate"><span class="pre">Current</span></code> type, please raise and issue on <a class="reference external" href="https://github.com/ulfsri/firepydaq/issues">GitHub</a>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Label</span></code>: type - str.</p>
+<ul>
+<li><p>A unique identifier for the <code class="docutils literal notranslate"><span class="pre">Device/Channel</span></code>.</p></li>
+<li><p>This unique label serves as the column header for the corresponding collected NI data.</p></li>
+<li><p>This label is also used during post-processing, which can be as minimal as scaling the raw-data.(See <a class="reference internal" href="#ppcols"><span class="std std-ref">Additional columns</span></a> and <a class="reference internal" href="ExampleFormulae.html#formulaeexample"><span class="std std-ref">FormulaeExample</span></a> for more info)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="overview-of-creation-of-ni-tasks">
+<h2>Overview of creation of NI tasks<a class="headerlink" href="#overview-of-creation-of-ni-tasks" title="Link to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p>First, the config file is read to separate and identify AI and AO tasks. A dictionary mapping AI and AO tasks to the row index is created.</p></li>
+<li><p>Then, a single AI task are created to add all available AI labels. Same is done for AO task.</p></li>
+<li><p>For each AI row, the device is added by appending the <code class="docutils literal notranslate"><span class="pre">Device</span></code> and the <code class="docutils literal notranslate"><span class="pre">Channel</span></code> column, separated by <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
+<ul class="simple">
+<li><p>For example, the device name for adding a virtual chennle to the AI task for the first row is <code class="docutils literal notranslate"><span class="pre">cDAQ9185-21CD48CMod2/ai0</span></code></p></li>
+</ul>
+</li>
+<li><p>The relevant channel is added to the AI task as follows,</p>
+<ol class="arabic simple">
+<li><p>For <code class="docutils literal notranslate"><span class="pre">Thermocouple</span></code> type, the <code class="docutils literal notranslate"><span class="pre">TCType</span></code> is used to add a thermocouple channel to the AI task.</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">Voltage</span></code> type, the default unit of <code class="docutils literal notranslate"><span class="pre">Volts</span></code> is used for adding the channel to the AI task.</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">Current</span></code> type, the default unit of <code class="docutils literal notranslate"><span class="pre">Amps</span></code> is used for adding the channel to the AI task.</p></li>
+</ol>
+</li>
+<li><p>AO task channels are added in a similar way as AI tasks. Currently, only Voltage AO channels are accepted.</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">Note:</span> <span class="pre">AO</span> <span class="pre">task</span> <span class="pre">is</span> <span class="pre">still</span> <span class="pre">under</span> <span class="pre">development.</span> <span class="pre">Please</span> <span class="pre">raise</span> <span class="pre">an</span> <span class="pre">issue</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">face</span> <span class="pre">problems.</span></code></strong></p>
+</li>
+</ol>
+</section>
+<section id="additional-columns">
+<span id="ppcols"></span><h2>Additional columns<a class="headerlink" href="#additional-columns" title="Link to this heading">¶</a></h2>
+<p><em>The additional columns that will be listed below can be used for adding custom scaling and post processing only if dashboard is selected as a display option</em></p>
+<p><strong>NOTE: These columns from the config file will be used only to scale the raw data for each channel give in the row and plot it in the dashboard (with time as x-axis) if the <code class="docutils literal notranslate"><span class="pre">Chart</span></code> column value is not <code class="docutils literal notranslate"><span class="pre">None</span></code> for that channel.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pl</span><span class="o">.</span><span class="n">Config</span><span class="p">()</span> <span class="k">as</span> <span class="n">cfg</span><span class="p">:</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pl_cfg_json</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Additional columns (required for succesfull dashboard generation)</span><span class="se">\n</span><span class="s2">are shown below for the example config file</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">dashboard_df</span> <span class="o">=</span> <span class="n">config_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span><span class="s2">&quot;Channel&quot;</span><span class="p">,</span><span class="s2">&quot;TCType&quot;</span><span class="p">,</span><span class="s2">&quot;Type&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">dashboard_df</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Additional columns (required for succesfull dashboard generation)
+are shown below for the example config file
+
+┌─────┬───────┬────────┬────────┬────────┬────────┬────────┬───────┬───────┬───────┬───────┬───────┐
+│ #   ┆ Panel ┆ ScaleM ┆ ScaleM ┆ Label  ┆ Chart  ┆ AIRang ┆ AIRan ┆ Layou ┆ Posit ┆ Proce ┆ Legen │
+│ --- ┆ ---   ┆ ax     ┆ in     ┆ ---    ┆ ---    ┆ eMin   ┆ geMax ┆ t     ┆ ion   ┆ ssed_ ┆ d     │
+│ i64 ┆ i64   ┆ ---    ┆ ---    ┆ str    ┆ str    ┆ ---    ┆ ---   ┆ ---   ┆ ---   ┆ Unit  ┆ ---   │
+│     ┆       ┆ f64    ┆ i64    ┆        ┆        ┆ f64    ┆ f64   ┆ i64   ┆ i64   ┆ ---   ┆ str   │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆ str   ┆       │
+╞═════╪═══════╪════════╪════════╪════════╪════════╪════════╪═══════╪═══════╪═══════╪═══════╪═══════╡
+│ 0   ┆ 1     ┆ 100.00 ┆ 0      ┆ AmbHum ┆ PTH    ┆ 1.000  ┆ 5.000 ┆ 3     ┆ 1     ┆ %     ┆ Amb.  │
+│     ┆       ┆ 0      ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ Humid │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ ity   │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 1   ┆ 1     ┆ 120.00 ┆ -20    ┆ AmbTem ┆ PTH    ┆ 1.000  ┆ 5.000 ┆ 3     ┆ 2     ┆ C     ┆ Amb.  │
+│     ┆       ┆ 0      ┆        ┆ p      ┆        ┆        ┆       ┆       ┆       ┆       ┆ Temp  │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 2   ┆ 1     ┆ 1100.0 ┆ 750    ┆ AmbPre ┆ PTH    ┆ 1.000  ┆ 5.000 ┆ 3     ┆ 3     ┆ Pa    ┆ Amb.  │
+│     ┆       ┆ 00     ┆        ┆ ss     ┆        ┆        ┆       ┆       ┆       ┆       ┆ Press │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ ure   │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 11  ┆ 1     ┆ 1.000  ┆ 0      ┆ DuctTC ┆ DuctTC ┆ 0.000  ┆ 1000. ┆ 2     ┆ 1     ┆ C     ┆ TC1   │
+│     ┆       ┆        ┆        ┆ 1      ┆        ┆        ┆ 000   ┆       ┆       ┆       ┆       │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 12  ┆ 1     ┆ 1.000  ┆ 0      ┆ DuctTC ┆ DuctTC ┆ 0.000  ┆ 1000. ┆ 2     ┆ 1     ┆ C     ┆ TC2   │
+│     ┆       ┆        ┆        ┆ 2      ┆        ┆        ┆ 000   ┆       ┆       ┆       ┆       │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 12  ┆ 1     ┆ 1.000  ┆ 0      ┆ DuctTC ┆ DuctTC ┆ 0.000  ┆ 1000. ┆ 2     ┆ 1     ┆ C     ┆ TC3   │
+│     ┆       ┆        ┆        ┆ 3      ┆        ┆        ┆ 000   ┆       ┆       ┆       ┆       │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 13  ┆ 1     ┆ 124.42 ┆ 0      ┆ dPDuct ┆ dPDuct ┆ 0.979  ┆ 4.894 ┆ 1     ┆ 1     ┆ Pa    ┆ Local │
+│     ┆       ┆ 0      ┆        ┆ Dwyer  ┆        ┆        ┆       ┆       ┆       ┆       ┆ duct  │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ dP    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 14  ┆ 1     ┆ 248.84 ┆ 0      ┆ dPDuct ┆ dPDuct ┆ 0.979  ┆ 4.894 ┆ 1     ┆ 1     ┆ Pa    ┆ Avg   │
+│     ┆       ┆ 0      ┆        ┆ Avg    ┆        ┆        ┆       ┆       ┆       ┆       ┆ duct  │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ dP    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 15  ┆ 1     ┆ 0.250  ┆ 0      ┆ DuctO2 ┆ DuctGa ┆ 0.000  ┆ 5.000 ┆ 3     ┆ 1     ┆ -     ┆ Duct  │
+│     ┆       ┆        ┆        ┆        ┆ s      ┆        ┆       ┆       ┆       ┆       ┆ O2    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 16  ┆ 1     ┆ 0.250  ┆ 0      ┆ DuctCO ┆ DuctGa ┆ 0.000  ┆ 5.000 ┆ 3     ┆ 2     ┆ -     ┆ Duct  │
+│     ┆       ┆        ┆        ┆ 2      ┆ s      ┆        ┆       ┆       ┆       ┆       ┆ CO2   │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 17  ┆ 1     ┆ 0.050  ┆ 0      ┆ DuctCO ┆ DuctGa ┆ 0.000  ┆ 5.000 ┆ 3     ┆ 3     ┆ -     ┆ Duct  │
+│     ┆       ┆        ┆        ┆        ┆ s      ┆        ┆       ┆       ┆       ┆       ┆ CO    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 10  ┆ 1     ┆ 1.000  ┆ 0      ┆ IgnTC  ┆ IgnTC  ┆ 0.000  ┆ 1000. ┆ 1     ┆ 1     ┆ C     ┆ Ignit │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆ 000   ┆       ┆       ┆       ┆ ion   │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ TC    │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 13  ┆ 1     ┆ 10.000 ┆ 0      ┆ LaserR ┆ Laser  ┆ 0.000  ┆ 10.00 ┆ 1     ┆ 1     ┆ V     ┆ Laser │
+│     ┆       ┆        ┆        ┆ ef     ┆        ┆        ┆ 0     ┆       ┆       ┆       ┆ Ref.  │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 14  ┆ 1     ┆ 10.000 ┆ 0      ┆ LaserS ┆ Laser  ┆ 0.000  ┆ 10.00 ┆ 1     ┆ 1     ┆ V     ┆ Laser │
+│     ┆       ┆        ┆        ┆ ig     ┆        ┆        ┆ 0     ┆       ┆       ┆       ┆ Sig.  │
+├╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+│ 14  ┆ 1     ┆ 1.000  ┆ 0      ┆ O2Hum  ┆ O2Hum  ┆ 0.000  ┆ 1.000 ┆ 1     ┆ 1     ┆ -     ┆ O2    │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ Hummi │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ ngbir │
+│     ┆       ┆        ┆        ┆        ┆        ┆        ┆       ┆       ┆       ┆       ┆ d     │
+└─────┴───────┴────────┴────────┴────────┴────────┴────────┴───────┴───────┴───────┴───────┴───────┘
+</pre></div>
+</div>
+</div>
+</div>
+<p>The importance of each column in the above table is explained with the example of the first row.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"> </code> : str/num</p>
+<ul class="simple">
+<li><p>Only a reference for the user. Is not used at all.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Panel</span></code>: str/num</p>
+<ul class="simple">
+<li><p>Only a reference for the user. Not used at all.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ScaleMax</span></code>: str/num</p>
+<ul class="simple">
+<li><p>Must be in the form that can be converted to a float value.</p></li>
+<li><p>Refers to the <em>maximum value in scaled data unit</em> corresponding to <code class="docutils literal notranslate"><span class="pre">AIRangeMax</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ScaleMin</span></code>: str/num</p>
+<ul class="simple">
+<li><p>Must be in the form that can be converted to a float value.</p></li>
+<li><p>Refers to the <em>minimum value in scaled data</em> unit corresponding to <code class="docutils literal notranslate"><span class="pre">AIRangeMin</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Label</span></code>: str</p>
+<ul class="simple">
+<li><p>Unique identifier as explained in <a class="reference internal" href="#minconfigcols"><span class="std std-ref">Minimum required NI config file</span></a>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Chart</span></code>: str</p>
+<ul class="simple">
+<li><p>String indicating the chart where this channel’s post processed data will be displayed.</p></li>
+<li><p>This can be <code class="docutils literal notranslate"><span class="pre">None</span></code> is you do not want to see this channel in the dashboard plots.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AIRangeMax</span></code>: str/num</p>
+<ul class="simple">
+<li><p><em>Maximum</em> value for the raw data for the <em>analog input channel</em>.</p></li>
+<li><p>Must be in the form that can be converted to a float value.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AIRangeMin</span></code>: str/num</p>
+<ul class="simple">
+<li><p><em>Minimum</em> value for the raw data for the <em>analog input channel</em>.</p></li>
+<li><p>Must be in the form that can be converted to a float value.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Layout</span></code>: str/num</p>
+<ul class="simple">
+<li><p>Must be in the form that can be converted into a natural number (1, 2, 3)</p></li>
+<li><p>The type of layout corresponding to the <code class="docutils literal notranslate"><span class="pre">Chart</span></code> parameter.</p></li>
+<li><p>All channels which are have the same <code class="docutils literal notranslate"><span class="pre">Chart</span></code> parameter must have the same <code class="docutils literal notranslate"><span class="pre">Layout</span></code> value.</p></li>
+<li><p>This will generate a figure in the dashboard that will have #<code class="docutils literal notranslate"><span class="pre">Layout</span></code> rows in vertical direction.</p></li>
+<li><p>It is recommended to keep this value to a maximum of 3 for better visualization in the dashboard.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Position</span></code>: str/num</p>
+<ul class="simple">
+<li><p>Must be in the form that can be converted into a natural number (1, 2, 3)</p></li>
+<li><p>Indicates the position in the <code class="docutils literal notranslate"><span class="pre">Chart</span></code> where this channel data will be displayed.</p></li>
+<li><p>This value <strong>must</strong> be less than or equal to the <code class="docutils literal notranslate"><span class="pre">Layout</span></code> number.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Processed_Unit</span></code>: str</p>
+<ul class="simple">
+<li><p>The unit of the channel data once it is scaled according to AI and Scale minimum and maximum values.</p></li>
+<li><p>This will be the y-axis label for the row.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Legend</span></code>: str</p>
+<ul class="simple">
+<li><p>Legend for the channel.</p></li>
+<li><p>This will be displayed on the outside right of the plot in the dashboard.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="scaling-of-raw-data">
+<span id="scaling"></span><h2>Scaling of raw-data<a class="headerlink" href="#scaling-of-raw-data" title="Link to this heading">¶</a></h2>
+<p>An example is shown below regarding how the channels corresponding to PTH Charts are scaled. These channels are ambient humidity, temperature and pressure and the raw data for these are in volts. To do this, the example experiment data that is in <code class="docutils literal notranslate"><span class="pre">../tests/Example_ExpData/20240612_1717_ExampleFireData_Testing_Dushyant.parquet</span></code> is read and processed for these channels.</p>
+<p>The scaling is done using a function <code class="docutils literal notranslate"><span class="pre">ScaleData</span></code> that is borrowed from the <code class="docutils literal notranslate"><span class="pre">ScaleData</span></code> function in <code class="docutils literal notranslate"><span class="pre">utilities</span></code>. Additional details can be found in <a class="reference internal" href="autoapi/firepydaq/utilities/index.html"><span class="doc">Utilities documentation</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Exp_path</span> <span class="o">=</span> <span class="s1">&#39;../tests/Example_ExpData/20240612_1717_ExampleFireData_Testing_Dushyant.parquet&#39;</span>
+<span class="n">Exp_data</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">Exp_path</span><span class="p">)</span>
+<span class="n">Exp_data</span> <span class="o">=</span> <span class="n">Exp_data</span><span class="p">[[</span><span class="s2">&quot;Absolute_Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;AmbHum&quot;</span><span class="p">,</span> <span class="s2">&quot;AmbTemp&quot;</span><span class="p">,</span> <span class="s2">&quot;AmbPress&quot;</span><span class="p">]]</span>
+<span class="n">Exp_data</span> <span class="o">=</span> <span class="n">Exp_data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;Absolute_Time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">String</span><span class="p">),</span>
+                           <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Float32</span><span class="p">),</span>
+                           <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;AmbHum&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Float32</span><span class="p">),</span>
+                           <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;AmbTemp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Float32</span><span class="p">),</span>
+                           <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;AmbPress&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Float32</span><span class="p">)</span>
+                          <span class="p">)</span>
+<span class="k">with</span> <span class="n">pl</span><span class="o">.</span><span class="n">Config</span><span class="p">()</span> <span class="k">as</span> <span class="n">cfg</span><span class="p">:</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pl_cfg_json</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;These three columns, in addition to Time and Absolute_Time are shown below.</span><span class="se">\n</span><span class="s2">The data for the three PTH columns of interest here are in Volts.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Exp_data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>These three columns, in addition to Time and Absolute_Time are shown below.
+The data for the three PTH columns of interest here are in Volts.
+┌───────────────────────────┬───────┬────────┬─────────┬──────────┐
+│ Absolute_Time             ┆ Time  ┆ AmbHum ┆ AmbTemp ┆ AmbPress │
+│ ---                       ┆ ---   ┆ ---    ┆ ---     ┆ ---      │
+│ str                       ┆ f32   ┆ f32    ┆ f32     ┆ f32      │
+╞═══════════════════════════╪═══════╪════════╪═════════╪══════════╡
+│ 12/06/2024, 17:17:33:5716 ┆ 0.000 ┆ 2.217  ┆ 2.420   ┆ 4.022    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:6716 ┆ 0.100 ┆ 2.217  ┆ 2.420   ┆ 4.022    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:7716 ┆ 0.200 ┆ 2.217  ┆ 2.420   ┆ 4.022    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:8716 ┆ 0.300 ┆ 2.217  ┆ 2.420   ┆ 4.022    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:9716 ┆ 0.400 ┆ 2.217  ┆ 2.420   ┆ 4.022    │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:34:0716 ┆ 0.500 ┆ 2.217  ┆ 2.420   ┆ 4.022    │
+└───────────────────────────┴───────┴────────┴─────────┴──────────┘
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ScaleData</span><span class="p">(</span><span class="n">Exp_data</span><span class="p">,</span> <span class="n">config_df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; This function is borrowed from the ScaleData</span>
+<span class="sd">    function in `PostProcessing.py` in `utilities`.</span>
+<span class="sd">    Check documentation in FIREpyDAQ modules for more information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_processed</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">Exp_data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">crow_df</span> <span class="o">=</span> <span class="n">config_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">col</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;AbsoluteTime&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;Absolute_Time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col</span><span class="p">):</span>  
+            <span class="c1"># Checking for either these two strings in the data df.</span>
+            <span class="c1"># Cast all other data except for absolute time stamp as floats</span>
+            <span class="n">Exp_data</span> <span class="o">=</span> <span class="n">Exp_data</span><span class="o">.</span><span class="n">cast</span><span class="p">({</span><span class="n">col</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Float32</span><span class="p">})</span>
+        <span class="k">if</span> <span class="s2">&quot;Time&quot;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+            <span class="c1"># Make not scaling for Time column</span>
+            <span class="n">df_processed</span> <span class="o">=</span> <span class="n">df_processed</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">Exp_data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;None&quot;</span> <span class="ow">in</span> <span class="n">crow_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Chart&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+            <span class="c1"># Skip columns without chart values</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">config_df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;Type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Thermocouple&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="n">df_processed</span> <span class="o">=</span> <span class="n">df_processed</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">Exp_data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">min_AI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">crow_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;AIRangeMin&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+                <span class="n">max_AI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">crow_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;AIRangeMax&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+                <span class="n">min_Scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">crow_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;ScaleMin&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+                <span class="n">max_Scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">crow_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;ScaleMax&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+                <span class="n">unit_per_V</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_Scale</span> <span class="o">-</span> <span class="n">min_Scale</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">max_AI</span> <span class="o">-</span> <span class="n">min_AI</span><span class="p">)</span>
+                <span class="n">df_processed</span> <span class="o">=</span> <span class="n">df_processed</span><span class="o">.</span><span class="n">with_columns</span><span class="p">((</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">((</span><span class="n">Exp_data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col</span><span class="p">))</span><span class="o">-</span><span class="n">min_AI</span><span class="p">)</span><span class="o">*</span><span class="n">unit_per_V</span><span class="o">+</span><span class="n">min_Scale</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c1"># Is there is any ValueError, no scaling will be done to the data</span>
+                <span class="n">df_processed</span> <span class="o">=</span> <span class="n">df_processed</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">Exp_data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df_processed</span>
+
+<span class="n">df_processed</span> <span class="o">=</span> <span class="n">ScaleData</span><span class="p">(</span><span class="n">Exp_data</span><span class="p">,</span> <span class="n">config_df</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pl</span><span class="o">.</span><span class="n">Config</span><span class="p">()</span> <span class="k">as</span> <span class="n">cfg</span><span class="p">:</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pl_cfg_json</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;These three columns, in addition to Time and Absolute_Time are shown below</span><span class="se">\n</span><span class="s2">as processed based on the above function.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_processed</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>These three columns, in addition to Time and Absolute_Time are shown below
+as processed based on the above function.
+
+┌───────────────────────────┬───────┬────────┬─────────┬──────────┐
+│ Absolute_Time             ┆ Time  ┆ AmbHum ┆ AmbTemp ┆ AmbPress │
+│ ---                       ┆ ---   ┆ ---    ┆ ---     ┆ ---      │
+│ str                       ┆ f32   ┆ f32    ┆ f32     ┆ f32      │
+╞═══════════════════════════╪═══════╪════════╪═════════╪══════════╡
+│ 12/06/2024, 17:17:33:5716 ┆ 0.000 ┆ 30.422 ┆ 29.706  ┆ 1014.410 │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:6716 ┆ 0.100 ┆ 30.422 ┆ 29.705  ┆ 1014.407 │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:7716 ┆ 0.200 ┆ 30.421 ┆ 29.705  ┆ 1014.405 │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:8716 ┆ 0.300 ┆ 30.422 ┆ 29.706  ┆ 1014.407 │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:33:9716 ┆ 0.400 ┆ 30.419 ┆ 29.708  ┆ 1014.414 │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌┤
+│ 12/06/2024, 17:17:34:0716 ┆ 0.500 ┆ 30.426 ┆ 29.714  ┆ 1014.412 │
+└───────────────────────────┴───────┴────────┴─────────┴──────────┘
+</pre></div>
+</div>
+</div>
+</div>
+<p>As seen in the table above, the scaled data has units given in the <code class="docutils literal notranslate"><span class="pre">Processed_Unit</span></code> columns for these channels, as opposed to voltage raw data shown earlier. Going a little further, these post-processed data are plotted in dashboard in the following way.</p>
+<p><strong>Note: Dashboard currently uses plotly to plot the graphs and the graphs are update live as the data is collected. Below is only an example figure drawn using matplotlib to show how it might look.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">PlotProcessed</span><span class="p">(</span><span class="n">df_processed</span><span class="p">,</span> <span class="n">config_df</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">chart_df</span> <span class="ow">in</span> <span class="n">config_df</span><span class="o">.</span><span class="n">group_by</span><span class="p">([</span><span class="s2">&quot;Chart&quot;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">chart_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="ow">in</span> <span class="n">df_processed</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">chart_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Layout&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span> <span class="c1"># If it is only a single axis</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Paired&quot;</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colors</span><span class="o">.</span><span class="n">colors</span><span class="p">]</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="n">chart_nos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">chart_df</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">chart_df</span><span class="o">.</span><span class="n">iter_rows</span><span class="p">(</span><span class="n">named</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">plot_pos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Position&quot;</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">plot_pos</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_processed</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">),</span><span class="n">df_processed</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Label&quot;</span><span class="p">]),</span><span class="n">label</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Legend&quot;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">colors</span><span class="p">))</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">plot_pos</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">plot_pos</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; ( &quot;</span><span class="o">+</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Processed_Unit&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; )&quot;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="n">plot_pos</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">plot_pos</span> <span class="o">==</span> <span class="n">chart_nos</span><span class="p">:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">plot_pos</span><span class="p">]</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plot_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">plot_pos</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">chart_df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; graph&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span>
+
+<span class="n">PlotProcessed</span><span class="p">(</span><span class="n">df_processed</span><span class="p">,</span> <span class="n">config_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/23e01b0b0c85eaadb849ce28e19eadffc3ab057b021074f11a6ff8674a6b4f84.png" src="_images/23e01b0b0c85eaadb849ce28e19eadffc3ab057b021074f11a6ff8674a6b4f84.png" />
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="ExampleFormulae.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Example: Formulae file</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="UsageDevices.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Example: Other Devices</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Dushyant M. Chaudhari
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Example: NI Config File</a><ul>
+<li><a class="reference internal" href="#minimum-required-ni-config-file">Minimum required NI config file</a></li>
+<li><a class="reference internal" href="#overview-of-creation-of-ni-tasks">Overview of creation of NI tasks</a></li>
+<li><a class="reference internal" href="#additional-columns">Additional columns</a></li>
+<li><a class="reference internal" href="#scaling-of-raw-data">Scaling of raw-data</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

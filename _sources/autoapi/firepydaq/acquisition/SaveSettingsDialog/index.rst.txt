@@ -1,0 +1,26 @@
+firepydaq.acquisition.SaveSettingsDialog
+========================================
+
+.. py:module:: firepydaq.acquisition.SaveSettingsDialog
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.SaveSettingsDialog.SaveSettingsDialog
+
+
+Module Contents
+---------------
+
+.. py:class:: SaveSettingsDialog(string)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QDialog`
+
+
+   A pyqt dialog box to save the configuration
+
+
+

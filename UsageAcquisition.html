@@ -1,0 +1,626 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Acquisition Application" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://ulfsri.github.io/UsageAcquisition.html" />
+<meta property="og:site_name" content="FIREpyDAQ" />
+<meta property="og:description" content="This is an example of how to use the acquisition application to collect data from the NI system and added devices and visualize it for each channel and using a dashboard. 1. Setting Up the Application: To run the application, paste the following lines of code in an empty python file: On running t..." />
+<meta property="og:image" content="http://ulfsri.github.io/_images/FIREpyDAQDark.png" />
+<meta property="og:image:alt" content="FIREpyDAQ" />
+<meta name="description" content="This is an example of how to use the acquisition application to collect data from the NI system and added devices and visualize it for each channel and using a dashboard. 1. Setting Up the Application: To run the application, paste the following lines of code in an empty python file: On running t..." />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-773X2LZHRR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-773X2LZHRR');
+    </script>
+    <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Example: Dashboard Usage" href="UsageDashboard.html" /><link rel="prev" title="FIREpyDAQ" href="index.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>Acquisition Application - FIREpyDAQ documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">FIREpyDAQ  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">FIREpyDAQ  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Acquisition Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageDashboard.html">Example: Dashboard Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageDevices.html">Example: Other Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExampleConfig.html">Example: NI Config File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExampleFormulae.html">Example: Formulae file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExamplePostProcess.html">Example: Post-processed data plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Schema.html">Schema for FIREpyDAQ Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FIREpyDAQ Code</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/index.html">firepydaq</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of firepydaq</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html">firepydaq.FIREpyDAQ_Acquisition</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html#acknowledgement">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conduct.html">Code of Conduct</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/ulfsri/firepydaq/blob/dev/docs/UsageAcquisition.md?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/ulfsri/firepydaq/edit/dev/docs/UsageAcquisition.md" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="acquisition-application">
+<span id="gui"></span><h1>Acquisition Application<a class="headerlink" href="#acquisition-application" title="Link to this heading">¶</a></h1>
+<p>This is an example of how to use the acquisition application to collect data from the NI system and added devices and visualize it for each channel and using a dashboard.</p>
+<section id="setting-up-the-application">
+<h2>1. Setting Up the Application<a class="headerlink" href="#setting-up-the-application" title="Link to this heading">¶</a></h2>
+<p>To run the application, paste the following lines of code in an empty python file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">firepydaq.FIREpyDAQ_Acquisition</span> <span class="kn">import</span> <span class="n">FIREpyDAQ_Acquisition</span>
+    <span class="n">FIREpyDAQ_Acquisition</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>On running the file, the application window would appear.</p>
+<a class="reference internal image-reference" href="_images/SetUp1.png"><img alt="AcuisitionGUI" class="align-center" src="_images/SetUp1.png" style="width: 700px;" />
+</a>
+<p><br></br></p>
+</section>
+<section id="acquisition-settings">
+<h2>2. Acquisition Settings<a class="headerlink" href="#acquisition-settings" title="Link to this heading">¶</a></h2>
+<p>To configure acquisition settings, the following are mandatory fields.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Name</span></code>: Alphanumeric string without spaces. Only underscore is accepted as a valid special character.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Project</span> <span class="pre">Name</span></code>: Alphanumeric string without spaces. Only underscore is accepted as a valid special character.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Test</span> <span class="pre">Name</span></code>: Either a string or a file path.
+If this is a string, only alphanumeric string without spaces are accepted. Only underscore is accepted as a valid special character.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sampling</span> <span class="pre">Rate</span></code>: Must be a float &gt;= 1Hz and compatible with the connected NI device.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Experiment</span> <span class="pre">Type</span></code>: <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> or <code class="docutils literal notranslate"><span class="pre">Calibration</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Configuration</span> <span class="pre">File</span></code>: A <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file (see <a class="reference internal" href="ExampleConfig.html#niconfigexample"><span class="std std-ref">here</span></a> for more info)</p></li>
+</ul>
+<p>Optionally, you can select the Formulae File (refer <a class="reference internal" href="ExampleFormulae.html#formulaeexample"><span class="std std-ref">here</span></a> for more info).</p>
+<a class="reference internal image-reference" href="assets/Acquisition/SetUp2.png"><img alt="AcqFilled" class="align-center" src="assets/Acquisition/SetUp2.png" style="width: 700px;" />
+</a>
+<p><br></br></p>
+</section>
+<section id="additional-settings">
+<h2>3. Additional Settings<a class="headerlink" href="#additional-settings" title="Link to this heading">¶</a></h2>
+<p>The menu bar presents some extra functionalities as discussed below. All main menu settings have keyboard shortcuts listed on the main menu itself for reference.</p>
+<section id="display-modes">
+<h3>Display Modes<a class="headerlink" href="#display-modes" title="Link to this heading">¶</a></h3>
+<p>To toggle between display modes (light and dark), select the <code class="docutils literal notranslate"><span class="pre">Mode</span></code> in the main menu and select your desired settings as shown below.</p>
+<a class="reference internal image-reference" href="_images/Setting1.png"><img alt="AcqModes" class="align-center" src="_images/Setting1.png" style="width: 700px;" />
+</a>
+</section>
+<section id="dashboard-and-tab-display">
+<h3>Dashboard and Tab Display<a class="headerlink" href="#dashboard-and-tab-display" title="Link to this heading">¶</a></h3>
+<p>In order to visualize the saved data collected, select the desired data display option from the <code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">Data</span></code> Menu.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">Tab</span></code> spins out a tab with graphs for each channel when the Begin Acquisition button is enabled.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">Dashboard</span></code> option spins out a dashboard on a web browser when the Save Button is enabled.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">All</span></code> enables both tab and dashboard to spin out.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">Display</span> <span class="pre">(Default)</span></code> allows data collection without any visualization.</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/4.png"><img alt="AcqDislpayOpts" class="align-center" src="_images/4.png" style="width: 500px;" />
+</a>
+</section>
+<section id="loading-and-saving-daq-configuration">
+<h3>Loading and Saving DAQ Configuration<a class="headerlink" href="#loading-and-saving-daq-configuration" title="Link to this heading">¶</a></h3>
+<p>The Options under the File Menu enables loading settings from a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file (refer to Example: JSON File <strong>todo</strong>) to repeat data acquisition under similar conditions. The <code class="docutils literal notranslate"><span class="pre">File</span></code> Menu also presents the option to Save Settings to a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file enabling a user to save configuration settings to refer to later.</p>
+<p>In order to Save Settings, click on <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">DAQ</span> <span class="pre">Configuration</span></code> under the <code class="docutils literal notranslate"><span class="pre">File</span></code> menu.</p>
+<a class="reference internal image-reference" href="_images/5.png"><img alt="SaveMenuButton" class="align-center" src="_images/5.png" style="width: 400px;" />
+</a>
+<p>In the dialog box that appears, specify the desired name and directory of the file to save to. Finally, click on <code class="docutils literal notranslate"><span class="pre">Done</span></code> to save settings to the selected file path.</p>
+<a class="reference internal image-reference" href="_images/6.png"><img alt="SaveSet" class="align-center" src="_images/6.png" style="width: 150px;" />
+</a>
+<p>In order to Load Settings, click on <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">DAQ</span> <span class="pre">Configuration</span></code> under the File Menu.</p>
+<a class="reference internal image-reference" href="_images/7.png"><img alt="LoadMenuButton" class="align-center" src="_images/7.png" style="width: 400px;" />
+</a>
+<p>In the dialog box that appears, select the file to load data from.</p>
+<a class="reference internal image-reference" href="_images/8.png"><img alt="LoadSet" class="align-center" src="_images/8.png" style="width: 150px;" />
+</a>
+<p>Finally, click on <code class="docutils literal notranslate"><span class="pre">Done</span></code> to load settings from the select file. After loading, desired settings can still be changed.</p>
+</section>
+<section id="help">
+<h3>Help<a class="headerlink" href="#help" title="Link to this heading">¶</a></h3>
+<p>For more information and concerns about the application, visit the <code class="docutils literal notranslate"><span class="pre">Help</span> <span class="pre">menu</span></code> to raise an issue on our GitHub page or visit this documentation for difficulties with usage.</p>
+</section>
+</section>
+<section id="acquisition-and-saving">
+<h2>4. Acquisition and Saving<a class="headerlink" href="#acquisition-and-saving" title="Link to this heading">¶</a></h2>
+<p>After configuring the desired settings, click on <code class="docutils literal notranslate"><span class="pre">Begin</span> <span class="pre">Acquisition</span></code> to establish connection with the NI System or other added devices and create AO/AI tasks. The notifications panel will indicate if the acquisition process has begun or run into any faults.</p>
+<a class="reference internal image-reference" href="_images/Acquisition.png"><img alt="AcqSave" class="align-center" src="_images/Acquisition.png" style="width: 700px;" />
+</a>
+<p>Once acquisition begins safely, the <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Button</span></code> is enabled and on clicking it, the data collected is saved. There are two ways in which the file path where the data is saved is created,</p>
+<ul class="simple">
+<li><p>In the case, a Test Name is provided as a string, the acquired data will be saved in a directory with the name of the chosen <code class="docutils literal notranslate"><span class="pre">Experiment</span> <span class="pre">Type</span></code> in the current working directory as <code class="docutils literal notranslate"><span class="pre">01_CalibrationData</span></code> for <code class="docutils literal notranslate"><span class="pre">Calibration</span></code> type and <code class="docutils literal notranslate"><span class="pre">02_ExperimentData</span></code> for <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> type. Within this directory, a directory will be made, named as <code class="docutils literal notranslate"><span class="pre">[YYYY]ProjectName</span></code>. All data will be saved inside this directory with the filename in the format <code class="docutils literal notranslate"><span class="pre">[YYYYMMDD]_[HHMMSS]_[ProjectName]_[TestName]_</span></code> with the extensions <code class="docutils literal notranslate"><span class="pre">.parquet</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> for data and settings file respectively. Here, <code class="docutils literal notranslate"><span class="pre">YYYYMMDD</span></code> indicates year, month and day when saving was initiated, <code class="docutils literal notranslate"><span class="pre">HHMMSS</span></code> indicates hours, minutes, and second when the saving was initiated.</p></li>
+<li><p>If a file path is specified in the Test Name entry, the data would be saved at the file path specified with the extensions <code class="docutils literal notranslate"><span class="pre">.parquet</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> for data and settings file respectively. If a parquet file already exists in the path specified, a number <code class="docutils literal notranslate"><span class="pre">XX</span></code> will be appended to the provided filename.</p></li>
+<li><p>Additional device data (currently only MFCs), will be collected and saved once every second in the same directory as the data file, but in a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> extension. The filename will be appended with the MFC device name (Example, <code class="docutils literal notranslate"><span class="pre">_MyMFC</span></code>) for reference.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Collected Data are always saved every second. This is done so that the data loss during the saving operation can only occur if the saving operation takes longer than 1 s (which should rarely be the case).</p>
+<p><strong>If larger number of channels are prescribed, the acquisition may run into memory issues.</strong></p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For reference, 100 channel acquisition (50 thermocouples, 50 voltages) at 5 Hz on a PXIe-1088 device (8 GB RAM, 2.8 GHz processor) runs into memory issues after about one hour of continuous acquisition and saving.</p>
+</div>
+<section id="data-visualizer">
+<h3>Data visualizer<a class="headerlink" href="#data-visualizer" title="Link to this heading">¶</a></h3>
+<p>In the case ‘Display Tab or All’ is selected, the ‘Data Visualizer’ Tab in the program is populated. This tab allows user to see only raw data during acquisition. A drop-down in this tab contains all labels used for the NI setup for the user to select and see that channel’s raw output.</p>
+<a class="reference internal image-reference" href="_images/14.png"><img alt="DataViz" class="align-center" src="_images/14.png" style="width: 700px;" />
+</a>
+<p><br></br></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the time to update these plots is usually less than 10ms, it is strongly advised to use the data visualizer to <strong>debug acquisition setup</strong> and NOT during the saving process of the collected data.</p>
+<p>This will ensure minimal data loss potential in case plotting takes longer time for larger amount of data.</p>
+</div>
+</section>
+<section id="dashboard">
+<span id="acqdashboard"></span><h3>Dashboard<a class="headerlink" href="#dashboard" title="Link to this heading">¶</a></h3>
+<p>The Dashboard is also spawned out as a separate parallel process if <code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">Dashboard</span></code> or <code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">All</span></code> is chosen as a display mode.</p>
+<p>In the case a formula file was selected for the visualizations on the dashboard, a file with <code class="docutils literal notranslate"><span class="pre">\_PostProcessed</span></code> appended to the parquet file’s name is created in the same directory as the parquet file. This file stores the post-processed data used to plot the graphs in the dashboard.</p>
+<p>For more information on how to navigate through the dashboard, check out <a class="reference internal" href="UsageDashboard.html#dashboard"><span class="std std-ref">Dashboard Section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/11.png"><img alt="DashboardSpwanMsg" class="align-center" src="_images/11.png" style="width: 700px;" />
+</a>
+<p><br></br></p>
+<a class="reference internal image-reference" href="_images/12.png"><img alt="DashboardExample" class="align-center" src="_images/12.png" style="width: 700px;" />
+</a>
+<p><br></br></p>
+</section>
+</section>
+<section id="logger">
+<h2>5. Logger<a class="headerlink" href="#logger" title="Link to this heading">¶</a></h2>
+<p>The application uses a logging system to track any updates or unexpected errors that may occur in the middle of acquisition or saving. Major milestones during the process of acquisition and saving are logged in a file <code class="docutils literal notranslate"><span class="pre">FirePyDAQ.log</span></code> created in the directory the code is run from. Although similar to notifications, the logger offers more detailed insight into the application.</p>
+<p>The logging system is renewed every time a new instance of the application is opened and this log file is over-written.</p>
+</section>
+<section id="notifications-panel">
+<h2>6. Notifications Panel<a class="headerlink" href="#notifications-panel" title="Link to this heading">¶</a></h2>
+<p>Additionally, the notifications panel allows you to gain insights into the data acquisition process and if specific steps during the saving and/or acquisition process are successfully completed or run into issues. Observations may be added by logging data into the line-edit below and clicking on the <code class="docutils literal notranslate"><span class="pre">Log</span></code> Button. The text in the notifications panel is colored based on the type of messages:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Message Type</p></th>
+<th class="head"><p>Color</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Warning</p></td>
+<td><p>Orange</p></td>
+</tr>
+<tr class="row-odd"><td><p>Error</p></td>
+<td><p>Red</p></td>
+</tr>
+<tr class="row-even"><td><p>Success</p></td>
+<td><p>Green</p></td>
+</tr>
+<tr class="row-odd"><td><p>Default</p></td>
+<td><p>Grey</p></td>
+</tr>
+<tr class="row-even"><td><p>Observation</p></td>
+<td><p>Darkgreen</p></td>
+</tr>
+<tr class="row-odd"><td><p>Info</p></td>
+<td><p>Cyan</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Finally, the notifications panel has an <code class="docutils literal notranslate"><span class="pre">Options</span></code> Menu that allows users to either <code class="docutils literal notranslate"><span class="pre">Clear</span></code> or <code class="docutils literal notranslate"><span class="pre">Save</span></code> their notifications. On pressing <code class="docutils literal notranslate"><span class="pre">Clear</span></code>, all previous notifications are wiped out. On clicking <code class="docutils literal notranslate"><span class="pre">Save</span></code>, all notifications are saved into the chosen directory.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Log observation text</p></th>
+<th class="head text-center"><p>Logged observation display</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><img alt="" src="_images/15.png" /></p></td>
+<td class="text-center"><p><img alt="" src="_images/16.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Written observation is appended with time-stamp when the “Log” button is clicked.</p>
+<p>This will be changed in the future to improve time-tracking of observations by having multiple pop-up dialog boxes when log button is clicked and logging the exact time for observations.</p>
+</div>
+</section>
+<section id="experiment-data-and-exiting-the-application">
+<h2>7. Experiment Data and Exiting the Application<a class="headerlink" href="#experiment-data-and-exiting-the-application" title="Link to this heading">¶</a></h2>
+<p>Experimental data can be retrieved with the file paths explained above, (see Acquisition and Saving). The correct chronology to exit the application is as follows: stopping Saving; stopping acquisition and finally exiting the application in order to terminate connection with the Dashboard and Hardware Systems safely.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="UsageDashboard.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Example: Dashboard Usage</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Dushyant M. Chaudhari
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Acquisition Application</a><ul>
+<li><a class="reference internal" href="#setting-up-the-application">1. Setting Up the Application</a></li>
+<li><a class="reference internal" href="#acquisition-settings">2. Acquisition Settings</a></li>
+<li><a class="reference internal" href="#additional-settings">3. Additional Settings</a><ul>
+<li><a class="reference internal" href="#display-modes">Display Modes</a></li>
+<li><a class="reference internal" href="#dashboard-and-tab-display">Dashboard and Tab Display</a></li>
+<li><a class="reference internal" href="#loading-and-saving-daq-configuration">Loading and Saving DAQ Configuration</a></li>
+<li><a class="reference internal" href="#help">Help</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#acquisition-and-saving">4. Acquisition and Saving</a><ul>
+<li><a class="reference internal" href="#data-visualizer">Data visualizer</a></li>
+<li><a class="reference internal" href="#dashboard">Dashboard</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logger">5. Logger</a></li>
+<li><a class="reference internal" href="#notifications-panel">6. Notifications Panel</a></li>
+<li><a class="reference internal" href="#experiment-data-and-exiting-the-application">7. Experiment Data and Exiting the Application</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

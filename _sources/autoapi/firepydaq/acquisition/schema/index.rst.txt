@@ -1,0 +1,21 @@
+firepydaq.acquisition.schema
+============================
+
+.. py:module:: firepydaq.acquisition.schema
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.schema.schema
+
+
+Module Contents
+---------------
+
+.. py:data:: schema
+
+   Schema for FIREpyDAQ configuration file
+

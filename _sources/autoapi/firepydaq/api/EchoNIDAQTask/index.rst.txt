@@ -1,0 +1,123 @@
+firepydaq.api.EchoNIDAQTask
+===========================
+
+.. py:module:: firepydaq.api.EchoNIDAQTask
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.api.EchoNIDAQTask.CreateDAQTask
+
+
+Module Contents
+---------------
+
+.. py:class:: CreateDAQTask(parent, name)
+
+   .. py:method:: CreateFromConfig(cpath)
+
+      Method to add AI and AO tasks using a config file.
+
+      See Config File Example to learn more
+      about the required config file format.
+
+
+
+   .. py:method:: initialize_config(filepath)
+
+      Method that reads the config file and creates
+      dictionaries for AI and AO channels and their indices,
+      as per the config .csv file.
+
+
+
+   .. py:method:: addAITask(daqname, aichan, measurement, TCtype)
+
+      Method to add continous analog input
+      sampling channels in default terminal configuration.
+
+      :param daqname: Name of the device connected
+      :type daqname: str
+      :param aichan: Analog Input channel (usually the type of 'ai0', 'ai1' etc.)
+      :type aichan: str
+      :param measurement: Accepts "Thermocouple", "Voltage", and "Current"
+      :type measurement: str
+      :param TCType: Accepts "B","E","J","K","N","R","S", or "T" thermocouple type
+                     Use "NA" in TCType for row corresponding
+                     to non-thermocouple channels.
+      :type TCType: str
+
+
+
+   .. py:method:: addAOTask(daqname, aochan, measurement)
+
+      Method to add Analog Voltage Output task.
+
+      :param daqname: Name of the device connected
+      :type daqname: str
+      :param aochan: Analog Output channel (usually the type of 'ao0', 'ao1' etc.)
+      :type aochan: str
+      :param measurement: Accepts "Voltage" or "Current".
+      :type measurement: str
+
+
+
+   .. py:method:: StartAIContinuousTask(SamplingRate, HowManySample, save_tdms=False, save_tdms_path='PreSavedData_AI.tdms')
+
+      Method to  start a continous AI task once the `aitask`
+      is configured to open up communication with the NI hardware.
+
+      :keyword SamplingRate:
+      :kwtype SamplingRate: float
+      :keyword HowManySamples: Currently, this is set to match SamplingRate.
+      :kwtype HowManySamples: int
+      :keyword save_tdms: Default is False
+      :kwtype save_tdms: Boolean
+      :keyword save_tdms_path: Default is "PreSaveData_AI.tdms"
+      :kwtype save_tdms_path: str
+
+
+
+   .. py:method:: StartAOContinuousTask(AO_initials=None, save_tdms=False, save_tdms_path='PreSavedData_AO.tdms')
+
+      Method to start a continous AO task once
+      `aotask` is configured.
+
+      Starts an on demand AO task to open up communication with the DAQ
+      AO task requires initial array to be given in
+      the form of a linear array.
+
+
+      :keyword AO_initials: Default is None
+      :kwtype AO_initials: numpy array of size n having shape (n,)
+      :keyword save_tdms: Default is False
+      :kwtype save_tdms: Boolean
+      :keyword save_tdms_path: Default is "PreSaveData_AO.tdms"
+      :kwtype save_tdms_path: str
+
+      .. note:: This is still under development
+
+
+
+   .. py:method:: GetActualSamplingRate()
+
+
+   .. py:method:: threadaitask()
+
+      Method to read the `aitask` data
+
+      :rtype: NI AI data as a numpy array
+
+
+
+   .. py:method:: threadaotask(AO_Outputs)
+
+      Method to write the `aotask` data
+
+      :rtype: Written aotask data as a numpy array
+
+
+

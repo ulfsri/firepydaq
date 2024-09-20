@@ -1,0 +1,18 @@
+firepydaq.utilities
+===================
+
+.. py:module:: firepydaq.utilities
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/firepydaq/utilities/DAQUtils/index
+   /autoapi/firepydaq/utilities/ErrorUtils/index
+   /autoapi/firepydaq/utilities/NISYSCheck/index
+   /autoapi/firepydaq/utilities/PostProcessing/index
+
+

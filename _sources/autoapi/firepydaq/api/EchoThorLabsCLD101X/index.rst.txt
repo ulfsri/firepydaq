@@ -1,0 +1,162 @@
+firepydaq.api.EchoThorLabsCLD101X
+=================================
+
+.. py:module:: firepydaq.api.EchoThorLabsCLD101X
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.api.EchoThorLabsCLD101X.test
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.api.EchoThorLabsCLD101X.EchoThor
+
+
+Module Contents
+---------------
+
+.. py:class:: EchoThor
+
+   Bases: :py:obj:`object`
+
+
+   Arroyo Communication setup for TEC and Laser control
+
+
+   .. py:method:: set_connection(port)
+
+      Set connection to a serial port with Arroyo
+
+      :param port: COM port for the device.
+                   Example `COM1` on Windows
+      :type port: str
+
+
+
+   .. py:method:: TEC_settings(Temp_SPoint=25, Temp_HI=50, Temp_LO=15, Amp_Lim=1.0)
+
+      Set TEC settings
+      :param Temp_SPoint: Temp in C
+      :type Temp_SPoint: float
+      :param Temp_HI: Temp in C
+      :type Temp_HI: float
+      :param Temp_LO: Temp in C
+      :type Temp_LO: float
+      :param Amp_Lim: Current in mA
+      :type Amp_Lim: float
+
+
+
+   .. py:method:: TEC_SetPID(gain='PID', PID_values=[8.0, 3.7, 3.2], Osc_Period=2.0)
+
+      Set PID for the controller
+      :param PID_Values: Default: [8.0, 3.7, 3.2]
+      :type PID_Values: list of floats
+      :param Osc_Period: Oscillation period in seconds
+      :type Osc_Period: float
+
+
+
+   .. py:method:: read_TECPID()
+
+      Queries the TEC PID parameters
+      Returns the TEC PID parameters used when GAIN is set to PID.
+
+
+
+   .. py:method:: set_TECPID(Proportional: float, Integral: float, Derivative: float, Osc: str)
+
+      Writes controller PID values
+      takes in P I D, and Osc period in order as float type values
+
+
+
+   .. py:method:: StartTEC(Switch=False)
+
+      Starts the TEC Output
+      :param Switch: False (TEC OFF), True (TEC On)
+
+
+
+   .. py:method:: TECSTatus()
+
+      Checks the TEC Output Status
+
+
+
+
+   .. py:method:: SetTECTemp(Temp)
+
+      Sets TEC
+      :param Temp: Temp in C
+
+
+
+   .. py:method:: checkTECSPoint()
+
+
+   .. py:method:: GetTECTemp()
+
+      :returns: Temp in C
+      :rtype: Temp
+
+
+
+   .. py:method:: Laser_settings(Laser_HI_Amp=73.0)
+
+      Initialize laser settings
+      :param Laser_HI_Amp: Current limit for the laser in mA
+      :type Laser_HI_Amp: float
+
+
+
+   .. py:method:: UpdateLaserCurrent(Current)
+
+      Updates laser current
+      :param Current: Current in mA
+      :type Current: float
+
+
+
+   .. py:method:: GetLaserCurrent()
+
+      :returns: Actual Laser Current in mA
+
+
+
+   .. py:method:: SwitchLaser(Switch=False)
+
+      Starts the Laser Output
+      :param Switch: Default: False
+                     Switches laser On (True) or Off (False)
+      :type Switch: bool
+
+
+
+   .. py:method:: LaserStatus()
+
+      Gets the Laser status
+
+
+
+
+   .. py:method:: close()
+
+      Closes serial connection with controller
+
+
+
+
+   .. py:method:: getError()
+
+
+.. py:data:: test
+

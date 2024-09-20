@@ -1,0 +1,15 @@
+firepydaq.dashboard
+===================
+
+.. py:module:: firepydaq.dashboard
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/firepydaq/dashboard/app/index
+
+

@@ -1,0 +1,25 @@
+firepydaq.acquisition.RemoveDeviceDialog
+========================================
+
+.. py:module:: firepydaq.acquisition.RemoveDeviceDialog
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.RemoveDeviceDialog.RemoveDeviceDialog
+
+
+Module Contents
+---------------
+
+.. py:class:: RemoveDeviceDialog(dev_arr)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QDialog`
+
+
+   PyQT dialog box to remove an existing device
+
+

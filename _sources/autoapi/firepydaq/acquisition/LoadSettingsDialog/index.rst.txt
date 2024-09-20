@@ -1,0 +1,26 @@
+firepydaq.acquisition.LoadSettingsDialog
+========================================
+
+.. py:module:: firepydaq.acquisition.LoadSettingsDialog
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.LoadSettingsDialog.LoadSettingsDialog
+
+
+Module Contents
+---------------
+
+.. py:class:: LoadSettingsDialog
+
+   Bases: :py:obj:`PySide6.QtWidgets.QDialog`
+
+
+   A pyqt dialog box to
+   load a `.json` configuration.
+
+

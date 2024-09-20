@@ -1,0 +1,115 @@
+firepydaq.acquisition.MainMenu
+==============================
+
+.. py:module:: firepydaq.acquisition.MainMenu
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.MainMenu.MainMenu
+
+
+Module Contents
+---------------
+
+.. py:class:: MainMenu(parent)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QMenuBar`
+
+
+   Creates menu bar for the application
+
+   .. attribute:: parent
+
+      Parent class
+
+      :type: object
+
+
+   .. py:method:: add_laser()
+
+      Method that opens a `DeviceNameDialog` prompting the
+      user to enter the name of the ThorlabsCLD101X to add.
+
+      - Added Device present must have a unique name.
+      - The name will be stripped of blank spaces.
+      - Application can have upto 4 ThorlabsCLD101X Lasers.
+
+
+
+   .. py:method:: add_mfm()
+
+      Method that opens a 'DeviceNameDialog' prompting
+      the user to enter the name of the
+      Mass Flow Meter to add.
+
+      - Added Device present must have a unique name.
+      - The name will be stripped of all blank spaces.
+      - Application can have upto 4 Mass Flow Meters.
+
+
+
+   .. py:method:: add_mfc()
+
+      Method that opens a 'DeviceNameDialog' prompting the
+      user to enter the name of the
+      Alicat Mass Flow Controller to add.
+
+      - Added Device present must have a unique name.
+      - The name will be stripped of blank spaces.
+      - Application can have upto 4 Alicat Mass Flow Controllers.
+
+
+
+   .. py:method:: remove_laser()
+
+      Method that opens a 'RemoveDeviceDialog' prompting user
+      to select ThorlabsCLD101X Laser to remove.
+
+
+
+   .. py:method:: remove_mfc()
+
+      Method that opens a 'RemoveDeviceDialog' prompting user to
+      select Mass Flow Controllers to remove.
+
+
+
+   .. py:method:: remove_mfm()
+
+      Method that opens a 'RemoveDeviceDialog' prompting
+      user to select MFM to remove.
+
+
+
+   .. py:method:: save_settings_to_json()
+
+      Method that opens a 'SaveSettingsDialog' that prompts user
+      to enter a file name and folder path.
+      to save settings entered for NI Configuration
+      and all devices into a .json file.
+
+      Folder path must exist and entered filename must be unique.
+
+
+
+   .. py:method:: load_json_settings()
+
+      Opens a 'LoadSettingsDialog' that prompts
+      user to select a .json file
+      to populate settings with information of NI Configuration
+      and added devices.
+
+
+
+   .. py:method:: remove_all()
+
+      Method to remove all added devices
+      from the application including Mass Flow Meters,
+      Mass Flow Controllers and ThorlabsCLD101X.
+
+
+

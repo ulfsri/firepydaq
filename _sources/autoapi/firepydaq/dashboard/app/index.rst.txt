@@ -1,0 +1,38 @@
+firepydaq.dashboard.app
+=======================
+
+.. py:module:: firepydaq.dashboard.app
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.dashboard.app.app
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   firepydaq.dashboard.app.create_dash_app
+
+
+Module Contents
+---------------
+
+.. py:function:: create_dash_app(**kwargs)
+
+   Method to post process and visualise data on a dashboard
+   hosted on a web server.
+
+   Uses the same keyword argument/s as
+   :py:class:`firepydaq.utilities.PostProcessing.PostProcessData`
+
+
+
+
+.. py:data:: app
+

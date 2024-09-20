@@ -1,0 +1,809 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-773X2LZHRR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-773X2LZHRR');
+    </script>
+    <link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>firepydaq.dashboard.app - FIREpyDAQ documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">FIREpyDAQ  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">FIREpyDAQ  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../UsageAcquisition.html">Acquisition Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UsageDashboard.html">Example: Dashboard Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UsageDevices.html">Example: Other Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ExampleConfig.html">Example: NI Config File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ExampleFormulae.html">Example: Formulae file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ExamplePostProcess.html">Example: Post-processed data plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Schema.html">Schema for FIREpyDAQ Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FIREpyDAQ Code</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/index.html">firepydaq</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of firepydaq</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html">firepydaq.FIREpyDAQ_Acquisition</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html#acknowledgement">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for firepydaq.dashboard.app</h1><div class="highlight"><pre>
+<span></span><span class="c1">##########################################################################</span>
+<span class="c1"># FIREpyDAQ - Facilitated Interface for Recording Experiments,</span>
+<span class="c1"># a python-package for Data Acquisition.</span>
+<span class="c1"># Copyright (C) 2024  Dushyant M. Chaudhari</span>
+
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="c1">#########################################################################</span>
+
+<span class="kn">from</span> <span class="nn">dash</span> <span class="kn">import</span> <span class="n">dcc</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">,</span> <span class="n">Dash</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">ALL</span>
+<span class="kn">import</span> <span class="nn">dash_daq</span> <span class="k">as</span> <span class="nn">daq</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">plotly.subplots</span> <span class="kn">import</span> <span class="n">make_subplots</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">..utilities.PostProcessing</span> <span class="kn">import</span> <span class="n">PostProcessData</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">import</span> <span class="nn">webbrowser</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">logging.handlers</span> <span class="kn">import</span> <span class="n">RotatingFileHandler</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">redirect_stdout</span>
+
+
+<div class="viewcode-block" id="create_dash_app">
+<a class="viewcode-back" href="../../../autoapi/firepydaq/dashboard/app/index.html#firepydaq.dashboard.app.create_dash_app">[docs]</a>
+<span class="k">def</span> <span class="nf">create_dash_app</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Method to post process and visualise data on a dashboard</span>
+<span class="sd">    hosted on a web server.</span>
+
+<span class="sd">    Uses the same keyword argument/s as</span>
+<span class="sd">    :py:class:`firepydaq.utilities.PostProcessing.PostProcessData`</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">processed_obj</span> <span class="o">=</span> <span class="n">PostProcessData</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">suppress_callback_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;werkzeug&#39;</span><span class="p">)</span>
+    <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;DashboardError.log&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">RotatingFileHandler</span><span class="p">(</span><span class="s1">&#39;DashboardError.log&#39;</span><span class="p">,</span> <span class="n">maxBytes</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">backupCount</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># noqa E501</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">make_layout</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method that makes plot layouts for each chart types with layout</span>
+<span class="sd">        and positions.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df: polars.DataFrame</span>
+<span class="sd">            `All_chart_info` DataFrame</span>
+<span class="sd">            from `PostPorcessData`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Stores plots to be rendered</span>
+        <span class="n">plot_divs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">rendered_plots</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Create and update new plots on the basis of a data frame</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Chart&quot;</span><span class="p">))):</span>
+            <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rendered_plots</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Position&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">rendered_plots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; Graphs&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]):</span>
+                    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(),</span> <span class="n">row</span><span class="o">=</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">plot_divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;plot-layout&#39;</span><span class="p">,</span>
+                                              <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]},</span>
+                                          <span class="n">className</span><span class="o">=</span><span class="s1">&#39;sub-layout&#39;</span><span class="p">,</span>
+                                          <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">},</span>
+                                          <span class="n">children</span><span class="o">=</span><span class="p">[</span>
+                                              <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;graphs&#39;</span><span class="p">,</span>
+                                                            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]},</span>  <span class="c1"># noqa E501</span>
+                                                        <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;graphs&#39;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                        <span class="n">responsive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;35vw&#39;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                               <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;50vw&#39;</span>
+                                                               <span class="p">}</span>
+                                                        <span class="p">)</span>
+                                                    <span class="p">]</span>
+                                          <span class="p">)</span>
+                                 <span class="p">)</span>
+
+        <span class="n">home_screen_info</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;info_container&quot;</span><span class="p">,</span>
+                                    <span class="n">className</span><span class="o">=</span><span class="s2">&quot;info-container&quot;</span><span class="p">)</span>
+        <span class="n">home_screen_widgets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Add Home Screen to help users navigate</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">processed_obj</span><span class="o">.</span><span class="n">path_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s2">&quot;datapath&quot;</span><span class="p">:</span>
+                <span class="n">home_div</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="s2">&quot;Data File: &quot;</span><span class="p">,</span>
+                                               <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}</span>
+                                               <span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="n">processed_obj</span><span class="o">.</span><span class="n">path_dict</span><span class="p">[</span><span class="n">item</span><span class="p">])],</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;data-path&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;sub-info&quot;</span><span class="p">)</span>
+                <span class="n">post_processed_file</span> <span class="o">=</span> <span class="n">processed_obj</span><span class="o">.</span><span class="n">path_dict</span><span class="p">[</span><span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.parquet&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_PostProcessed.parquet&quot;</span>  <span class="c1"># noqa E501</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s2">&quot;configpath&quot;</span><span class="p">:</span>
+                <span class="n">home_div</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="s2">&quot;Configuration File: &quot;</span><span class="p">,</span>
+                                               <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}</span>
+                                               <span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="n">processed_obj</span><span class="o">.</span><span class="n">path_dict</span><span class="p">[</span><span class="n">item</span><span class="p">])],</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;conf-path&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;sub-info&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s2">&quot;formulaepath&quot;</span><span class="p">:</span>
+                <span class="n">home_div</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="s2">&quot;Formulae File: &quot;</span><span class="p">,</span>
+                                               <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}</span>
+                                               <span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="n">processed_obj</span><span class="o">.</span><span class="n">path_dict</span><span class="p">[</span><span class="n">item</span><span class="p">])],</span>
+                                    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;form-path&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;sub-info&quot;</span><span class="p">)</span>
+            <span class="n">home_screen_widgets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">home_div</span><span class="p">)</span>
+            <span class="n">home_screen_widgets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(</span><span class="n">className</span><span class="o">=</span><span class="s2">&quot;info-br&quot;</span><span class="p">))</span>
+
+        <span class="n">home_div</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="s2">&quot;Post Processed File: &quot;</span><span class="p">,</span>
+                                       <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}</span>
+                                       <span class="p">),</span>
+                            <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                            <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+                            <span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span><span class="n">post_processed_file</span><span class="p">)],</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;post-path&quot;</span><span class="p">,</span>
+                            <span class="n">className</span><span class="o">=</span><span class="s2">&quot;sub-info&quot;</span><span class="p">)</span>
+        <span class="n">home_screen_widgets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">home_div</span><span class="p">)</span>
+        <span class="n">home_screen_widgets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(</span><span class="n">className</span><span class="o">=</span><span class="s2">&quot;info-br&quot;</span><span class="p">))</span>
+        <span class="n">home_screen_info</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">home_screen_widgets</span>
+
+        <span class="n">plot_divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;plot-layout&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;Home&#39;</span><span class="p">},</span>
+                         <span class="n">className</span><span class="o">=</span><span class="s1">&#39;sub-layout-&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;block&#39;</span><span class="p">},</span>
+                         <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Welcome to your experiment dashboard.&quot;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                   <span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;header&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;home&#39;</span><span class="p">}),</span>
+                                   <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Files path of the experiment &quot;</span> <span class="o">+</span>
+                                          <span class="s2">&quot;under visualization:&quot;</span><span class="p">,</span>
+                                          <span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;paragraph&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;home&#39;</span><span class="p">}),</span>  <span class="c1"># noqa E501</span>
+                         <span class="n">home_screen_info</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;central-layout&#39;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;main-layout&quot;</span><span class="p">,</span>
+                        <span class="n">children</span><span class="o">=</span><span class="n">plot_divs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">make_sidebar</span><span class="p">(</span><span class="n">buttons_list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that makes a sidebar with appropriate buttons</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Stores buttons to render</span>
+        <span class="n">button_divs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Create button for each unique chart layout</span>
+        <span class="k">for</span> <span class="n">button_id</span> <span class="ow">in</span> <span class="n">buttons_list</span><span class="p">:</span>
+            <span class="n">button_divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">button_id</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;sidebar-btn&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">button_id</span><span class="p">},</span>  <span class="c1"># noqa E501</span>
+                               <span class="n">className</span><span class="o">=</span><span class="s1">&#39;button&#39;</span><span class="p">))</span>
+            <span class="n">button_divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">())</span>
+
+        <span class="n">button_divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s1">&#39;Home&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;sidebar-btn&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;Home&#39;</span><span class="p">},</span>  <span class="c1"># noqa E501</span>
+                           <span class="n">className</span><span class="o">=</span><span class="s1">&#39;button&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;sidebar&#39;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;sidebar&#39;</span><span class="p">,</span>
+                        <span class="n">children</span><span class="o">=</span><span class="n">button_divs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">make_title</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Method that creates a titlebar with features to</span>
+<span class="sd">        switch display modes, save graphs, and pause dashboarding</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">children_div</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titlebar-head&#39;</span><span class="p">,</span>
+                          <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-head&#39;</span><span class="p">,</span>
+                          <span class="n">children</span><span class="o">=</span><span class="s2">&quot;FIREpydaq Dashboard&quot;</span><span class="p">)</span>
+        <span class="n">children_div</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titlebar-func&#39;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-tool&#39;</span><span class="p">,</span>
+                          <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titlebar-snapshot-container&#39;</span><span class="p">,</span>
+                                             <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-cont&#39;</span><span class="p">,</span>
+                                             <span class="n">children</span><span class="o">=</span><span class="p">[</span>
+                                                 <span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;snapshot&#39;</span><span class="p">,</span>
+                                                             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Take All chart snapshots&quot;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                             <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-btn&#39;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                             <span class="n">children</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;snap&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;/assets/icons8-graph-50.png&quot;</span><span class="p">)</span>  <span class="c1"># noqa E501</span>
+                                                             <span class="p">)</span>
+                                                       <span class="p">]</span>
+                                             <span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(</span><span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-btn-space&#39;</span><span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titlebar-play-container&#39;</span><span class="p">,</span>
+                                             <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-cont&#39;</span><span class="p">,</span>
+                                             <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;pause-play&#39;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                                   <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Pause/Play&#39;</span><span class="p">,</span> 
+                                                                      <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-btn&#39;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                                      <span class="n">children</span><span class="o">=</span><span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;play&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;/assets/icons8-pause-48.png&quot;</span><span class="p">)</span>  <span class="c1"># noqa E501</span>
+                                                                   <span class="p">)</span>
+                                                       <span class="p">]</span>
+                                             <span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(</span><span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-btn-space&#39;</span><span class="p">),</span>
+                                    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titlebar-display-container&#39;</span><span class="p">,</span>
+                                             <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-cont&#39;</span><span class="p">,</span>
+                                             <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;light&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;/assets/icons8-sun-24.png&quot;</span><span class="p">),</span>  <span class="c1"># noqa E501</span>
+                                                       <span class="n">daq</span><span class="o">.</span><span class="n">BooleanSwitch</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;display-switch&#39;</span><span class="p">,</span>  <span class="c1"># noqa E501</span>
+                                                                         <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar-btn-toggle&#39;</span><span class="p">),</span>  <span class="c1"># noqa E501</span>
+                                                                         <span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;dark&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;/assets/icons8-moon-24.png&quot;</span><span class="p">)</span>  <span class="c1"># noqa E501</span>
+                                                       <span class="p">]</span>
+                                             <span class="p">)</span>
+                                    <span class="p">]</span>
+                          <span class="p">)</span>
+        <span class="n">children_div</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;titlebar&#39;</span><span class="p">,</span>
+                        <span class="n">className</span><span class="o">=</span><span class="s1">&#39;titlebar&#39;</span><span class="p">,</span>
+                        <span class="n">children</span><span class="o">=</span><span class="n">children_div</span>
+                        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">serve_layout</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Method that serves plot and application layouts from a data</span>
+<span class="sd">        frame based on processed data available from files given.</span>
+<span class="sd">        - First, it calls make_sidebar() to serve the sidebar from the charts</span>
+<span class="sd">        - Next, it calls make_layout() to give each plot layouts and to create</span>
+<span class="sd">            a home layout with information about files</span>
+<span class="sd">        - Finally, it calls make_title() to create the titlebar</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Obtain and read files</span>
+        <span class="n">final_df</span> <span class="o">=</span> <span class="n">processed_obj</span><span class="o">.</span><span class="n">All_chart_info</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;Chart&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Creates buttons</span>
+        <span class="n">buttons_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">final_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Chart&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">sidebar</span> <span class="o">=</span> <span class="n">make_sidebar</span><span class="p">(</span><span class="n">buttons_list</span><span class="p">)</span>
+        <span class="c1"># Creates plot layouts</span>
+        <span class="n">main_layout</span> <span class="o">=</span> <span class="n">make_layout</span><span class="p">(</span><span class="n">final_df</span><span class="p">)</span>
+
+        <span class="n">title_bar</span> <span class="o">=</span> <span class="n">make_title</span><span class="p">()</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="n">dcc</span><span class="o">.</span><span class="n">Interval</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;refresh&quot;</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">3000</span><span class="p">,</span> <span class="n">n_intervals</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">para_div</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;para&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">title_bar</span><span class="p">,</span> <span class="n">sidebar</span><span class="p">,</span> <span class="n">main_layout</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">para_div</span>  <span class="c1"># noqa E501</span>
+
+    <span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">serve_layout</span>
+
+    <span class="n">app</span><span class="o">.</span><span class="n">clientside_callback</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        function(data) {</span>
+<span class="sd">            if (data) {</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--main-color&quot;, &quot;#2b2b2c&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--bg&quot;, &quot;#181818&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--highlight&quot;, &quot;#167fca&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--hover&quot;, &quot;#605F5F&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--txt&quot;, &quot;#E5E4E2&quot;);</span>
+<span class="sd">            } else {</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--main-color&quot;, &quot;white&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--bg&quot;, &quot;#f0f0f0&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--highlight&quot;, &quot;#167fca&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--hover&quot;, &quot;#c3c3c3&quot;);</span>
+<span class="sd">                document.documentElement.style.setProperty(&quot;--txt&quot;, &quot;black&quot;);</span>
+<span class="sd">                return &quot;#605F5Fs&quot;</span>
+<span class="sd">            }</span>
+<span class="sd">            return &quot;#167fca&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;display-switch&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;display-switch&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;play&#39;</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">),</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;refresh&#39;</span><span class="p">,</span> <span class="s1">&#39;disabled&#39;</span><span class="p">),</span>
+            <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;pause-play&#39;</span><span class="p">,</span> <span class="s1">&#39;n_clicks&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_switch_pictures</span><span class="p">(</span><span class="n">clicks</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Switch&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clicks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;/assets/icons8-pause-48.png&quot;</span><span class="p">,</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">clicks</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;/assets/icons8-play-50.png&quot;</span><span class="p">,</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;/assets/icons8-pause-48.png&quot;</span><span class="p">,</span> <span class="kc">False</span>
+
+    <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;para&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">),</span>
+            <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;snapshot&#39;</span><span class="p">,</span> <span class="s1">&#39;n_clicks&#39;</span><span class="p">),</span>
+            <span class="n">Input</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;plot-layout&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">ALL</span><span class="p">},</span> <span class="s2">&quot;children&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">clicks</span><span class="p">,</span> <span class="n">plots</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Callback to download all plots as html code in</span>
+<span class="sd">        the same directory as the data file</span>
+<span class="sd">        Input: Clicks on the capture graphs button</span>
+<span class="sd">        Input: All plot layouts</span>
+<span class="sd">        Output: Style of Para Div</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">triggered_id</span> <span class="o">==</span> <span class="s2">&quot;snapshot&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
+                <span class="n">plot_name</span> <span class="o">=</span> <span class="n">plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;figure&#39;</span><span class="p">)</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                <span class="nb">dir</span> <span class="o">=</span> <span class="n">processed_obj</span><span class="o">.</span><span class="n">path_dict</span><span class="p">[</span><span class="s2">&quot;datapath&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.parquet&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="nb">dir</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">plot_name</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">}</span>
+
+    <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;snap&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">),</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">),</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">),</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;play&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">),</span>
+            <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;display-switch&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_switch_color</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;invert(1)&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;invert(1)&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;invert(1)&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;invert(1)&#39;</span><span class="p">}</span>  <span class="c1"># noqa E501</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">}</span>  <span class="c1"># noqa E501</span>
+
+    <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">Output</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;plot-layout&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">ALL</span><span class="p">},</span> <span class="s2">&quot;style&quot;</span><span class="p">),</span>
+                  <span class="n">Input</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;sidebar-btn&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">ALL</span><span class="p">},</span> <span class="s2">&quot;n_clicks&quot;</span><span class="p">),</span>
+                  <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;central-layout&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">navigate</span><span class="p">(</span><span class="n">click_list</span><span class="p">,</span> <span class="n">layout_children</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback to navigate and render images on click</span>
+<span class="sd">        Output: Visibility &amp; Rendering of certain plot layouts to DOM</span>
+<span class="sd">        Input: Clicks on the sidebar layout buttons</span>
+<span class="sd">        Input: Children of central layout that are plot layouts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Array holding styles for each plot layout</span>
+        <span class="n">display</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Returns display for relevant plot on its button being clicked</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">triggered</span><span class="p">:</span>
+            <span class="n">input_id</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">triggered</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;prop_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">button_id</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">input_id</span><span class="p">)[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">layout_children</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">button_id</span><span class="p">:</span>
+                    <span class="n">display</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;block&#39;</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">display</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">})</span>
+        <span class="c1"># Stays on the Home screen if not updated</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">layout_children</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Home&#39;</span><span class="p">:</span>
+                    <span class="n">display</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;block&#39;</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">display</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">display</span>
+
+    <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+        <span class="n">Output</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;graphs&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">ALL</span><span class="p">},</span> <span class="s2">&quot;figure&quot;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;refresh&#39;</span><span class="p">,</span> <span class="s1">&#39;n_intervals&#39;</span><span class="p">),</span>
+        <span class="n">Input</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;plot-layout&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">ALL</span><span class="p">},</span> <span class="s2">&quot;children&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">refresh_graphs</span><span class="p">(</span><span class="n">intervals</span><span class="p">,</span> <span class="n">plots</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback to update plots at a specified interval</span>
+<span class="sd">        Output: Updated plots with data appended at each interval</span>
+<span class="sd">        Input: Interval time period to reload the site</span>
+<span class="sd">        Input: Children of plot layouts that are graphs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Hold graphs and plot layouts intermediately</span>
+        <span class="n">updates</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">processed_obj</span> <span class="o">=</span> <span class="n">PostProcessData</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Refresh&quot;</span><span class="p">)</span>
+        <span class="c1"># Obtain and load live data</span>
+        <span class="n">processed_obj</span><span class="o">.</span><span class="n">ScaleData</span><span class="p">()</span>
+        <span class="n">processed_obj</span><span class="o">.</span><span class="n">UpdateData</span><span class="p">()</span>
+        <span class="n">processed_data</span> <span class="o">=</span> <span class="n">processed_obj</span><span class="o">.</span><span class="n">df_processed</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">processed_obj</span><span class="o">.</span><span class="n">All_chart_info</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;Chart&quot;</span><span class="p">)</span>
+        <span class="c1"># Plotting for corresponding charts</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;Chart&quot;</span><span class="p">))):</span>
+            <span class="k">for</span> <span class="n">plot</span> <span class="ow">in</span> <span class="n">plots</span><span class="p">:</span>
+                <span class="n">plot_name</span> <span class="o">=</span> <span class="n">plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">plot_name</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span>
+
+                    <span class="c1"># If graph not updated before, generate its layout and plot</span>
+                    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">updates</span><span class="p">:</span>
+
+                        <span class="c1"># Create graph Object</span>
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;figure&#39;</span><span class="p">)</span>
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Label&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                        <span class="c1"># Add chart and axes titles</span>
+                        <span class="n">graph</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+                            <span class="n">title_text</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; Graphs&quot;</span>
+                        <span class="p">)</span>
+                        <span class="n">graph</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span>
+                                           <span class="n">row</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Layout&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                        <span class="n">graph</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Processed_Unit&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                                           <span class="n">row</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Position&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                        <span class="c1"># Plot points on graph</span>
+                        <span class="n">graph</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                            <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">processed_data</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">],</span>
+                                       <span class="n">y</span><span class="o">=</span><span class="n">processed_data</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+                                       <span class="n">name</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Legend&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                                       <span class="p">),</span>
+                            <span class="n">row</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Position&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                            <span class="n">col</span><span class="o">=</span><span class="mi">1</span>
+                        <span class="p">)</span>
+
+                    <span class="c1"># If graph updated before, get updated graph and add traces</span>
+                    <span class="k">else</span><span class="p">:</span>
+
+                        <span class="c1"># Add relevant plot data and axes</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Label&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">updates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Chart&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                        <span class="n">graph</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                                <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">processed_data</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">],</span>
+                                           <span class="n">y</span><span class="o">=</span><span class="n">processed_data</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+                                           <span class="n">name</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Legend&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                                           <span class="p">),</span>
+                                <span class="n">row</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Position&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                                <span class="n">col</span><span class="o">=</span><span class="mi">1</span>
+                        <span class="p">)</span>
+                        <span class="n">graph</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Processed_Unit&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                                           <span class="n">row</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Position&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                                           <span class="p">)</span>
+                    <span class="c1"># Store new layout</span>
+                    <span class="n">updates</span><span class="p">[</span><span class="n">plot_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">updates</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">open_browser</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that opens browser to display link</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;WERKZEUG_RUN_MAIN&quot;</span><span class="p">):</span>
+            <span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:1222/&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">app</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;DashboardError.log&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                <span class="n">Timer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">open_browser</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">1222</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">create_dash_app</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">1222</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Dushyant M. Chaudhari
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

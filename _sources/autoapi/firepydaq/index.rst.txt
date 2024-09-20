@@ -1,0 +1,40 @@
+firepydaq
+=========
+
+.. py:module:: firepydaq
+
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/firepydaq/acquisition/index
+   /autoapi/firepydaq/api/index
+   /autoapi/firepydaq/dashboard/index
+   /autoapi/firepydaq/utilities/index
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/firepydaq/FIREpyDAQ_Acquisition/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.__version__
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+

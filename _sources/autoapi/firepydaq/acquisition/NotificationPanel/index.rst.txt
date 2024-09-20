@@ -1,0 +1,53 @@
+firepydaq.acquisition.NotificationPanel
+=======================================
+
+.. py:module:: firepydaq.acquisition.NotificationPanel
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.NotificationPanel.NotificationPanel
+
+
+Module Contents
+---------------
+
+.. py:class:: NotificationPanel(parent=None)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QTextEdit`
+
+
+   A QTextEdit object that serves as a notification panel
+   for the interface.
+
+   .. attribute:: message_types
+
+
+
+      {
+          "info": QColor("darkcyan"),
+          "warning": QColor("orange"),
+          "error": QColor("red"),
+          "success": QColor("green"),
+          "default": QColor("gray"),
+          "observation": QColor("darkgreen")
+      }
+
+      :type: dict
+
+
+   .. py:method:: add_message(message_type, text)
+
+      Method to add message to the top of the notification panel
+
+      :param message_type: Message type to be posted. Each type has different colors.
+                           See `message_types`
+      :type message_type: str
+      :param text: Message to be posted.
+      :type text: str
+
+
+

@@ -1,0 +1,23 @@
+firepydaq.FIREpyDAQ_Acquisition
+===============================
+
+.. py:module:: firepydaq.FIREpyDAQ_Acquisition
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   firepydaq.FIREpyDAQ_Acquisition.FIREpyDAQ_Acquisition
+
+
+Module Contents
+---------------
+
+.. py:function:: FIREpyDAQ_Acquisition()
+
+   Function that compiles the acquisiton application
+   and opens the user interface.
+
+

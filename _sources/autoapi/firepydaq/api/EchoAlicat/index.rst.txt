@@ -1,0 +1,176 @@
+firepydaq.api.EchoAlicat
+========================
+
+.. py:module:: firepydaq.api.EchoAlicat
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.api.EchoAlicat.Ali
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.api.EchoAlicat.EchoController
+   firepydaq.api.EchoAlicat.EchoMeter
+
+
+Module Contents
+---------------
+
+.. py:class:: EchoController
+
+   Object to communicate with Alicat MFC.
+
+
+
+   .. py:method:: set_params(Com_port, gas='N2')
+      :async:
+
+
+      Method to connect with the Alicat flow controller
+
+      :param Com_port: Comport where the MFM device
+                       is connected.
+
+                       Of the form `COM1` on windows.
+      :type Com_port: str
+      :param gas: Default: 'N2'
+                  Gas set for the connected Alicat.
+      :type gas: str, optional
+
+
+
+   .. py:method:: set_MFC_val(flow_rate=0)
+      :async:
+
+
+      Method to set the flow-rate of the connected MFC
+      :param flow_rate: Default: 0.0
+
+                        Flow rate to set for the MFC device
+      :type flow_rate: float
+
+
+
+   .. py:method:: get_MFC_val()
+      :async:
+
+
+      Method to get all values for the connected MFC
+
+      :returns: * *A dictionary type object*
+                * *{* -- 'setpoint': float (mass or pressure),
+                  'control_point':'flow' or 'pressure',
+                  'gas':str,
+                  'mass_flow': float,
+                  'pressure': float (psia),
+                  'temperature': float (usually C),
+                  'total_flow': float (Optional only for totalizer),
+                  'volumetric_flow': float (units specified during purchase)
+                * *}*
+
+
+
+   .. py:method:: get_until_true(run_for=0, read_boolean=True, flow_rate=0)
+      :async:
+
+
+      Method to run Alicat MFC for a set duration
+
+      :param run_for: Default: 0
+                      Duration in seconds to run the Alicat device
+      :type run_for: int
+      :param read_boolean: Default: True
+                           Boolean that is set to True until the
+                           time for which the data is acquired exceeds `run_for` seconds
+      :type read_boolean: bool
+      :param flow_rate: Default: True
+                        Flow rate to set before acquisition begins
+      :type flow_rate: float
+
+      :returns: **all_vals** -- Dataframe containing all acquired values
+                during `run_for` seconds.
+      :rtype: pandas DataFrame
+
+
+
+   .. py:method:: end_connection()
+      :async:
+
+
+      Method to end connection with the flow controller.
+
+      Sets the flow-rate to zero before ending connection.
+
+
+
+.. py:class:: EchoMeter
+
+   Object to communicate with MFM.
+
+
+
+   .. py:method:: set_params(Com_port, gas='N2')
+      :async:
+
+
+      Method to connect with the Alicat flow meter
+
+      :param Com_port: Comport where the MFM device
+                       is connected.
+
+                       Of the form `COM1` on Windows.
+      :type Com_port: str
+      :param gas: Default: 'N2'
+                  Gas set for the connected Alicat.
+      :type gas: str, optional
+
+
+
+   .. py:method:: get_MFM_val()
+      :async:
+
+
+      Method to get the MFM value
+
+
+
+
+   .. py:method:: get_until_true(run_for=0, read_boolean=True)
+      :async:
+
+
+      Method to run Alicat MFM for a set duration
+
+      :param run_for: Duration in seconds to run the Alicat device
+                      Default is zero.
+      :type run_for: int
+      :param read_boolean: Boolean that is set to True until the
+                           time for which the data is acquired exceeds `run_for` seconds
+                           Default: True
+      :type read_boolean: bool
+
+      :returns: **all_vals** -- Dataframe containing all acquired values
+                during `run_for` seconds.
+      :rtype: pandas DataFrame
+
+
+
+   .. py:method:: end_connection()
+      :async:
+
+
+      Method to end connection with the flow controller.
+
+
+
+
+.. py:data:: Ali
+

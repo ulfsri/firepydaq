@@ -1,0 +1,428 @@
+firepydaq.acquisition.acquisition
+=================================
+
+.. py:module:: firepydaq.acquisition.acquisition
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.acquisition.application
+
+
+Module Contents
+---------------
+
+.. py:class:: application
+
+   Bases: :py:obj:`PySide6.QtWidgets.QMainWindow`
+
+
+   The main acquisition GUI that can be compiled
+
+
+   .. py:method:: MakeMainWindow()
+
+      Creates Main window and adds menu options
+
+      - Fixed Geometry: 900 x 600
+      - Import theme styles from css assets
+      - Initiate light theme for the Window and add logo
+
+
+
+   .. py:method:: InitVars()
+
+      Method that initiates various
+      variables for later use.
+
+      - Empty dicts:
+          - device_arr
+              Keeps a log of all Devices added by the user
+          - settings
+              Stores settings used for NI DAQ
+          - lasers
+              Stores info of Thorlabs CLD101X devices added by the user.
+              Maximum 4 allowed.
+          - mfms
+              Stores info of all Alicat Mass Flow Meters added by the user.
+              Maximum 4 allowed.
+          - mfcs
+              Stores info of Alicat Mass Flow Controllers added by the user.
+              Maximum 4 allowed.
+      - Empty lists:
+          - labels_to_save
+              Stores Labels to save, corresponding to the
+              `Label` in NI config file,
+              during acquisition
+      - Booleans:
+          - running = `True`
+              If GUI is compiled. Default: True
+          - acquiring_data = `False`
+              Boolean which is `True` when acquisition is running
+          - display = `False`
+              Plots or Dashboard
+          - dashboard = `False`
+              If dashboard display is selected. Default: `False`
+          - tab = `False`
+              If Tabular plot display is selected. Default: `False`
+      - Others:
+          - re_StrAllowable = r'^[A-Za-z0-9_]+$'
+              regex format for allowable strings for some input fields.
+              Alphanumeric with underscores, no spaces allowed.
+          - dt_format = "%Y-%m-%d %H:%M:%S:%f"
+              Format for how Absolute time is saved during acquisition
+          - fext = ".parquet"
+              File format for collected NI data
+          - curr_mode = "Light"
+              GUI mode/Theme
+
+
+
+   .. py:method:: InitialiseTabs()
+
+      Initiates tabs based on `input_content`
+
+
+
+
+   .. py:method:: input_content()
+
+      Creates input content for NI device by default
+
+      Generated content
+      ------------
+      - name_input: QLineEdit
+          Name for Operator
+          `re_StrAllowable` pattern is checked in `set_up()`
+      - test_input: QLineEdit
+          Name of the test
+          Either a path selected using the `test_btn` button
+          or a string that matches `re_StrAllowable` pattern
+      - test_btn: QPushButton
+          Connects to `set_test_file`
+      - exp_input: QLineEdit
+          Name of the experiment
+          `re_StrAllowable` pattern is checked in `set_up()`
+      - test_type_input: QComboBox
+          Either "Experiment" or "Calibration"
+      - sample_rate_input: QLineEdit
+          Sampling rate for NI device (Hz)
+          Will only accept floats
+      - config_file_edit: QLineEdit
+          Select .csv NI Config File.
+          The `config_input` button can be used to select a file.
+      - config_input: QPushButton
+          Connects to `set_config_file()`
+      - formulae_file_edit: QLineEdit
+          Select an optional .csv formulae file
+          to post-process data when dashboard display is selected.
+
+          A corresponding button can be used to select a file.
+      - formulae_input: QPushButton
+          Connects to `set_formulae_file`
+      - acquisition_button: QPushButton
+          Connects to `acquisition_begins()`
+      - save_button: QPushButton
+          Connects to `save_data()`
+      - panel: QTextEdit
+          Notification panel.
+          Placeholder text: "Welcome User!".
+          Provides notification of errors/warnings/operations.
+
+          Will be cleared after each `save_button` click
+      - log_obs_txt: QLineEdit
+          A 25 (width) x 190 (height) for writing observations.
+      - notif_log_btn: QPushButton
+          Button Text: "Log Obs."
+          Connects to `log_Obs()`
+
+
+
+   .. py:method:: save_notifs()
+
+
+   .. py:method:: log_Obs()
+
+      Calls `notify` and clears the `notif_txt_edit`
+
+
+
+
+   .. py:method:: notify(text='', type='default')
+
+      Method that logs observations written in `log_obs_txt`
+      and adds to the top of the notification panel.
+
+      Any observations written here will be added
+      to the notification panel, and a time stamp (format HH:MM:SS)
+      at which the "Log Obs." is clicked will be
+      appended to the written text.
+
+      :param type:
+                   Type of event: is one of the folowing
+                       "event", "info", "warning", "error", "success", "default"
+      :type type: str
+      :param str: Any string written in `notif_txt_edit`
+      :type str: str
+
+      .. rubric:: Example
+
+      If written observation is "Ignition observed"
+
+      Notification text update will be,
+          `[13:23:56] Ignition Observed`
+
+
+
+   .. py:method:: set_test_file()
+
+      Method that opens a `SaveSettingsDialog`
+      and asks for filename and folder to save the file in.
+
+
+
+   .. py:method:: set_formulae_file()
+
+      Method that opens a `QFileDialog` to open a
+      .csv formulae file
+
+
+
+   .. py:method:: set_config_file()
+
+      Method that opens a `QFileDialog` to open a
+      .csv NI config file
+
+
+
+   .. py:method:: dev_arr_to_dict()
+
+      Method to store all user-added devices
+      in one dictionary to allow saving a global
+      configuration for the GUI.
+
+
+
+   .. py:method:: is_valid_path(path)
+
+      Method that checks if the input path
+      is a valid path
+
+      :param path: Path to check for validity
+      :type path: str
+
+      :rtype: The return value. True for valid file path. False otherwise.
+
+
+
+   .. py:method:: validate_df(letter, path)
+
+      Method to check if the config or formulae file path
+      provided contains valid columns
+
+      :param letter: Indicating either config ("c") or formulae ("f") file path
+      :type letter: str
+      :param path: path to the indicated file
+      :type path: str
+
+      :returns: * *The return value.*
+                * *True if columns in the file match with columns for each file.*
+                * *See details in "Config File Example"*
+                * *and "Formulae File Example" for required and*
+                * *necessary columns, and how they are used.*
+
+
+
+   .. py:method:: set_up()
+
+      Method to check NI DAQ setup
+      as defined by the user in input settings.
+
+      - First, a check involves if all fields are filled.
+      Only Formulae file is optional.
+
+      - Input fields and files selected
+      are checked as per requirements
+      indicated in `input_content()`.
+
+      - Paths to save all data and NI DAQ settings
+      are created via calling
+      the method `Create_SavePath()`.
+
+
+
+   .. py:method:: Create_SavePath()
+
+      Method to create paths to
+      save all data, NI settings,
+      depending on the test name (`inp_text`).
+
+      - If the user has selected a file to save using
+      the `test_btn` generated in `input_content(),
+      the filename is checked in the path provided.
+      If a filename of that name already exists,
+      the filename is appended with `_XX` number,
+      that increments by 1 for every repeated
+      filename.
+          Example: If the filename is `Exp1` in
+          directory  `C:/Users/XXX/Tests/`,
+          and file by that name exits, the data
+          will be saved in the following format.
+          `C:/Users/XXX/Tests/Exp1_01`.
+          Extensions `.parquet` for NI data,
+          `.json` for NI data info, `.csv`
+          for Alicat devices will be added to `Exp1_01`.
+
+      - If the user types just a text in `inp_text`,
+      a directory and file path to save all data
+      is generated in the directory where
+      this application is compiled.
+          Example: If the `inp_text` is "Test1",
+          Experiment type is "Experiment",
+          User name is "User",
+          Project name is "Project",
+          the save path for NI data will be the following.
+
+          "./02_ExperimentData/YYYYProject/YYYYMMDD_HHMMSS_User_Project_Test1.parquet".
+
+          `02_ExperimentData` directory will be created
+          in the current working directory.
+          `YYYYProject` directory will be
+          created inside this directory.
+
+          If the experiment type is calibration,
+          it will be saved in `01_CalibrationData` instead.
+
+          The YYYY, MM, DD, HH, MM, SS indicate
+          the year, month, date, hour, minute, and seconds
+          respectively when the `save_button` is clicked.
+
+
+
+   .. py:method:: settings_to_json()
+
+      Method to save all NI input fields
+      and devices added by the user is saved in a
+      .json file in a location of user's choice.
+
+      These settings can be loaded later.
+
+
+
+   .. py:method:: inform_user(err_txt)
+
+      Method to inform important
+      operations, errors, and warnings
+      to the user using a pop-up QMessageBox.
+
+
+
+   .. py:method:: validate_fields()
+
+      Method to validate if the config
+      and the formulae file path would be used
+      without errors during post processing.
+
+      This is done by creating a random data DataFrame.
+      The DataFrame columns correspond to the `Label` column
+      in the config file.
+      The values corresponding to each `Label` is
+      populated with a random integer between 0 and 10.
+
+      The random data DataFrame, config file path, and formulae path
+      are supplied to PostProcessData for checking if
+      the random DataFrame (simulating collected data)
+      can be scaled and post processed without any errors.
+
+
+
+   .. py:method:: initiate_dataArrays()
+
+      A method to initiate empty numpy data array for
+      storing NI data during acquisition.
+
+      If the number of Analog Inputs (AI)
+      in the config file is 1,
+      an empty `ydata` numpy array of shape (1,) is created.
+
+      If the number of AIs are greater than one (example 4),
+      an empty `ydata` numpy array of shape (4,) is created
+
+      If there are both AIs and Analog Outputs (AO)
+      in the config file, empty `ydata` array with
+      shape equal to total AI (say 3) and AOs (say 1),
+      (4,) is created.
+
+      An empty `xdata` array of shape (1,)
+      for storing relative times
+      is created with a single element `0`.
+
+      An empty 1D numpy array of name `abs_timestamp`
+      is created to store corresponding
+      absolute times during acquisition.
+
+
+
+   .. py:method:: acquisition_begins()
+
+      Method to begin acquisition for all devices.
+
+      The following methods are called in order.
+      1. `validate_fields()`.
+      2. `CreateDAQTask()` in `api` module to create
+      AI and AO continuous tasks. (See `api` module for details)
+      3. `initiate_dataArrays()`
+
+      Once these run without any issues, the `save_button`
+      is enabled, `ContinueAcquisition` boolean is set to True,
+
+
+
+
+
+
+   .. py:method:: save_data_thread()
+
+      Method that saves acquired NI data in a
+      `.parquet` file in path created as per `Create_SavePath()`.
+
+
+
+   .. py:method:: runpyDAQ()
+
+      Method that continuously runs the Data acquisition system
+      until "Stop Acquisition" is clicked.
+
+
+
+
+   .. py:method:: save_data()
+
+      Method that initiates data arrays
+
+
+
+
+   .. py:method:: safe_exit()
+
+      Method that stops and closes NI AI and AO tasks.
+
+
+
+
+   .. py:method:: closeEvent(*args, **kwargs)
+
+      Method that gracefully closes the GUI
+
+      In the following order:
+      - Terminates the dash thread if it is running
+      - Closes AITask
+      - Closes AOTask
+      - Closes Connection to Other devices
+      - Closes the GUI.
+
+
+

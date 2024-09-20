@@ -1,0 +1,47 @@
+firepydaq.acquisition.NIAOtab
+=============================
+
+.. py:module:: firepydaq.acquisition.NIAOtab
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.NIAOtab.NIAOtab
+
+
+Module Contents
+---------------
+
+.. py:class:: NIAOtab(parent, aolabelmap)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QWidget`
+
+
+   Analog Output Manager object
+
+
+   .. py:method:: CreateAOTab()
+
+      Method to make NI AO manager tab created based
+      on NI config file.
+
+      Creates a QLabel and a QLineEdit
+      for each `AO` label in the config file.
+
+      A `setbtn` is created that connects with `GetAOVals()`
+
+
+
+   .. py:method:: GetAOVals()
+
+      Method to collect all AO input values
+
+      :returns: **ao_map** -- Dictionary that maps the keys in AO Labels
+                to the values of respective LineEdit inputs.
+      :rtype: dict
+
+
+

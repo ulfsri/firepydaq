@@ -1,0 +1,978 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="firepydaq.acquisition.device" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://ulfsri.github.io/autoapi/firepydaq/acquisition/device/index.html" />
+<meta property="og:site_name" content="FIREpyDAQ" />
+<meta property="og:description" content="Classes: Module Contents:" />
+<meta property="og:image" content="http://ulfsri.github.io/_images/FIREpyDAQDark.png" />
+<meta property="og:image:alt" content="FIREpyDAQ" />
+<meta name="description" content="Classes: Module Contents:" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-773X2LZHRR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-773X2LZHRR');
+    </script>
+    <link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><link rel="next" title="firepydaq.acquisition.display_data_tab" href="../display_data_tab/index.html" /><link rel="prev" title="firepydaq.acquisition.acquisition" href="../acquisition/index.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>firepydaq.acquisition.device - FIREpyDAQ documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../index.html"><div class="brand">FIREpyDAQ  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">FIREpyDAQ  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../UsageAcquisition.html">Acquisition Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../UsageDashboard.html">Example: Dashboard Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../UsageDevices.html">Example: Other Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ExampleConfig.html">Example: NI Config File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ExampleFormulae.html">Example: Formulae file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ExamplePostProcess.html">Example: Post-processed data plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Schema.html">Schema for FIREpyDAQ Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FIREpyDAQ Code</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../../index.html">firepydaq</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of firepydaq</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="../index.html">firepydaq.acquisition</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">firepydaq.acquisition.device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../FIREpyDAQ_Acquisition/index.html">firepydaq.FIREpyDAQ_Acquisition</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">firepydaq.acquisition</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">firepydaq.acquisition.device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html#acknowledgement">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../conduct.html">Code of Conduct</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/ulfsri/firepydaq/blob/dev/docs/autoapi/firepydaq/acquisition/device/index.rst?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/ulfsri/firepydaq/edit/dev/docs/autoapi/firepydaq/acquisition/device/index.rst" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="module-firepydaq.acquisition.device">
+<span id="firepydaq-acquisition-device"></span><h1>firepydaq.acquisition.device<a class="headerlink" href="#module-firepydaq.acquisition.device" title="Link to this heading">¶</a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser" title="firepydaq.acquisition.device.thorlabs_laser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thorlabs_laser</span></code></a></p></td>
+<td><p>User-added ThorlabsCLD101X Controller</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc" title="firepydaq.acquisition.device.alicat_mfc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alicat_mfc</span></code></a></p></td>
+<td><p>User-added Alicat Mass Flow Controller</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#firepydaq.acquisition.device.mfm" title="firepydaq.acquisition.device.mfm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mfm</span></code></a></p></td>
+<td><p>User-added Alicat Mass Flow Meter device.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">firepydaq.acquisition.device.</span></span><span class="sig-name descname"><span class="pre">thorlabs_laser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">PySide6.QtWidgets.QWidget</span></code></p>
+<p>User-added ThorlabsCLD101X Controller</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.reg_ex_1">
+<span class="sig-name descname"><span class="pre">reg_ex_1</span></span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.reg_ex_1" title="Link to this definition">¶</a></dt>
+<dd><p>Only accept float values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QRegularExpression</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.type" title="Link to this definition">¶</a></dt>
+<dd><p>Value is “laser”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.parent" title="Link to this definition">¶</a></dt>
+<dd><p>Defines parent class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.settings">
+<span class="sig-name descname"><span class="pre">settings</span></span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.settings" title="Link to this definition">¶</a></dt>
+<dd><p>Stores settings for the controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">reg_ex_1</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.create_thorlabs_laser_content">
+<span class="sig-name descname"><span class="pre">create_thorlabs_laser_content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.create_thorlabs_laser_content" title="Link to this definition">¶</a></dt>
+<dd><p>Method that creates laser controller contents</p>
+<section id="fields">
+<h3>Fields<a class="headerlink" href="#fields" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt>comport_input: QComboBox</dt><dd><p>Dropdown of list of available COMPorts</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>p_input: QLineEdit</dt><dd><p>Value for proportional component
+of the PID controller for ThorlabsCLD101X</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>i_input: QLineEdit</dt><dd><p>Value for integral component
+of the PID controller for ThorlabsCLD101X</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>d_input: QLineEdit</dt><dd><p>Value for derivative component
+of the PID controller for ThorlabsCLD101X</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>osc_input: QLineEdit</dt><dd><p>Value for Oscillation period in seconds
+of the PID controller for ThorlabsCLD101X</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>tec_input: QLineEdit</dt><dd><p>Value in Celsius that will be used
+to set TEC.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>tec_button: QPushButton</dt><dd><p>Calls set_tec()</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>laser_input: QLineEdit</dt><dd><p>Value in mA that will be used
+to set the laser current.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>laser_button: QPushButton</dt><dd><p>Calls set_laser()</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pid_btn: QPushButton</dt><dd><p>Calls set_pID()</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>laser_connection_btn: QPushButton</dt><dd><p>Calls establish_connection()</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.set_laser">
+<span class="sig-name descname"><span class="pre">set_laser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.set_laser" title="Link to this definition">¶</a></dt>
+<dd><p>Method that sets the laser output
+for the connected ThorlabsCLD101X device
+to <cite>laser_input</cite> mA.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.set_tec">
+<span class="sig-name descname"><span class="pre">set_tec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.set_tec" title="Link to this definition">¶</a></dt>
+<dd><p>Method that sets TEC temperature
+for the connected ThorlabsCLD101X device
+to <cite>tec_input</cite> C.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.start_laser">
+<span class="sig-name descname"><span class="pre">start_laser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.start_laser" title="Link to this definition">¶</a></dt>
+<dd><p>Method to start the laser
+connected to the Thoelabs CLD101X device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.set_pid">
+<span class="sig-name descname"><span class="pre">set_pid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.set_pid" title="Link to this definition">¶</a></dt>
+<dd><p>Method that sets the P, I, and D
+component of the connected ThorlabCLD101X.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.establish_connection">
+<span class="sig-name descname"><span class="pre">establish_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.establish_connection" title="Link to this definition">¶</a></dt>
+<dd><p>Method that connects to the
+ThorlabsCLD101X connected at selected
+<cite>comport_input</cite>.
+The P, I, D, and osc input labels will be
+updated with the present values on the controller.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.load_device_data">
+<span class="sig-name descname"><span class="pre">load_device_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">o</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comport</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">laser_rate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.load_device_data" title="Link to this definition">¶</a></dt>
+<dd><p>Method to load a previously saved laser device data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.get_type">
+<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.get_type" title="Link to this definition">¶</a></dt>
+<dd><p>Method that returns the type of the device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.thorlabs_laser.settings_to_dict">
+<span class="sig-name descname"><span class="pre">settings_to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.thorlabs_laser.settings_to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Method that stores laser device
+information to <cite>settings</cite> dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">firepydaq.acquisition.device.</span></span><span class="sig-name descname"><span class="pre">alicat_mfc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">PySide6.QtWidgets.QWidget</span></code></p>
+<p>User-added Alicat Mass Flow Controller</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.type" title="Link to this definition">¶</a></dt>
+<dd><p>Value is “mfc”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.parent" title="Link to this definition">¶</a></dt>
+<dd><p>Defines parent class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.dev_id">
+<span class="sig-name descname"><span class="pre">dev_id</span></span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.dev_id" title="Link to this definition">¶</a></dt>
+<dd><p>Device ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.settings">
+<span class="sig-name descname"><span class="pre">settings</span></span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.settings" title="Link to this definition">¶</a></dt>
+<dd><p>Stores settings for the controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.reg_ex_1">
+<span class="sig-name descname"><span class="pre">reg_ex_1</span></span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.reg_ex_1" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.create_alicat_mfc_content">
+<span class="sig-name descname"><span class="pre">create_alicat_mfc_content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.create_alicat_mfc_content" title="Link to this definition">¶</a></dt>
+<dd><p>Method that creates Alicat MFC contents</p>
+<section id="id1">
+<h3>Fields<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt>comport_input: QComboBox</dt><dd><p>Dropdown of list of available COMPorts</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>gas_input: QComboBox</dt><dd><p>Dropdown of list of available COMPorts.
+Currently available gases are listed
+in utilities.DAQUtils submodule.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>dil_rate_input: QLineEdit</dt><dd><p>Value in default Alicat flow-rate unit.
+Usually slpm/sccm.
+This input will be used
+to set the MFC flow-rate.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>set_flow_btn: QPushButton</dt><dd><p>Calls set_flow_rate()</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>stop_flow_btn: QPushButton</dt><dd><p>Calls stop_flow_rate()</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>mfc_connection_btn: QPushButton</dt><dd><p>Calls establish_connection()</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.set_flow_rate">
+<span class="sig-name descname"><span class="pre">set_flow_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.set_flow_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Method that sets the flow rate of the Alicat MFC
+to the value input <cite>dil_rate_input</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.stop_flow_rate">
+<span class="sig-name descname"><span class="pre">stop_flow_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.stop_flow_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Method that sets the flow-rate of the Alicat MFC
+to zero</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.GetMFCFlow">
+<span class="sig-name descname"><span class="pre">GetMFCFlow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.GetMFCFlow" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.establish_connection">
+<span class="sig-name descname"><span class="pre">establish_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.establish_connection" title="Link to this definition">¶</a></dt>
+<dd><p>Method that establishes connection with
+Alicat device at <cite>comport_input</cite>
+and sets the gas type to gas_input.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Method to get the id of the MFC.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.get_dil_rate">
+<span class="sig-name descname"><span class="pre">get_dil_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.get_dil_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Method to get flow-rate input defined byt he user.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.get_gas">
+<span class="sig-name descname"><span class="pre">get_gas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.get_gas" title="Link to this definition">¶</a></dt>
+<dd><p>Method to read the gas type selected by the user.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.load_device_data">
+<span class="sig-name descname"><span class="pre">load_device_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gas_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp_val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.load_device_data" title="Link to this definition">¶</a></dt>
+<dd><p>Method to load the pre-saved Alicat MFC device data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.get_type">
+<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.get_type" title="Link to this definition">¶</a></dt>
+<dd><p>Method to get the type of the device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.settings_to_dict">
+<span class="sig-name descname"><span class="pre">settings_to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.settings_to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Method that saves the MFC device data to <cite>settings</cite> dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.alicat_mfc.GetFlows">
+<span class="sig-name descname"><span class="pre">GetFlows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.alicat_mfc.GetFlows" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">firepydaq.acquisition.device.</span></span><span class="sig-name descname"><span class="pre">mfm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">PySide6.QtWidgets.QWidget</span></code></p>
+<p>User-added Alicat Mass Flow Meter device.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.type" title="Link to this definition">¶</a></dt>
+<dd><p>Value is “mfm”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.parent" title="Link to this definition">¶</a></dt>
+<dd><p>Defines parent class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.dev_id">
+<span class="sig-name descname"><span class="pre">dev_id</span></span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.dev_id" title="Link to this definition">¶</a></dt>
+<dd><p>Device ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.settings">
+<span class="sig-name descname"><span class="pre">settings</span></span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.settings" title="Link to this definition">¶</a></dt>
+<dd><p>Stores settings for the meter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.create_mfm_content">
+<span class="sig-name descname"><span class="pre">create_mfm_content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.create_mfm_content" title="Link to this definition">¶</a></dt>
+<dd><p>Method to add Mass Flow Meter content.</p>
+<section id="id2">
+<h3>Fields<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt>comport_input: QComboBox</dt><dd><p>Dropdown of list of available COMPorts</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>gas_input: QComboBox</dt><dd><p>Dropdown of list of available COMPorts.
+Currently available gases are listed
+in utilities.DAQUtils submodule.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>mfm_connection_btn: QPushButton</dt><dd><p>Calls establish_connection()</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.establish_connection">
+<span class="sig-name descname"><span class="pre">establish_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.establish_connection" title="Link to this definition">¶</a></dt>
+<dd><p>Method to establish connection with an Alicat
+MFM device connected at <cite>comport_input</cite> with
+<cite>gas_input</cite> selected gas type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Method to get device id for the MFM device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.get_gas">
+<span class="sig-name descname"><span class="pre">get_gas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.get_gas" title="Link to this definition">¶</a></dt>
+<dd><p>Method to get the user-selected gas type for the MFM device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.load_device_data">
+<span class="sig-name descname"><span class="pre">load_device_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gas_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comport</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.load_device_data" title="Link to this definition">¶</a></dt>
+<dd><p>Method to load pre-saved MFM device data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.get_type">
+<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.get_type" title="Link to this definition">¶</a></dt>
+<dd><p>Method to get the type of the device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="firepydaq.acquisition.device.mfm.settings_to_dict">
+<span class="sig-name descname"><span class="pre">settings_to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firepydaq.acquisition.device.mfm.settings_to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Method that saves the MFM device data to <cite>settings</cite> dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../display_data_tab/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">firepydaq.acquisition.display_data_tab</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../acquisition/index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">firepydaq.acquisition.acquisition</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Dushyant M. Chaudhari
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">firepydaq.acquisition.device</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser</span></code></a><ul>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.reg_ex_1"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.reg_ex_1</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.type"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.type</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.parent"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.parent</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.settings"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.settings</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.reg_ex_1</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.create_thorlabs_laser_content"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.create_thorlabs_laser_content()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.set_laser"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.set_laser()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.set_tec"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.set_tec()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.start_laser"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.start_laser()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.set_pid"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.set_pid()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.establish_connection"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.establish_connection()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.load_device_data"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.load_device_data()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.get_type"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.get_type()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.thorlabs_laser.settings_to_dict"><code class="docutils literal notranslate"><span class="pre">thorlabs_laser.settings_to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc"><code class="docutils literal notranslate"><span class="pre">alicat_mfc</span></code></a><ul>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.type"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.type</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.parent"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.parent</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.dev_id"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.dev_id</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.settings"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.settings</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.reg_ex_1"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.reg_ex_1</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.create_alicat_mfc_content"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.create_alicat_mfc_content()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.set_flow_rate"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.set_flow_rate()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.stop_flow_rate"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.stop_flow_rate()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.GetMFCFlow"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.GetMFCFlow()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.establish_connection"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.establish_connection()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.get_name"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.get_name()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.get_dil_rate"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.get_dil_rate()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.get_gas"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.get_gas()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.load_device_data"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.load_device_data()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.get_type"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.get_type()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.settings_to_dict"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.settings_to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.alicat_mfc.GetFlows"><code class="docutils literal notranslate"><span class="pre">alicat_mfc.GetFlows()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm"><code class="docutils literal notranslate"><span class="pre">mfm</span></code></a><ul>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.type"><code class="docutils literal notranslate"><span class="pre">mfm.type</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.parent"><code class="docutils literal notranslate"><span class="pre">mfm.parent</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.dev_id"><code class="docutils literal notranslate"><span class="pre">mfm.dev_id</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.settings"><code class="docutils literal notranslate"><span class="pre">mfm.settings</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.create_mfm_content"><code class="docutils literal notranslate"><span class="pre">mfm.create_mfm_content()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.establish_connection"><code class="docutils literal notranslate"><span class="pre">mfm.establish_connection()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.get_name"><code class="docutils literal notranslate"><span class="pre">mfm.get_name()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.get_gas"><code class="docutils literal notranslate"><span class="pre">mfm.get_gas()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.load_device_data"><code class="docutils literal notranslate"><span class="pre">mfm.load_device_data()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.get_type"><code class="docutils literal notranslate"><span class="pre">mfm.get_type()</span></code></a></li>
+<li><a class="reference internal" href="#firepydaq.acquisition.device.mfm.settings_to_dict"><code class="docutils literal notranslate"><span class="pre">mfm.settings_to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

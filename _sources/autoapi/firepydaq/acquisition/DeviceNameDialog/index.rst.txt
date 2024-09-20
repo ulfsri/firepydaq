@@ -1,0 +1,25 @@
+firepydaq.acquisition.DeviceNameDialog
+======================================
+
+.. py:module:: firepydaq.acquisition.DeviceNameDialog
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.DeviceNameDialog.DeviceNameDialog
+
+
+Module Contents
+---------------
+
+.. py:class:: DeviceNameDialog(string)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QDialog`
+
+
+   A dialog box to add a device.
+
+

@@ -1,0 +1,26 @@
+firepydaq.acquisition
+=====================
+
+.. py:module:: firepydaq.acquisition
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/firepydaq/acquisition/DeviceNameDialog/index
+   /autoapi/firepydaq/acquisition/LoadSettingsDialog/index
+   /autoapi/firepydaq/acquisition/MainMenu/index
+   /autoapi/firepydaq/acquisition/NIAOtab/index
+   /autoapi/firepydaq/acquisition/NotificationPanel/index
+   /autoapi/firepydaq/acquisition/RemoveDeviceDialog/index
+   /autoapi/firepydaq/acquisition/SaveSettingsDialog/index
+   /autoapi/firepydaq/acquisition/acquisition/index
+   /autoapi/firepydaq/acquisition/device/index
+   /autoapi/firepydaq/acquisition/display_data_tab/index
+   /autoapi/firepydaq/acquisition/exception_list/index
+   /autoapi/firepydaq/acquisition/schema/index
+
+

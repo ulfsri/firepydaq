@@ -1,0 +1,377 @@
+firepydaq.acquisition.device
+============================
+
+.. py:module:: firepydaq.acquisition.device
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.device.thorlabs_laser
+   firepydaq.acquisition.device.alicat_mfc
+   firepydaq.acquisition.device.mfm
+
+
+Module Contents
+---------------
+
+.. py:class:: thorlabs_laser(parent, str_name)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QWidget`
+
+
+   User-added ThorlabsCLD101X Controller
+
+   .. attribute:: reg_ex_1
+
+      Only accept float values
+
+      :type: QRegularExpression
+
+   .. attribute:: type
+
+      Value is "laser"
+
+      :type: str
+
+   .. attribute:: parent
+
+      Defines parent class
+
+      :type: Object
+
+   .. attribute:: settings
+
+      Stores settings for the controller
+
+      :type: dict
+
+
+   .. py:attribute:: reg_ex_1
+
+
+   .. py:method:: create_thorlabs_laser_content()
+
+      Method that creates laser controller contents
+
+      Fields
+      ----------------------
+      - comport_input: QComboBox
+          Dropdown of list of available COMPorts
+      - p_input: QLineEdit
+          Value for proportional component
+          of the PID controller for ThorlabsCLD101X
+      - i_input: QLineEdit
+          Value for integral component
+          of the PID controller for ThorlabsCLD101X
+      - d_input: QLineEdit
+          Value for derivative component
+          of the PID controller for ThorlabsCLD101X
+      - osc_input: QLineEdit
+          Value for Oscillation period in seconds
+          of the PID controller for ThorlabsCLD101X
+      - tec_input: QLineEdit
+          Value in Celsius that will be used
+          to set TEC.
+      - tec_button: QPushButton
+          Calls set_tec()
+      - laser_input: QLineEdit
+          Value in mA that will be used
+          to set the laser current.
+      - laser_button: QPushButton
+          Calls set_laser()
+      - pid_btn: QPushButton
+          Calls set_pID()
+      - laser_connection_btn: QPushButton
+          Calls establish_connection()
+
+
+
+
+   .. py:method:: set_laser()
+
+      Method that sets the laser output
+      for the connected ThorlabsCLD101X device
+      to `laser_input` mA.
+
+
+
+
+   .. py:method:: set_tec()
+
+      Method that sets TEC temperature
+      for the connected ThorlabsCLD101X device
+      to `tec_input` C.
+
+
+
+   .. py:method:: start_laser()
+
+      Method to start the laser
+      connected to the Thoelabs CLD101X device
+
+
+
+   .. py:method:: set_pid()
+
+      Method that sets the P, I, and D
+      component of the connected ThorlabCLD101X.
+
+
+
+   .. py:method:: establish_connection()
+
+      Method that connects to the
+      ThorlabsCLD101X connected at selected
+      `comport_input`.
+      The P, I, D, and osc input labels will be
+      updated with the present values on the controller.
+
+
+
+   .. py:method:: load_device_data(p, i, d, o, comport, tec, laser_rate)
+
+      Method to load a previously saved laser device data
+
+
+
+
+   .. py:method:: get_type()
+
+      Method that returns the type of the device
+
+
+
+
+   .. py:method:: settings_to_dict()
+
+      Method that stores laser device
+      information to `settings` dictionary.
+
+
+
+.. py:class:: alicat_mfc(parent, tabs, str_name)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QWidget`
+
+
+   User-added Alicat Mass Flow Controller
+
+   .. attribute:: type
+
+      Value is "mfc"
+
+      :type: str
+
+   .. attribute:: parent
+
+      Defines parent class
+
+      :type: Object
+
+   .. attribute:: dev_id
+
+      Device ID
+
+      :type: str
+
+   .. attribute:: settings
+
+      Stores settings for the controller
+
+      :type: dict
+
+
+   .. py:attribute:: reg_ex_1
+
+
+   .. py:method:: create_alicat_mfc_content()
+
+      Method that creates Alicat MFC contents
+
+      Fields
+      ----------------------
+      - comport_input: QComboBox
+          Dropdown of list of available COMPorts
+      - gas_input: QComboBox
+          Dropdown of list of available COMPorts.
+          Currently available gases are listed
+          in utilities.DAQUtils submodule.
+      - dil_rate_input: QLineEdit
+          Value in default Alicat flow-rate unit.
+          Usually slpm/sccm.
+          This input will be used
+          to set the MFC flow-rate.
+      - set_flow_btn: QPushButton
+          Calls set_flow_rate()
+      - stop_flow_btn: QPushButton
+          Calls stop_flow_rate()
+      - mfc_connection_btn: QPushButton
+          Calls establish_connection()
+
+
+
+   .. py:method:: set_flow_rate()
+
+      Method that sets the flow rate of the Alicat MFC
+      to the value input `dil_rate_input`.
+
+
+
+   .. py:method:: stop_flow_rate()
+
+      Method that sets the flow-rate of the Alicat MFC
+      to zero
+
+
+
+   .. py:method:: GetMFCFlow()
+
+
+   .. py:method:: establish_connection()
+
+      Method that establishes connection with
+      Alicat device at `comport_input`
+      and sets the gas type to gas_input.
+
+
+
+   .. py:method:: get_name()
+
+      Method to get the id of the MFC.
+
+
+
+
+   .. py:method:: get_dil_rate()
+
+      Method to get flow-rate input defined byt he user.
+
+
+
+
+   .. py:method:: get_gas()
+
+      Method to read the gas type selected by the user.
+
+
+
+
+   .. py:method:: load_device_data(gas_val, rate_val, comp_val)
+
+      Method to load the pre-saved Alicat MFC device data
+
+
+
+
+   .. py:method:: get_type()
+
+      Method to get the type of the device
+
+
+
+
+   .. py:method:: settings_to_dict()
+
+      Method that saves the MFC device data to `settings` dictionary.
+
+
+
+
+   .. py:method:: GetFlows()
+
+
+.. py:class:: mfm(parent, str_name)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QWidget`
+
+
+   User-added Alicat Mass Flow Meter device.
+
+   .. attribute:: type
+
+      Value is "mfm"
+
+      :type: str
+
+   .. attribute:: parent
+
+      Defines parent class
+
+      :type: Object
+
+   .. attribute:: dev_id
+
+      Device ID
+
+      :type: str
+
+   .. attribute:: settings
+
+      Stores settings for the meter
+
+      :type: dict
+
+
+   .. py:method:: create_mfm_content()
+
+      Method to add Mass Flow Meter content.
+
+      Fields
+      ----------------------
+      - comport_input: QComboBox
+          Dropdown of list of available COMPorts
+      - gas_input: QComboBox
+          Dropdown of list of available COMPorts.
+          Currently available gases are listed
+          in utilities.DAQUtils submodule.
+      - mfm_connection_btn: QPushButton
+          Calls establish_connection()
+
+
+
+   .. py:method:: establish_connection()
+
+      Method to establish connection with an Alicat
+      MFM device connected at `comport_input` with
+      `gas_input` selected gas type.
+
+
+
+   .. py:method:: get_name()
+
+      Method to get device id for the MFM device
+
+
+
+
+   .. py:method:: get_gas()
+
+      Method to get the user-selected gas type for the MFM device
+
+
+
+
+   .. py:method:: load_device_data(gas_val, comport)
+
+      Method to load pre-saved MFM device data
+
+
+
+
+   .. py:method:: get_type()
+
+      Method to get the type of the device
+
+
+
+
+   .. py:method:: settings_to_dict()
+
+      Method that saves the MFM device data to `settings` dictionary.
+
+
+
+

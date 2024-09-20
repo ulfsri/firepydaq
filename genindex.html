@@ -1,0 +1,1137 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-773X2LZHRR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-773X2LZHRR');
+    </script>
+    <link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 --><title>Index - FIREpyDAQ documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">FIREpyDAQ  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">FIREpyDAQ  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="UsageAcquisition.html">Acquisition Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageDashboard.html">Example: Dashboard Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageDevices.html">Example: Other Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExampleConfig.html">Example: NI Config File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExampleFormulae.html">Example: Formulae file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExamplePostProcess.html">Example: Post-processed data plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Schema.html">Schema for FIREpyDAQ Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">FIREpyDAQ Code</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/index.html">firepydaq</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of firepydaq</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html">firepydaq.FIREpyDAQ_Acquisition</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/acquisition/index.html">firepydaq.acquisition</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of firepydaq.acquisition</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html">firepydaq.acquisition.DeviceNameDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html">firepydaq.acquisition.LoadSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/MainMenu/index.html">firepydaq.acquisition.MainMenu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/NIAOtab/index.html">firepydaq.acquisition.NIAOtab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/NotificationPanel/index.html">firepydaq.acquisition.NotificationPanel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html">firepydaq.acquisition.RemoveDeviceDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html">firepydaq.acquisition.SaveSettingsDialog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/acquisition/index.html">firepydaq.acquisition.acquisition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/device/index.html">firepydaq.acquisition.device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/display_data_tab/index.html">firepydaq.acquisition.display_data_tab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/exception_list/index.html">firepydaq.acquisition.exception_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/acquisition/schema/index.html">firepydaq.acquisition.schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/api/index.html">firepydaq.api</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of firepydaq.api</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoAlicat/index.html">firepydaq.api.EchoAlicat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoNIDAQTask/index.html">firepydaq.api.EchoNIDAQTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html">firepydaq.api.EchoThorLabsCLD101X</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/dashboard/index.html">firepydaq.dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of firepydaq.dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/dashboard/app/index.html">firepydaq.dashboard.app</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="autoapi/firepydaq/utilities/index.html">firepydaq.utilities</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of firepydaq.utilities</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/DAQUtils/index.html">firepydaq.utilities.DAQUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/ErrorUtils/index.html">firepydaq.utilities.ErrorUtils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/NISYSCheck/index.html">firepydaq.utilities.NISYSCheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autoapi/firepydaq/utilities/PostProcessing/index.html">firepydaq.utilities.PostProcessing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html#acknowledgement">Acknowledgement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conduct.html">Code of Conduct</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
+</section>
+<section id="_" class="genindex-section">
+  <h2>_</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/index.html#firepydaq.__version__">__version__ (in module firepydaq)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.acquisition_begins">acquisition_begins() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.add_laser">add_laser() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/NotificationPanel/index.html#firepydaq.acquisition.NotificationPanel.NotificationPanel.add_message">add_message() (firepydaq.acquisition.NotificationPanel.NotificationPanel method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.add_mfc">add_mfc() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.add_mfm">add_mfm() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.addAITask">addAITask() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.addAOTask">addAOTask() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.Ali">Ali (in module firepydaq.api.EchoAlicat)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc">alicat_mfc (class in firepydaq.acquisition.device)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/DAQUtils/index.html#firepydaq.utilities.DAQUtils.AlicatGases">AlicatGases (in module firepydaq.utilities.DAQUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.All_chart_info">All_chart_info (firepydaq.utilities.PostProcessing.PostProcessData attribute)</a>
+</li>
+        <li><a href="autoapi/firepydaq/dashboard/app/index.html#firepydaq.dashboard.app.app">app (in module firepydaq.dashboard.app)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application">application (class in firepydaq.acquisition.acquisition)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/utilities/NISYSCheck/index.html#firepydaq.utilities.NISYSCheck.check_system_config">check_system_config (class in firepydaq.utilities.NISYSCheck)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.checkTECSPoint">checkTECSPoint() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.close">close() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.closeEvent">closeEvent() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/DAQUtils/index.html#firepydaq.utilities.DAQUtils.COMports">COMports (in module firepydaq.utilities.DAQUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.create_alicat_mfc_content">create_alicat_mfc_content() (firepydaq.acquisition.device.alicat_mfc method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/dashboard/app/index.html#firepydaq.dashboard.app.create_dash_app">create_dash_app() (in module firepydaq.dashboard.app)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#firepydaq.acquisition.display_data_tab.data_vis.create_data_vis_content">create_data_vis_content() (firepydaq.acquisition.display_data_tab.data_vis method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.create_mfm_content">create_mfm_content() (firepydaq.acquisition.device.mfm method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.Create_SavePath">Create_SavePath() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.create_thorlabs_laser_content">create_thorlabs_laser_content() (firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/NIAOtab/index.html#firepydaq.acquisition.NIAOtab.NIAOtab.CreateAOTab">CreateAOTab() (firepydaq.acquisition.NIAOtab.NIAOtab method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask">CreateDAQTask (class in firepydaq.api.EchoNIDAQTask)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.CreateFromConfig">CreateFromConfig() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#firepydaq.utilities.ErrorUtils.cwd">cwd (in module firepydaq.utilities.ErrorUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.data_dict">data_dict (firepydaq.utilities.PostProcessing.PostProcessData attribute)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#firepydaq.acquisition.display_data_tab.data_vis">data_vis (class in firepydaq.acquisition.display_data_tab)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.dev_arr_to_dict">dev_arr_to_dict() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.dev_id">dev_id (firepydaq.acquisition.device.alicat_mfc attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.dev_id">(firepydaq.acquisition.device.mfm attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html#firepydaq.acquisition.DeviceNameDialog.DeviceNameDialog">DeviceNameDialog (class in firepydaq.acquisition.DeviceNameDialog)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoController">EchoController (class in firepydaq.api.EchoAlicat)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoMeter">EchoMeter (class in firepydaq.api.EchoAlicat)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor">EchoThor (class in firepydaq.api.EchoThorLabsCLD101X)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoController.end_connection">end_connection() (firepydaq.api.EchoAlicat.EchoController method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoMeter.end_connection">(firepydaq.api.EchoAlicat.EchoMeter method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#firepydaq.utilities.ErrorUtils.error_logger">error_logger() (in module firepydaq.utilities.ErrorUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.establish_connection">establish_connection() (firepydaq.acquisition.device.alicat_mfc method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.establish_connection">(firepydaq.acquisition.device.mfm method)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.establish_connection">(firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.ExecEqn">ExecEqn() (firepydaq.utilities.PostProcessing.PostProcessData method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    firepydaq
+
+        <ul>
+          <li><a href="autoapi/firepydaq/index.html#module-firepydaq">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/index.html#module-firepydaq.acquisition">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.acquisition
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#module-firepydaq.acquisition.acquisition">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.device
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#module-firepydaq.acquisition.device">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.DeviceNameDialog
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html#module-firepydaq.acquisition.DeviceNameDialog">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.display_data_tab
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#module-firepydaq.acquisition.display_data_tab">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.exception_list
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/exception_list/index.html#module-firepydaq.acquisition.exception_list">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.LoadSettingsDialog
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html#module-firepydaq.acquisition.LoadSettingsDialog">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.MainMenu
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#module-firepydaq.acquisition.MainMenu">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.NIAOtab
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/NIAOtab/index.html#module-firepydaq.acquisition.NIAOtab">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.NotificationPanel
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/NotificationPanel/index.html#module-firepydaq.acquisition.NotificationPanel">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.RemoveDeviceDialog
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html#module-firepydaq.acquisition.RemoveDeviceDialog">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.SaveSettingsDialog
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html#module-firepydaq.acquisition.SaveSettingsDialog">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.acquisition.schema
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/schema/index.html#module-firepydaq.acquisition.schema">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    firepydaq.api
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/index.html#module-firepydaq.api">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.api.EchoAlicat
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#module-firepydaq.api.EchoAlicat">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.api.EchoNIDAQTask
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#module-firepydaq.api.EchoNIDAQTask">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.api.EchoThorLabsCLD101X
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#module-firepydaq.api.EchoThorLabsCLD101X">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.dashboard
+
+        <ul>
+          <li><a href="autoapi/firepydaq/dashboard/index.html#module-firepydaq.dashboard">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.dashboard.app
+
+        <ul>
+          <li><a href="autoapi/firepydaq/dashboard/app/index.html#module-firepydaq.dashboard.app">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.FIREpyDAQ_Acquisition
+
+        <ul>
+          <li><a href="autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html#module-firepydaq.FIREpyDAQ_Acquisition">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.utilities
+
+        <ul>
+          <li><a href="autoapi/firepydaq/utilities/index.html#module-firepydaq.utilities">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.utilities.DAQUtils
+
+        <ul>
+          <li><a href="autoapi/firepydaq/utilities/DAQUtils/index.html#module-firepydaq.utilities.DAQUtils">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.utilities.ErrorUtils
+
+        <ul>
+          <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#module-firepydaq.utilities.ErrorUtils">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.utilities.NISYSCheck
+
+        <ul>
+          <li><a href="autoapi/firepydaq/utilities/NISYSCheck/index.html#module-firepydaq.utilities.NISYSCheck">module</a>
+</li>
+        </ul></li>
+        <li>
+    firepydaq.utilities.PostProcessing
+
+        <ul>
+          <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#module-firepydaq.utilities.PostProcessing">module</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html#firepydaq.FIREpyDAQ_Acquisition.FIREpyDAQ_Acquisition">FIREpyDAQ_Acquisition() (in module firepydaq.FIREpyDAQ_Acquisition)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#firepydaq.utilities.ErrorUtils.firepydaq_logger">firepydaq_logger (in module firepydaq.utilities.ErrorUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#firepydaq.utilities.ErrorUtils.formatter">formatter (in module firepydaq.utilities.ErrorUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/DAQUtils/index.html#firepydaq.utilities.DAQUtils.Formulae_dict">Formulae_dict (in module firepydaq.utilities.DAQUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#firepydaq.utilities.ErrorUtils.fullLogPath">fullLogPath (in module firepydaq.utilities.ErrorUtils)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#firepydaq.acquisition.display_data_tab.data_vis.get_curr_selection">get_curr_selection() (firepydaq.acquisition.display_data_tab.data_vis method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.get_dil_rate">get_dil_rate() (firepydaq.acquisition.device.alicat_mfc method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.get_gas">get_gas() (firepydaq.acquisition.device.alicat_mfc method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.get_gas">(firepydaq.acquisition.device.mfm method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoController.get_MFC_val">get_MFC_val() (firepydaq.api.EchoAlicat.EchoController method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoMeter.get_MFM_val">get_MFM_val() (firepydaq.api.EchoAlicat.EchoMeter method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.get_name">get_name() (firepydaq.acquisition.device.alicat_mfc method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.get_name">(firepydaq.acquisition.device.mfm method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.get_type">get_type() (firepydaq.acquisition.device.alicat_mfc method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.get_type">(firepydaq.acquisition.device.mfm method)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.get_type">(firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoController.get_until_true">get_until_true() (firepydaq.api.EchoAlicat.EchoController method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoMeter.get_until_true">(firepydaq.api.EchoAlicat.EchoMeter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.GetActualSamplingRate">GetActualSamplingRate() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/NIAOtab/index.html#firepydaq.acquisition.NIAOtab.NIAOtab.GetAOVals">GetAOVals() (firepydaq.acquisition.NIAOtab.NIAOtab method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/NISYSCheck/index.html#firepydaq.utilities.NISYSCheck.check_system_config.GetCleanInfo">GetCleanInfo() (firepydaq.utilities.NISYSCheck.check_system_config method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.getError">getError() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.GetFlows">GetFlows() (firepydaq.acquisition.device.alicat_mfc method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.GetLaserCurrent">GetLaserCurrent() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.GetMFCFlow">GetMFCFlow() (firepydaq.acquisition.device.alicat_mfc method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.GetTECTemp">GetTECTemp() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.inform_user">inform_user() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.InitialiseTabs">InitialiseTabs() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.initialize_config">initialize_config() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.initiate_dataArrays">initiate_dataArrays() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.InitVars">InitVars() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.input_content">input_content() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.is_valid_path">is_valid_path() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.Laser_settings">Laser_settings() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.LaserStatus">LaserStatus() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.load_device_data">load_device_data() (firepydaq.acquisition.device.alicat_mfc method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.load_device_data">(firepydaq.acquisition.device.mfm method)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.load_device_data">(firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.load_json_settings">load_json_settings() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html#firepydaq.acquisition.LoadSettingsDialog.LoadSettingsDialog">LoadSettingsDialog (class in firepydaq.acquisition.LoadSettingsDialog)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.log_Obs">log_Obs() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu">MainMenu (class in firepydaq.acquisition.MainMenu)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.MakeMainWindow">MakeMainWindow() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.MergeConfig_Formulae">MergeConfig_Formulae() (firepydaq.utilities.PostProcessing.PostProcessData method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/NotificationPanel/index.html#firepydaq.acquisition.NotificationPanel.NotificationPanel.message_types">message_types (firepydaq.acquisition.NotificationPanel.NotificationPanel attribute)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm">mfm (class in firepydaq.acquisition.device)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="autoapi/firepydaq/index.html#module-firepydaq">firepydaq</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/index.html#module-firepydaq.acquisition">firepydaq.acquisition</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#module-firepydaq.acquisition.acquisition">firepydaq.acquisition.acquisition</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#module-firepydaq.acquisition.device">firepydaq.acquisition.device</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/DeviceNameDialog/index.html#module-firepydaq.acquisition.DeviceNameDialog">firepydaq.acquisition.DeviceNameDialog</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#module-firepydaq.acquisition.display_data_tab">firepydaq.acquisition.display_data_tab</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/exception_list/index.html#module-firepydaq.acquisition.exception_list">firepydaq.acquisition.exception_list</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/LoadSettingsDialog/index.html#module-firepydaq.acquisition.LoadSettingsDialog">firepydaq.acquisition.LoadSettingsDialog</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#module-firepydaq.acquisition.MainMenu">firepydaq.acquisition.MainMenu</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/NIAOtab/index.html#module-firepydaq.acquisition.NIAOtab">firepydaq.acquisition.NIAOtab</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/NotificationPanel/index.html#module-firepydaq.acquisition.NotificationPanel">firepydaq.acquisition.NotificationPanel</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html#module-firepydaq.acquisition.RemoveDeviceDialog">firepydaq.acquisition.RemoveDeviceDialog</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html#module-firepydaq.acquisition.SaveSettingsDialog">firepydaq.acquisition.SaveSettingsDialog</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/schema/index.html#module-firepydaq.acquisition.schema">firepydaq.acquisition.schema</a>
+</li>
+          <li><a href="autoapi/firepydaq/api/index.html#module-firepydaq.api">firepydaq.api</a>
+</li>
+          <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#module-firepydaq.api.EchoAlicat">firepydaq.api.EchoAlicat</a>
+</li>
+          <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#module-firepydaq.api.EchoNIDAQTask">firepydaq.api.EchoNIDAQTask</a>
+</li>
+          <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#module-firepydaq.api.EchoThorLabsCLD101X">firepydaq.api.EchoThorLabsCLD101X</a>
+</li>
+          <li><a href="autoapi/firepydaq/dashboard/index.html#module-firepydaq.dashboard">firepydaq.dashboard</a>
+</li>
+          <li><a href="autoapi/firepydaq/dashboard/app/index.html#module-firepydaq.dashboard.app">firepydaq.dashboard.app</a>
+</li>
+          <li><a href="autoapi/firepydaq/FIREpyDAQ_Acquisition/index.html#module-firepydaq.FIREpyDAQ_Acquisition">firepydaq.FIREpyDAQ_Acquisition</a>
+</li>
+          <li><a href="autoapi/firepydaq/utilities/index.html#module-firepydaq.utilities">firepydaq.utilities</a>
+</li>
+          <li><a href="autoapi/firepydaq/utilities/DAQUtils/index.html#module-firepydaq.utilities.DAQUtils">firepydaq.utilities.DAQUtils</a>
+</li>
+          <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#module-firepydaq.utilities.ErrorUtils">firepydaq.utilities.ErrorUtils</a>
+</li>
+          <li><a href="autoapi/firepydaq/utilities/NISYSCheck/index.html#module-firepydaq.utilities.NISYSCheck">firepydaq.utilities.NISYSCheck</a>
+</li>
+          <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#module-firepydaq.utilities.PostProcessing">firepydaq.utilities.PostProcessing</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/NIAOtab/index.html#firepydaq.acquisition.NIAOtab.NIAOtab">NIAOtab (class in firepydaq.acquisition.NIAOtab)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/NotificationPanel/index.html#firepydaq.acquisition.NotificationPanel.NotificationPanel">NotificationPanel (class in firepydaq.acquisition.NotificationPanel)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.notify">notify() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.parent">parent (firepydaq.acquisition.device.alicat_mfc attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.parent">(firepydaq.acquisition.device.mfm attribute)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.parent">(firepydaq.acquisition.device.thorlabs_laser attribute)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.parent">(firepydaq.acquisition.MainMenu.MainMenu attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.ParseFormulae">ParseFormulae() (firepydaq.utilities.PostProcessing.PostProcessData method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.path_dict">path_dict (firepydaq.utilities.PostProcessing.PostProcessData attribute)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#firepydaq.acquisition.display_data_tab.data_vis.plot_graph">plot_graph (firepydaq.acquisition.display_data_tab.data_vis attribute)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData">PostProcessData (class in firepydaq.utilities.PostProcessing)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.read_TECPID">read_TECPID() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.reg_ex_1">reg_ex_1 (firepydaq.acquisition.device.alicat_mfc attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.reg_ex_1">(firepydaq.acquisition.device.thorlabs_laser attribute)</a>, <a href="autoapi/firepydaq/acquisition/device/index.html#id0">[1]</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.remove_all">remove_all() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.remove_laser">remove_laser() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.remove_mfc">remove_mfc() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.remove_mfm">remove_mfm() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/RemoveDeviceDialog/index.html#firepydaq.acquisition.RemoveDeviceDialog.RemoveDeviceDialog">RemoveDeviceDialog (class in firepydaq.acquisition.RemoveDeviceDialog)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.runpyDAQ">runpyDAQ() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.safe_exit">safe_exit() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.save_data">save_data() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.save_data_thread">save_data_thread() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.save_notifs">save_notifs() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/MainMenu/index.html#firepydaq.acquisition.MainMenu.MainMenu.save_settings_to_json">save_settings_to_json() (firepydaq.acquisition.MainMenu.MainMenu method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/SaveSettingsDialog/index.html#firepydaq.acquisition.SaveSettingsDialog.SaveSettingsDialog">SaveSettingsDialog (class in firepydaq.acquisition.SaveSettingsDialog)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.ScaleData">ScaleData() (firepydaq.utilities.PostProcessing.PostProcessData method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/schema/index.html#firepydaq.acquisition.schema.schema">schema (in module firepydaq.acquisition.schema)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.set_config_file">set_config_file() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.set_connection">set_connection() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#firepydaq.acquisition.display_data_tab.data_vis.set_data_and_plot">set_data_and_plot() (firepydaq.acquisition.display_data_tab.data_vis method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.set_flow_rate">set_flow_rate() (firepydaq.acquisition.device.alicat_mfc method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.set_formulae_file">set_formulae_file() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/display_data_tab/index.html#firepydaq.acquisition.display_data_tab.data_vis.set_labels">set_labels() (firepydaq.acquisition.display_data_tab.data_vis method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.set_laser">set_laser() (firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoController.set_MFC_val">set_MFC_val() (firepydaq.api.EchoAlicat.EchoController method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoController.set_params">set_params() (firepydaq.api.EchoAlicat.EchoController method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/api/EchoAlicat/index.html#firepydaq.api.EchoAlicat.EchoMeter.set_params">(firepydaq.api.EchoAlicat.EchoMeter method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.set_pid">set_pid() (firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.set_tec">set_tec() (firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.set_TECPID">set_TECPID() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.set_test_file">set_test_file() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.set_up">set_up() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.SetTECTemp">SetTECTemp() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.settings">settings (firepydaq.acquisition.device.alicat_mfc attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.settings">(firepydaq.acquisition.device.mfm attribute)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.settings">(firepydaq.acquisition.device.thorlabs_laser attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.settings_to_dict">settings_to_dict() (firepydaq.acquisition.device.alicat_mfc method)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.settings_to_dict">(firepydaq.acquisition.device.mfm method)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.settings_to_dict">(firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        </ul></li>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.settings_to_json">settings_to_json() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/ErrorUtils/index.html#firepydaq.utilities.ErrorUtils.setup_logger">setup_logger() (in module firepydaq.utilities.ErrorUtils)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.start_laser">start_laser() (firepydaq.acquisition.device.thorlabs_laser method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.StartAIContinuousTask">StartAIContinuousTask() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.StartAOContinuousTask">StartAOContinuousTask() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.StartTEC">StartTEC() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.stop_flow_rate">stop_flow_rate() (firepydaq.acquisition.device.alicat_mfc method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.SwitchLaser">SwitchLaser() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/utilities/NISYSCheck/index.html#firepydaq.utilities.NISYSCheck.system">system (in module firepydaq.utilities.NISYSCheck)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.TEC_SetPID">TEC_SetPID() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.TEC_settings">TEC_settings() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.TECSTatus">TECSTatus() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.test">test (in module firepydaq.api.EchoThorLabsCLD101X)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser">thorlabs_laser (class in firepydaq.acquisition.device)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.threadaitask">threadaitask() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoNIDAQTask/index.html#firepydaq.api.EchoNIDAQTask.CreateDAQTask.threadaotask">threadaotask() (firepydaq.api.EchoNIDAQTask.CreateDAQTask method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.alicat_mfc.type">type (firepydaq.acquisition.device.alicat_mfc attribute)</a>
+
+        <ul>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.mfm.type">(firepydaq.acquisition.device.mfm attribute)</a>
+</li>
+          <li><a href="autoapi/firepydaq/acquisition/device/index.html#firepydaq.acquisition.device.thorlabs_laser.type">(firepydaq.acquisition.device.thorlabs_laser attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/exception_list/index.html#firepydaq.acquisition.exception_list.UnfilledFieldError">UnfilledFieldError</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/utilities/PostProcessing/index.html#firepydaq.utilities.PostProcessing.PostProcessData.UpdateData">UpdateData() (firepydaq.utilities.PostProcessing.PostProcessData method)</a>
+</li>
+        <li><a href="autoapi/firepydaq/api/EchoThorLabsCLD101X/index.html#firepydaq.api.EchoThorLabsCLD101X.EchoThor.UpdateLaserCurrent">UpdateLaserCurrent() (firepydaq.api.EchoThorLabsCLD101X.EchoThor method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.validate_df">validate_df() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="autoapi/firepydaq/acquisition/acquisition/index.html#firepydaq.acquisition.acquisition.application.validate_fields">validate_fields() (firepydaq.acquisition.acquisition.application method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Dushyant M. Chaudhari
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

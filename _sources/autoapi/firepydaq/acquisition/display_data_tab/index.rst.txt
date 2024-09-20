@@ -1,0 +1,69 @@
+firepydaq.acquisition.display_data_tab
+======================================
+
+.. py:module:: firepydaq.acquisition.display_data_tab
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   firepydaq.acquisition.display_data_tab.data_vis
+
+
+Module Contents
+---------------
+
+.. py:class:: data_vis(parent)
+
+   Bases: :py:obj:`PySide6.QtWidgets.QWidget`
+
+
+   Object that creates a raw data
+   visualization tab next to Input Settings.
+
+   For this to be initiated, dsiplay in tab or display all
+   must be selected.
+
+   .. attribute:: plot_graph
+
+      pyqtgraph PlotWidget that plots
+      the acquired raw data during acquisition
+
+      :type: PlotWidget
+
+
+   .. py:method:: create_data_vis_content()
+
+      Method that creates the raw data visualizer.
+      Creates `plot_graph` widget
+
+
+
+   .. py:method:: set_data_and_plot(xdata, ydata)
+
+      Method that plots the x and y data
+      in a separate thread without affecting acquisition.
+
+      :param xdata: Relative time array
+      :type xdata: numpy array
+      :param ydata: Raw data selected from a drop down
+                    `dev_edit` that lists available columns for plotting.
+      :type ydata: numpy array
+
+
+
+   .. py:method:: set_labels(config_file)
+
+      Method that creates dropdown for letting user select
+      from available channel labels
+
+
+
+   .. py:method:: get_curr_selection()
+
+      Method to get user selected
+
+
+

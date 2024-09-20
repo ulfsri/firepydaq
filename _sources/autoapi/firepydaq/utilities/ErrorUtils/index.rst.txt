@@ -1,0 +1,48 @@
+firepydaq.utilities.ErrorUtils
+==============================
+
+.. py:module:: firepydaq.utilities.ErrorUtils
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   firepydaq.utilities.ErrorUtils.formatter
+   firepydaq.utilities.ErrorUtils.cwd
+   firepydaq.utilities.ErrorUtils.fullLogPath
+   firepydaq.utilities.ErrorUtils.firepydaq_logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   firepydaq.utilities.ErrorUtils.setup_logger
+   firepydaq.utilities.ErrorUtils.error_logger
+
+
+Module Contents
+---------------
+
+.. py:function:: setup_logger(name, logfile, formatter, stream_handler=False, level=logging.DEBUG)
+
+   Logger file when acquisition is running
+
+
+.. py:data:: formatter
+
+.. py:data:: cwd
+
+.. py:data:: fullLogPath
+
+.. py:data:: firepydaq_logger
+
+.. py:function:: error_logger(error_func_info: str)
+
+   Takes a str to indicate the location or
+   the function where an error might occur.
+
+
