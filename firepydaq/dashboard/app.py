@@ -178,6 +178,7 @@ def create_dash_app(**kwargs):
                                              className='titlebar-cont',
                                              children=[
                                                  html.Button(id='snapshot',
+                                                             title="Take All chart snapshots",  # noqa E501
                                                              className='titlebar-btn',  # noqa E501
                                                              children=html.Img(id="snap", src="/assets/icons8-graph-50.png")  # noqa E501
                                                              )
@@ -187,6 +188,7 @@ def create_dash_app(**kwargs):
                                     html.Div(id='titlebar-play-container',
                                              className='titlebar-cont',
                                              children=[html.Button(id='pause-play',  # noqa E501
+                                                                   title = 'Pause/Play', 
                                                                       className='titlebar-btn',  # noqa E501
                                                                       children=html.Img(id="play", src="/assets/icons8-pause-48.png")  # noqa E501
                                                                    )

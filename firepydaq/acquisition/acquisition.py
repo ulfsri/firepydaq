@@ -589,7 +589,7 @@ class application(QMainWindow):
             cols = ["Label", "RHS", "Chart", "Legend",
                     "Layout", "Position", "Processed_Unit"]
         if letter == "c":
-            cols = ["", "Panel", "Device", "Channel",
+            cols = ["#", "Panel", "Device", "Channel",
                     "ScaleMax", "ScaleMin", "Label", "TCType",
                     "Type", "Chart", "AIRangeMin", "AIRangeMax",
                     "Layout", "Position", "Processed_Unit", "Legend"]
@@ -697,12 +697,15 @@ class application(QMainWindow):
             Project name is "Project",
             the save path for NI data will be the following.
 
-            "./Experiment/YYYYProject/YYYYMMDD_HHMMSS_User_Project_Test1.parquet".
+            "./02_ExperimentData/YYYYProject/YYYYMMDD_HHMMSS_User_Project_Test1.parquet".
 
-            `Experiment` directory will be created
+            `02_ExperimentData` directory will be created
             in the current working directory.
             `YYYYProject` directory will be
-            created inside `Experiment`.
+            created inside this directory.
+
+            If the experiment type is calibration,
+            it will be saved in `01_CalibrationData` instead.
 
             The YYYY, MM, DD, HH, MM, SS indicate
             the year, month, date, hour, minute, and seconds
@@ -745,9 +748,21 @@ class application(QMainWindow):
             if re.match(self.re_strAllowable, fname):
                 cwd = os.getcwd()
                 now = datetime.now()
+                if self.settings["Experiment Type"] == 'Calibration':
+                    savedir_name = ('01_' + self.settings["Experiment Type"]
+                                    + 'Data')
+                else:
+                    savedir_name = ('02_' + self.settings["Experiment Type"]
+                                    + 'Data')
                 self.save_dir = (cwd + os.sep +
-                                 self.settings["Experiment Type"] +
+                                 savedir_name +
                                  os.sep)
+                if not os.path.exists(self.save_dir):
+                    os.mkdir(self.save_dir)
+                project_dirname = (now.strftime("%Y") +
+                                   self.settings["Experiment Name"] +
+                                   os.sep)
+                self.save_dir = self.save_dir + project_dirname
                 if not os.path.exists(self.save_dir):
                     os.mkdir(self.save_dir)
                 self.save_dir = (self.save_dir + now.strftime("%Y%m%d_%H%M%S")
@@ -982,7 +997,7 @@ class application(QMainWindow):
 
     def save_data_thread(self):
         """Method that saves acquired NI data in a
-        `.parquet` file in path created as per `CreateSavePath()`.
+        `.parquet` file in path created as per `Create_SavePath()`.
         """
         time_data = np.array(self.xdata_new)
         abs_time = np.array(self.abs_timestamp)
