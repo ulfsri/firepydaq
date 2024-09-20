@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "firepydaq"
-version = "0.1.0.post0"
+version = "0.1.1"
 description = "Facilitated Interface for Recording Experiments (FIRE), a python-based Data Acquisition package for nidaqmx, Alicat, and ThorlabsCLD101X devices."
 authors = ["Dushyant Chaudhari <dushyant.chaudhari@ul.org>"]
 license = "GNU General Public v3"
@@ -18,7 +18,7 @@ matplotlib = "^3.7.0"
 numpy = "^1.26.0"
 pandas = "^2.2.2"
 plotly = "^5.22.0"
-polars = "^1.1.0"
+polars = "1.5.0"
 pyarrow = ">=14.0.2"
 pyqtgraph = "^0.13.7"
 pyserial = "^3.5"
